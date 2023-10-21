@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/gotham_light"
+        android:fontFamily="@font/gotham_regular"
         android:text="@string/hello_blank_fragment"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@id/intro_slider_img1"

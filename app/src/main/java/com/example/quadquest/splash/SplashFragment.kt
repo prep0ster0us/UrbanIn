@@ -17,18 +17,20 @@ import com.example.quadquest.databinding.FragmentSplashBinding
  */
 class SplashFragment : Fragment() {
     private lateinit var splashBinding: FragmentSplashBinding
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         splashBinding = FragmentSplashBinding.inflate(layoutInflater)
 
         Handler(Looper.getMainLooper()).postDelayed({
             findNavController().navigate(R.id.action_splashFragment_to_introSlider1Fragment)
         }, 3000)
-//        return super.onCreateView(inflater, container, savedInstanceState)
-        return splashBinding.root
+    }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
 }
