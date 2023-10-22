@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.quadquest"
+    namespace = "com.example.urbanin"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.example.quadquest"
+        applicationId = "com.example.urbanin"
         minSdk = 30
         targetSdk = 33
         versionCode = 1
