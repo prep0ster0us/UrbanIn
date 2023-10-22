@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.example.quadquest.splash.SplashFragment"
+        android:name="com.example.urbanin.splash.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/introSlider1Fragment"
-        android:name="com.example.quadquest.splash.IntroSlider1Fragment"
+        android:name="com.example.urbanin.splash.IntroSlider1Fragment"
         android:label="fragment_intro_slider1"
         tools:layout="@layout/fragment_intro_slider1" />
 </navigation>

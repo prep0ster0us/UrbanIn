@@ -1,4 +1,4 @@
-package com.example.quadquest.splash
+package com.example.urbanin.splash
 
 import android.os.Bundle
 import android.os.Handler
@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.quadquest.R
-import com.example.quadquest.databinding.FragmentSplashBinding
+import com.example.urbanin.R
+import com.example.urbanin.databinding.FragmentSplashBinding
 
 /**
  * An example full-screen fragment that shows and hides the system UI (i.e.
