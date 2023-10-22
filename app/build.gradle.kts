@@ -51,4 +51,7 @@ dependencies {
     // to make fragment navigation work (in android studio)
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
+
+    // to customize the splash screen (default used by android, min-Android 12)
+    implementation("androidx.core:core-splashscreen:1.0.1")
 }
