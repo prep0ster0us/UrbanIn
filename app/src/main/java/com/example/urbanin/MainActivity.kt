@@ -22,10 +22,11 @@ class MainActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             keepSplashOnScreen = false
         }, 3000)
+
+        
 //        binding = ActivityMainBinding.inflate(layoutInflater)
         splashBinding = FragmentSplashBinding.inflate(layoutInflater)
         setContentView(splashBinding.root)
-
 
     }
 }

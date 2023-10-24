@@ -17,6 +17,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
 
@@ -54,4 +55,14 @@ dependencies {
 
     // to customize the splash screen (default used by android, min-Android 12)
     implementation("androidx.core:core-splashscreen:1.0.1")
+
+//    implementation("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
 }
+
+/*
+buildscript {
+    dependencies {
+        implementation("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
+    }
+}*/
