@@ -7,6 +7,17 @@
     tools:context=".tenant.search.SearchFragment">
 
     <!-- TODO: Update recycler view to list out listings -->
+
+    <com.google.android.gms.maps.MapView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listingMapView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/listingRecyclerView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listingRecyclerView"
         android:layout_width="match_parent"
