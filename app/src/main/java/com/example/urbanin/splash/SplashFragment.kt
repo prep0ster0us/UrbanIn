@@ -21,15 +21,16 @@ class SplashFragment : Fragment() {
         super.onCreate(savedInstanceState)
         splashBinding = FragmentSplashBinding.inflate(layoutInflater)
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            findNavController().navigate(R.id.action_splashFragment_to_introSlider1Fragment)
-        }, 3000)
+
     }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Handler(Looper.getMainLooper()).postDelayed({
+            findNavController().navigate(R.id.action_splashFragment_to_introSlider1Fragment)
+        }, 3000)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
