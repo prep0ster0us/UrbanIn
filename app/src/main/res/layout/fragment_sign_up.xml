@@ -1,14 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".auth.SignUpFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/signUpViewAppLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="appLogo"
+            android:src="@drawable/baseline_listing_search_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/signUpViewHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gotham_regular"
+            android:text="Sign Up"
+            android:textAlignment="center"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toTopOf="@id/signUpViewSubHeader"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signUpViewAppLogo" />
+
+        <TextView
+            android:id="@+id/signUpViewSubHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gotham_medium"
+            android:paddingVertical="12dp"
+            android:text="Placeholder for sign up text"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signUpViewHeader" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/signUpViewGoogle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signUpViewSubHeader" />
+
+        <!--    TODO: Add facebook integration and API Dependencies-->
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/signUpViewDivider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signUpViewGoogle" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signUpViewEmail"
+            android:layout_width="@dimen/sign_up_text_field_width"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/sign_up_text_field_vertical_margin"
+            android:fontFamily="@font/gotham_book"
+            android:hint="Enter your email address."
+            android:inputType="textEmailAddress"
+            app:layout_constraintBottom_toTopOf="@id/signUpViewFname"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signUpViewDivider" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signUpViewFname"
+            android:layout_width="@dimen/sign_up_text_field_width"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/sign_up_text_field_vertical_margin"
+            android:fontFamily="@font/gotham_book"
+            android:hint="Enter your first name."
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toTopOf="@id/signUpViewLname"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signUpViewEmail" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signUpViewLname"
+            android:layout_width="@dimen/sign_up_text_field_width"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/sign_up_text_field_vertical_margin"
+            android:fontFamily="@font/gotham_book"
+            android:hint="Enter your last name."
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toTopOf="@id/signUpViewPwd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signUpViewFname" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signUpViewPwd"
+            android:layout_width="@dimen/sign_up_text_field_width"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/sign_up_text_field_vertical_margin"
+            android:fontFamily="@font/gotham_book"
+            android:hint="Create a password."
+            android:inputType="textVisiblePassword"
+            app:layout_constraintBottom_toTopOf="@id/signUpViewConfirmPwd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signUpViewLname" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signUpViewConfirmPwd"
+            android:layout_width="@dimen/sign_up_text_field_width"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/sign_up_text_field_vertical_margin"
+            android:fontFamily="@font/gotham_book"
+            android:hint="Confirm your password."
+            android:inputType="textVisiblePassword"
+            app:layout_constraintBottom_toTopOf="@id/signUpViewSumbitBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signUpViewPwd" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/signUpViewSumbitBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gotham_regular"
+            android:text="Create an account"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signUpViewConfirmPwd" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
