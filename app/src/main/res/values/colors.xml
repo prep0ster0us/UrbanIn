@@ -10,4 +10,8 @@
 <!--    background colors for splash screens-->
     <color name="splash_screen_background_dark">#EE7B1FB2</color>
     <color name="splash_screen_background_light">#EEE1BEE7</color>
+<!--    for dots indicator-->
+    <color name="material_white">#FFFFFFFF</color>
+    <color name="material_blue">#FF90CAF9</color>
+
 </resources>

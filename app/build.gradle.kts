@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -60,4 +61,10 @@ dependencies {
 
     // for Google Maps API
     implementation("com.google.android.gms:play-services-maps:18.2.0")
+
+    // ViewPager2
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+
+    // Dots Indicaor (custom library - https://github.com/tommybuonomo/dotsindicator)
+    implementation("com.tbuonomo:dotsindicator:5.0")
 }

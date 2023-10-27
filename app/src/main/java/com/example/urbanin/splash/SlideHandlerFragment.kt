@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.urbanin.R
 import com.example.urbanin.databinding.FragmentSlideHandlerBinding
 
 class SlideHandlerFragment : Fragment() {
@@ -26,8 +25,10 @@ class SlideHandlerFragment : Fragment() {
 //        val view = inflater.inflate(R.layout.fragment_slide_handler, container, false)
 
         val fragmentList = arrayListOf<Fragment>(
-            IntroSlider1Fragment(),
-            IntroSlider2Fragment()
+            IntroSlide1Fragment(),
+            IntroSlide2Fragment(),
+            IntroSlide3Fragment(),
+            IntroSlide4Fragment()
         )
 
         val sliderAdapter = SliderViewPagerAdapter(
