@@ -1,15 +1,19 @@
-package com.example.urbanin
+package com.example.urbanin.splash
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.urbanin.R
+import com.example.urbanin.databinding.FragmentIntroSlide3Binding
 
-class IntroSlider2Fragment : Fragment() {
+class IntroSlide3Fragment : Fragment() {
+    private lateinit var binding: FragmentIntroSlide3Binding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        binding = FragmentIntroSlide3Binding.inflate(layoutInflater)
     }
 
     override fun onCreateView(
@@ -17,7 +21,7 @@ class IntroSlider2Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_intro_slider2, container, false)
+        return binding.root
     }
-    
+
 }
