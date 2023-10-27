@@ -15,24 +15,23 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
 class SearchFragment : Fragment(), OnMapReadyCallback {
-    private var _binding: FragmentSearchBinding? = null
-    private val binding get() = _binding!!
-
+    private lateinit var binding: FragmentSearchBinding
     // google map object (for callback)
     private lateinit var googleMap: GoogleMap
-
+    // for list view
     private lateinit var listingView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        binding = FragmentSearchBinding.inflate(layoutInflater)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return FragmentSearchBinding.inflate(layoutInflater).root
+        return binding.root
     }
 
     // initialize map fragment and add async function callback (to avoid onCreate error if map takes time to load and onCreate() is requesting before it's available)
