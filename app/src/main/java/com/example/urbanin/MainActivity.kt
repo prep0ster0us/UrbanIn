@@ -8,8 +8,11 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.urbanin.databinding.ActivityMainBinding
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
+
+    private var db = FirebaseFirestore.getInstance()
 
     companion object {
         var TAG = "UrbanIn-Debug"
