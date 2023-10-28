@@ -6,8 +6,13 @@
     app:startDestination="@id/searchFragment">
 
     <fragment
-        android:id="@+id/searchFragment"
+        android:id="@+id/bottom_nav_search"
         android:name="com.example.urbanin.tenant.search.SearchFragment"
-        android:label="fragment_search"
+        android:label="Search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/bottom_nav_saved"
+        android:name="com.example.urbanin.tenant.saved.SavedFragment"
+        android:label="fragment_saved"
+        tools:layout="@layout/fragment_saved" />
 </navigation>
