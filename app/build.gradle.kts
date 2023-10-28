@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("com.google.gms.google-services")
     id("androidx.navigation.safeargs.kotlin")
 }
 
@@ -47,6 +48,7 @@ dependencies {
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.9.1")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -67,4 +69,8 @@ dependencies {
 
     // Dots Indicaor (custom library - https://github.com/tommybuonomo/dotsindicator)
     implementation("com.tbuonomo:dotsindicator:5.0")
+
+    // Firebase Firestore
+    implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
+    implementation("com.google.firebase:firebase-analytics-ktx")
 }

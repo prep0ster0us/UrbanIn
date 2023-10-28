@@ -47,7 +47,11 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
         googleMap.let{
             val newHaven = LatLng(41.293011385559716, -72.96167849997795)
             googleMap.addMarker(MarkerOptions().position(newHaven).title("Marker on University"))
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(newHaven))
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newHaven, 15F))
+            // Zoom in, animating the camera.
+            googleMap.animateCamera(CameraUpdateFactory.zoomIn());
+            // Zoom out to zoom level 10, animating with a duration of 2 seconds.
+            googleMap.animateCamera(CameraUpdateFactory.zoomTo(15F), 2000, null);
         }
     }
 
