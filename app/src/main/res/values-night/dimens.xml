@@ -2,4 +2,6 @@
 <resources>
     <dimen name="sign_up_text_field_width">300dp</dimen>
     <dimen name="sign_up_text_field_vertical_margin">16dp</dimen>
+    <dimen name="search_bar_padding_vertical">18dp</dimen>
+    <dimen name="search_bar_padding_horizontal">12dp</dimen>
 </resources>
