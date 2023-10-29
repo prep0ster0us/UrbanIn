@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/listingItemImage"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:contentDescription="Listing Image"
+            android:background="#3F000000"
+            android:src="@drawable/baseline_listing_search_24" />
+
+        <TextView
+            android:id="@+id/listingItemPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/listingItemImage"
+            android:fontFamily="@font/gotham_regular"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:text="Listing Price: $X,XXX"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/listingItemDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/listingItemPrice"
+            android:fontFamily="@font/gotham_medium"
+            android:paddingHorizontal="12dp"
+            android:paddingBottom="8dp"
+            android:text="Listing Description: 4 bds | 1.5 ba | 1,500 sqft"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/listingItemAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gotham_book"
+            android:layout_below="@id/listingItemDescription"
+            android:text="Listing AddressL XX ABC St, New Haven, CT"
+            android:paddingBottom="8dp"
+            android:textSize="12sp" />
+
+
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/listingItemSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/listing_favorite_outline_24"
+        android:backgroundTint="@android:color/transparent"
+        android:layout_above="@id/listingItemImage"
+        android:layout_gravity="right"
+        android:padding="12dp"
+        android:contentDescription="Save Listing Button" />
+
+</androidx.cardview.widget.CardView>
