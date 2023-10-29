@@ -1,34 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".tenant.search.SearchListViewFragment">
 
-    <TextView
-        android:id="@+id/searchListViewSort"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/gotham_medium"
-        android:paddingHorizontal="@dimen/search_bar_padding_horizontal"
-        android:paddingVertical="8dp"
-        android:text="Sort"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- TODO: Update recycler view to list out listings -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/searchListingListView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="#33001066"
-        android:padding="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchListViewSort"
-        tools:listitem="@layout/listing_card" />
+        android:layout_height="wrap_content">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/searchListViewSort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gotham_medium"
+            android:paddingHorizontal="@dimen/search_bar_padding_horizontal"
+            android:paddingVertical="8dp"
+            android:text="Sort"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/searchListingListView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- TODO: Update recycler view to list out listings -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchListingListView"
+            android:layout_width="match_parent"
+            android:layout_height="696dp"
+            android:background="#33001066"
+            android:padding="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchListViewSort"
+            tools:listitem="@layout/listing_card" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
