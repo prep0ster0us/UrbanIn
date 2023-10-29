@@ -6,24 +6,82 @@
     android:layout_height="match_parent"
     tools:context=".tenant.search.SearchFragment">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/listingSearchPlaces"
-        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/listingSearchBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="25dp"
         app:layout_constraintBottom_toTopOf="@id/listingMapView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/listingModeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gotham_medium"
+            android:paddingHorizontal="@dimen/search_bar_padding_horizontal"
+            android:paddingVertical="@dimen/search_bar_padding_vertical"
+            android:text="@string/searchListingMode"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/listingSearchPlaces"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/listingSearchPlaces"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/listingFilterText"
+            app:layout_constraintStart_toEndOf="@id/listingModeView"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/listingFilterText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gotham_medium"
+            android:paddingVertical="@dimen/search_bar_padding_vertical"
+            android:paddingStart="8dp"
+            android:paddingEnd="4dp"
+            android:text="Filters"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/listingFilterCount"
+            app:layout_constraintStart_toEndOf="@id/listingSearchPlaces"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/listingFilterCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/filter_count_background"
+            android:fontFamily="@font/gotham_medium"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="0.2dp"
+            android:text="1"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/listingFilterText"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/listingMapView"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="640dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/listingSearchBarLayout" />
 
     <!-- TODO: Update recycler view to list out listings -->
     <!--<androidx.recyclerview.widget.RecyclerView
