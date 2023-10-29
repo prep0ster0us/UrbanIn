@@ -10,7 +10,7 @@
         android:id="@+id/listingSearchBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/listingMapView"
+        app:layout_constraintBottom_toTopOf="@id/listingView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -74,23 +74,15 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/listingMapView"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:id="@+id/listingView"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="640dp"
+        android:layout_height="650dp"
+        app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/listingSearchBarLayout" />
-
-    <!-- TODO: Update recycler view to list out listings -->
-    <!--<androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listingRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />-->
+        app:layout_constraintTop_toBottomOf="@id/listingSearchBarLayout"
+        app:navGraph="@navigation/tenant_search_listing_mode_nav" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
