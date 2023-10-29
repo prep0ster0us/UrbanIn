@@ -7,29 +7,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.NavDirections
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.urbanin.BuildConfig.MAPS_API_KEY
+import com.example.urbanin.BuildConfig
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.databinding.FragmentSearchBinding
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 
-class SearchFragment : Fragment(), OnMapReadyCallback {
+class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
+
     // google map object (for callback)
     private lateinit var googleMap: GoogleMap
     // for list view
-    private lateinit var listingView: RecyclerView
+//    private lateinit var listingView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +40,7 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
 
         // initialize Places, Places API  autocomplete bar does not work without this
         if (!Places.isInitialized()) {
-            Places.initialize(requireContext(), MAPS_API_KEY);
+            Places.initialize(requireContext(), BuildConfig.MAPS_API_KEY)
         }
     }
 
@@ -53,11 +55,9 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mapFragment = childFragmentManager.findFragmentById(binding.listingMapView.id) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-
         // Initialize the AutocompleteSupportFragment.
-        val autocompleteFragment = childFragmentManager.findFragmentById(binding.listingSearchPlaces.id) as AutocompleteSupportFragment?
+        val autocompleteFragment =
+            childFragmentManager.findFragmentById(binding.listingSearchPlaces.id) as AutocompleteSupportFragment?
         // Specify the types of place data to return.
         autocompleteFragment!!.setPlaceFields(
             listOf(
@@ -89,21 +89,35 @@ class SearchFragment : Fragment(), OnMapReadyCallback {
             override fun onError(status: Status) {
                 // TODO: Handle the error.
                 Log.i(TAG, "An error occurred: $status")
-                Toast.makeText(requireContext(), "some error occurred for search: ", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "some error occurred for search: ",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
-    }
 
-    // set map callback for google maps (i.e. set position and initial manifest properties
-    override fun onMapReady(googleMap: GoogleMap) {
-        // save local instance of googleMap
-        this.googleMap = googleMap
-        googleMap.let{
-            val newHaven = LatLng(41.293011385559716, -72.96167849997795)
-            googleMap.addMarker(MarkerOptions().position(newHaven).title("Marker on University"))
-            zoomToLocation(googleMap, newHaven, "Marker on University")
+        binding.listingModeView.setOnClickListener {
+            val actionChangeView: NavDirections
+            if (binding.listingModeView.text == "List") {
+                binding.listingModeView.text = "Map"
+                actionChangeView =
+                    SearchMapViewFragmentDirections.actionSearchMapViewFragmentToSearchListViewFragment()
+            } else {
+                binding.listingModeView.text = "List"
+                actionChangeView =
+                    SearchListViewFragmentDirections.actionSearchListViewFragmentToSearchMapViewFragment()
+            }
+            binding.listingView.getFragment<NavHostFragment>().navController.navigate(
+                actionChangeView
+            )
+//            OR
+//            childFragmentManager.findFragmentById(binding.listingView.id)?.findNavController()?.navigate(actionChangeView)
+            // ***** does not work, probably because confused between outer controller (for nav bar fragments) and inner controller (for list/map) *****
+            // findNavController().navigate(actionChangeView)
         }
     }
+
     private fun zoomToLocation(googleMap: GoogleMap, location: LatLng, markerTitle: String) {
         // add marker at location, and add marker title
         googleMap.addMarker(MarkerOptions().position(location).title(markerTitle))
