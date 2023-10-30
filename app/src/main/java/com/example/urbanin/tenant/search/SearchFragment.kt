@@ -30,8 +30,6 @@ class SearchFragment : Fragment() {
 
     // google map object (for callback)
     private lateinit var googleMap: GoogleMap
-    // for list view
-//    private lateinit var listingView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,12 +109,16 @@ class SearchFragment : Fragment() {
             binding.listingView.getFragment<NavHostFragment>().navController.navigate(
                 actionChangeView
             )
+        }
 //            OR
 //            childFragmentManager.findFragmentById(binding.listingView.id)?.findNavController()?.navigate(actionChangeView)
             // ***** does not work, probably because confused between outer controller (for nav bar fragments) and inner controller (for list/map) *****
             // findNavController().navigate(actionChangeView)
+
+            binding.listingFilterText.setOnClickListener {
+                findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToSearchFilterFragment())
+            }
         }
-    }
 
     private fun zoomToLocation(googleMap: GoogleMap, location: LatLng, markerTitle: String) {
         // add marker at location, and add marker title
