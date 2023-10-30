@@ -4,14 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".splash.IntroSlide1Fragment">
+    tools:context=".splash.IntroSlide4Fragment">
 
-    <!-- TODO: Update intro slider fragment -->
+    <!-- TODO: Update blank fragment layout -->
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnGetStarted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/gotham_regular"
+        android:text="Get Started"
+        android:textColor="@color/material_dynamic_primary60"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/slideTitle"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <TextView
+        android:id="@+id/slideTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gotham_regular"
-        android:text="This is Slide 1"
+        android:text="This is Slide 4"
         android:textAlignment="center"
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@id/intro_slider_img1"
@@ -23,7 +38,7 @@
         android:id="@+id/intro_slider_img1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="Intro Slider Image-1"
+        android:contentDescription="Intro Slider Image-4"
         android:src="@drawable/intro_slider_image_1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".splash.IntroSlide1Fragment">
+    tools:context=".splash.IntroSlide2Fragment">
 
-    <!-- TODO: Update intro slider fragment -->
+    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gotham_regular"
-        android:text="This is Slide 1"
+        android:text="This is Slide 2"
         android:textAlignment="center"
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@id/intro_slider_img1"
@@ -23,7 +23,7 @@
         android:id="@+id/intro_slider_img1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="Intro Slider Image-1"
+        android:contentDescription="Intro Slider Image-2"
         android:src="@drawable/intro_slider_image_1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
