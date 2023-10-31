@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.urbanin.MainActivity
+import com.example.urbanin.ActivitySelection
 import com.example.urbanin.databinding.FragmentIntroSlide4Binding
 
 class IntroSlide4Fragment : Fragment() {
@@ -29,9 +30,11 @@ class IntroSlide4Fragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnGetStarted.setOnClickListener{
-            val intent = Intent(requireContext(), MainActivity::class.java)
+            val intent = Intent(requireContext(), ActivitySelection::class.java)
             startActivity(intent)
         }
     }
+
+
 
 }

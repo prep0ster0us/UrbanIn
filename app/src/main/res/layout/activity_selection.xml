@@ -41,6 +41,7 @@
         app:layout_constraintTop_toBottomOf="@id/t1" />
 
     <TextView
+        android:id="@+id/roommates_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Looking for roommates"
@@ -60,6 +61,7 @@
         app:layout_constraintVertical_bias="0.217" />
 
     <TextView
+        android:id="@+id/rent_place_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Looking for a place to rent"
@@ -79,6 +81,7 @@
         app:layout_constraintVertical_bias="0.387" />
 
     <TextView
+        android:id="@+id/rent_out_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Looking to rent out"
