@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -14,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.urbanin.BuildConfig
 import com.example.urbanin.MainActivity.Companion.TAG
+import com.example.urbanin.R
 import com.example.urbanin.databinding.FragmentSearchBinding
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -112,13 +114,17 @@ class SearchFragment : Fragment() {
         }
 //            OR
 //            childFragmentManager.findFragmentById(binding.listingView.id)?.findNavController()?.navigate(actionChangeView)
-            // ***** does not work, probably because confused between outer controller (for nav bar fragments) and inner controller (for list/map) *****
-            // findNavController().navigate(actionChangeView)
+        // ***** does not work, probably because confused between outer controller (for nav bar fragments) and inner controller (for list/map) *****
+        // findNavController().navigate(actionChangeView)
 
-            binding.listingFilterText.setOnClickListener {
-                findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToSearchFilterFragment())
-            }
+        binding.listingFilterText.setOnClickListener {
+            // temporarily hide bottom nav bar, when inflating filter fragment (to show full screen)
+            setNavBarVisibility(false)
+            findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToSearchFilterFragment())
         }
+        // if filter fragment not active, bottom nav bar is visible
+        setNavBarVisibility(true)
+    }
 
     private fun zoomToLocation(googleMap: GoogleMap, location: LatLng, markerTitle: String) {
         // add marker at location, and add marker title
@@ -129,6 +135,11 @@ class SearchFragment : Fragment() {
         googleMap.animateCamera(CameraUpdateFactory.zoomIn())
         // Zoom out to zoom level 10, animating with a duration of 2 seconds.
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(15F), 2000, null)
+    }
+
+    private fun setNavBarVisibility(flag: Boolean) {
+        val parentNavBar: View = requireActivity().findViewById(R.id.bottom_navbar)
+        parentNavBar.isVisible = flag
     }
 
 }

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.urbanin.R
 import com.example.urbanin.databinding.FragmentSearchFilterBinding
@@ -39,7 +40,7 @@ class SearchFilterFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnFilterBack.setOnClickListener {
-            findNavController().navigate(SearchFilterFragmentDirections.actionSearchFilterFragmentToSearchFragment())
+            requireActivity().findNavController(R.id.fragmentContainerView).navigate(SearchFilterFragmentDirections.actionSearchFilterFragmentToSearchFragment())
         }
     }
 }
