@@ -16,8 +16,8 @@ data class ListingData(
     var numRooms: Long = 0,
     var numBaths: Long = 0,
     var petsAllowed: String = "",
-    var utilities: ArrayList<String> = arrayListOf(),
-    var amenities: ArrayList<String> = arrayListOf()
+    var utilities: Map<String, Boolean>,
+    var amenities: Map<String, Boolean>
 )
 
 var listingCollection: ArrayList<ListingData> =
@@ -36,8 +36,15 @@ var listingCollection: ArrayList<ListingData> =
             2,
             2,
             "dogs",
-            arrayListOf(),
-            arrayListOf()
+            hashMapOf(
+                "water" to true,
+                "gas" to true,
+                "electricity" to false
+            ),
+            hashMapOf(
+                "gym" to true,
+                "pool" to false
+            )
         ), ListingData(
             "listingID",
             "userID",
@@ -52,8 +59,15 @@ var listingCollection: ArrayList<ListingData> =
             2,
             2,
             "dogs",
-            arrayListOf(),
-            arrayListOf()
+            hashMapOf(
+                "water" to true,
+                "gas" to true,
+                "electricity" to false
+            ),
+            hashMapOf(
+                "gym" to true,
+                "pool" to false
+            )
         ), ListingData(
             "listingID",
             "userID",
@@ -68,8 +82,15 @@ var listingCollection: ArrayList<ListingData> =
             2,
             2,
             "dogs",
-            arrayListOf(),
-            arrayListOf()
+            hashMapOf(
+                "water" to true,
+                "gas" to true,
+                "electricity" to false
+            ),
+            hashMapOf(
+                "gym" to true,
+                "pool" to false
+            )
         ), ListingData(
             "listingID",
             "userID",
@@ -84,7 +105,14 @@ var listingCollection: ArrayList<ListingData> =
             2,
             2,
             "dogs",
-            arrayListOf(),
-            arrayListOf()
+            hashMapOf(
+                "water" to true,
+                "gas" to true,
+                "electricity" to false
+            ),
+            hashMapOf(
+                "gym" to true,
+                "pool" to false
+            )
         )
     )
