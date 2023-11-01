@@ -26,12 +26,17 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
 
     // google map object (for callback)
     private lateinit var googleMap: GoogleMap
+
+    // FireStore object
+    private var db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +47,9 @@ class SearchFragment : Fragment() {
         if (!Places.isInitialized()) {
             Places.initialize(requireContext(), BuildConfig.MAPS_API_KEY)
         }
+
+        FirebaseApp.initializeApp(requireContext())
+        getListingFromFirebase()
     }
 
     override fun onCreateView(
@@ -126,6 +134,11 @@ class SearchFragment : Fragment() {
         setNavBarVisibility(true)
     }
 
+    private fun setNavBarVisibility(flag: Boolean) {
+        val parentNavBar: View = requireActivity().findViewById(R.id.bottom_navbar)
+        parentNavBar.isVisible = flag
+    }
+
     private fun zoomToLocation(googleMap: GoogleMap, location: LatLng, markerTitle: String) {
         // add marker at location, and add marker title
         googleMap.addMarker(MarkerOptions().position(location).title(markerTitle))
@@ -137,9 +150,48 @@ class SearchFragment : Fragment() {
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(15F), 2000, null)
     }
 
-    private fun setNavBarVisibility(flag: Boolean) {
-        val parentNavBar: View = requireActivity().findViewById(R.id.bottom_navbar)
-        parentNavBar.isVisible = flag
+    private fun getListingFromFirebase() {
+        db.collection("Listings")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (doc in documents) {
+                    Log.d(TAG, "Document ${doc.id} => ${doc.data}")
+
+                    var checkExisting = false
+                    for (listing in listingCollection) {
+                        if (listing.listingID == doc.id) {
+                            checkExisting = true
+                            break
+                        }
+                    }
+                    Log.d(TAG, "${doc.data["utilities"]}")
+                    Log.d(TAG, "${doc.data["amenities"]}")
+                    if (!checkExisting) {
+                        listingCollection.add(
+                            ListingData(
+                                doc.id,
+                                doc.data["userID"] as String,
+                                doc.data["type"] as String,
+                                doc.data["title"] as String,
+                                doc.data["description"] as String,
+                                doc.data["location"] as String,
+                                doc.data["price"] as Long,
+                                doc.data["img"] as String,
+                                doc.data["datePosted"] as String,
+                                doc.data["availableFrom"] as String,
+                                doc.data["numRooms"] as Long,
+                                doc.data["numBaths"] as Long,
+                                doc.data["petsAllowed"] as String,
+                                doc.data["utilities"] as Map<String, Boolean>,
+                                doc.data["amenities"] as Map<String, Boolean>
+                            )
+                        )
+                    }
+                }
+            }
+            .addOnFailureListener {
+                Log.w(TAG, "Error getting data!")
+            }
     }
 
 }

@@ -13,9 +13,11 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.urbanin.databinding.ActivityMainBinding
+import com.example.urbanin.tenant.search.SearchFragmentDirections
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
@@ -49,21 +51,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onPostCreate(savedInstanceState, persistentState)
-
         // set navigation within bottom nav bar
         val navView: BottomNavigationView = binding.bottomNavbar
 
         val navController = findNavController(binding.fragmentContainerView.id)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navSearch,
-                R.id.navSaved,
-                R.id.navMsg,
-                R.id.navAcct
-            )
-        )
+//        val appBarConfiguration = AppBarConfiguration(
+//            setOf(
+//                R.id.bottom_nav_search,
+//                R.id.bottom_nav_saved,
+//                R.id.navMsg,
+//                R.id.navAcct
+//            )
+//        )
 //        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }

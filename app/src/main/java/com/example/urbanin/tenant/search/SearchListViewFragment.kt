@@ -27,9 +27,6 @@ class SearchListViewFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        FirebaseApp.initializeApp(requireContext())
-        getListingFromFirebase()
-
         binding = FragmentSearchListViewBinding.inflate(layoutInflater)
 
         // Recycler View
@@ -51,50 +48,6 @@ class SearchListViewFragment : Fragment() {
         listingRecyclerView.layoutManager = LinearLayoutManager(context)
         listingRecyclerView.adapter = ListingAdapter(listingRecyclerList, this)
 
-    }
-
-    private fun getListingFromFirebase() {
-        db.collection("Listings")
-            .get()
-            .addOnSuccessListener { documents ->
-                for(doc in documents) {
-                    Log.d(TAG, "Document ${doc.id} => ${doc.data}")
-
-                    var checkExisting = false
-                    for(listing in listingCollection) {
-                        if(listing.listingID == doc.id) {
-                            checkExisting = true
-                            break
-                        }
-                    }
-                    Log.d(TAG, "${doc.data["utilities"]}")
-                    Log.d(TAG, "${doc.data["amenities"]}")
-                    if(!checkExisting) {
-                        listingCollection.add(
-                            ListingData(
-                                doc.id,
-                                doc.data["userID"] as String,
-                                doc.data["type"] as String,
-                                doc.data["title"] as String,
-                                doc.data["description"] as String,
-                                doc.data["location"] as String,
-                                doc.data["price"] as Long,
-                                doc.data["img"] as String,
-                                doc.data["datePosted"] as String,
-                                doc.data["availableFrom"] as String,
-                                doc.data["numRooms"] as Long,
-                                doc.data["numBaths"] as Long,
-                                doc.data["petsAllowed"] as String,
-                                doc.data["utilities"] as Map<String, Boolean>,
-                                doc.data["amenities"] as Map<String, Boolean>
-                            )
-                        )
-                    }
-                }
-            }
-            .addOnFailureListener {
-                Log.w(TAG, "Error getting data!")
-            }
     }
 
     override fun onCreateView(
