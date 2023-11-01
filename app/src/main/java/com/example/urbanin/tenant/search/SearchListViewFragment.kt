@@ -37,7 +37,7 @@ class SearchListViewFragment : Fragment() {
                     listing.img,
                     listing.title,
                     listing.description,
-                    listing.location
+                    listing.address
                 )
             )
         }

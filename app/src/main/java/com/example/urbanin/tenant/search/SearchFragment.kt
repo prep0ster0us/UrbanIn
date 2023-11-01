@@ -28,6 +28,7 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.GeoPoint
 
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
@@ -174,7 +175,8 @@ class SearchFragment : Fragment() {
                                 doc.data["type"] as String,
                                 doc.data["title"] as String,
                                 doc.data["description"] as String,
-                                doc.data["location"] as String,
+                                doc.data["location"] as GeoPoint,
+                                doc.data["address"] as String,
                                 doc.data["price"] as Long,
                                 doc.data["img"] as String,
                                 doc.data["datePosted"] as String,
