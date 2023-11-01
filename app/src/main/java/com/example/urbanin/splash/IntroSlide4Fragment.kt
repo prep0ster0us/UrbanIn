@@ -30,6 +30,8 @@ class IntroSlide4Fragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnGetStarted.setOnClickListener{
+            // update to state first launch has occured.
+            PreferencesManager(requireContext()).setFirstRun()
             val intent = Intent(requireContext(), MainActivity::class.java)
             startActivity(intent)
         }
