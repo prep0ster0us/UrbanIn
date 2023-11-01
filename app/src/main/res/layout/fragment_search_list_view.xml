@@ -27,7 +27,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/searchListingListView"
             android:layout_width="match_parent"
-            android:layout_height="696dp"
+            android:layout_height="wrap_content"
             android:background="#33001066"
             android:padding="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
