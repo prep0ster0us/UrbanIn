@@ -36,10 +36,12 @@ class ActivitySelection : AppCompatActivity() {
     }
 
     private fun navigateToMainContent() {
-        // Intent to navigate to the Main Content of the app
-        val intent = Intent(this, MainActivity::class.java)
+        // Intent to navigate to the Roommates Activity
+        val intent = Intent(this, RoommatesActivity::class.java)
         startActivity(intent)
     }
+
+
 
     private fun navigateToLogin() {
         // Navigate to the Login Fragment

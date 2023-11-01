@@ -1,11 +1,17 @@
 package com.example.urbanin.auth
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.urbanin.R
 import com.example.urbanin.databinding.FragmentLoginBinding
+import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
 
@@ -24,8 +30,11 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.loginViewSignUpBtn.setOnClickListener {
-            // Navigation logic here
+            Handler(Looper.getMainLooper()).post {
+                findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
+            }
         }
+
     }
 
     override fun onDestroyView() {

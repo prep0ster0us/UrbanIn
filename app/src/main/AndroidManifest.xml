@@ -47,5 +47,7 @@
         <activity android:name=".ActivitySelection" />
 
 
+
+
     </application>
 </manifest>
