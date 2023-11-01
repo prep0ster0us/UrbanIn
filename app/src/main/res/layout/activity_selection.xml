@@ -8,8 +8,8 @@
     <ImageButton
         android:id="@+id/back_button"
         android:layout_width="53dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="4dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="44dp"
         android:src="@drawable/ic_arrow_back"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,6 @@
         android:id="@+id/t1"
         android:textAlignment="center"
         android:textSize="24sp"
-        android:textStyle="italic"
         app:layout_constraintBottom_toTopOf="@id/roommates_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,10 +31,10 @@
 
     <ImageView
         android:id="@+id/roommates_icon"
-        android:layout_width="95dp"
-        android:layout_height="101dp"
+        android:layout_width="133dp"
+        android:layout_height="100dp"
         android:layout_marginTop="68dp"
-        android:src="@drawable/ic_two_people"
+        android:src="@drawable/roommates"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/t1" />
@@ -51,9 +50,9 @@
 
     <ImageView
         android:id="@+id/rent_place_icon"
-        android:layout_width="95dp"
-        android:layout_height="101dp"
-        android:src="@drawable/ic_building"
+        android:layout_width="129dp"
+        android:layout_height="106dp"
+        android:src="@drawable/img_1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,9 +70,9 @@
 
     <ImageView
         android:id="@+id/rent_out_icon"
-        android:layout_width="95dp"
-        android:layout_height="101dp"
-        android:src="@drawable/ic_building_for_rent"
+        android:layout_width="132dp"
+        android:layout_height="105dp"
+        android:src="@drawable/img"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

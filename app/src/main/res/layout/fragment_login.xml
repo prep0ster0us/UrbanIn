@@ -21,7 +21,7 @@
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/loginViewUsnField"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:fontFamily="@font/gotham_medium"
         android:hint="Enter your username"
         android:inputType="text"
@@ -34,7 +34,7 @@
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/loginViewPwdField"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:fontFamily="@font/gotham_medium"
         android:hint="Enter your Password"
         android:inputType="textPassword"
@@ -65,18 +65,24 @@
         android:paddingHorizontal="24dp"
         android:paddingTop="16dp"
         android:text="Forgot your password?"
-        android:textColor="@color/material_dynamic_primary60"
+        android:textColor="@color/black"
         android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@id/loginViewSignUp"
+        app:layout_constraintBottom_toTopOf="@id/loginViewSignUpBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/loginViewSubmitBtn" />
 
-    <TextView
-        android:id="@+id/loginViewSignUp"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/loginViewSignUpBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
         android:fontFamily="@font/gotham_medium"
+        android:padding="8dp"
         android:text="Don't have an account? Sign up"
+        android:textAllCaps="false"
+        android:textColor="?attr/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
