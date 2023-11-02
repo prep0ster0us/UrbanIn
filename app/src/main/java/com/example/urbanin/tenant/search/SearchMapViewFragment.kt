@@ -52,9 +52,9 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
         // save local instance of googleMap
         this.googleMap = googleMap
         googleMap.let{
-//            val newHaven = LatLng(41.293011385559716, -72.96167849997795)
-//            googleMap.addMarker(MarkerOptions().position(newHaven).title("Marker on University"))
-//            zoomToLocation(googleMap, newHaven, "Marker on University")
+            val newHaven = LatLng(41.293011385559716, -72.96167849997795)
+            googleMap.addMarker(MarkerOptions().position(newHaven).title("Marker on University"))
+            zoomToLocation(googleMap, newHaven, "Marker on University")
             // add markers for each listing on the map
             for (listing in listingCollection) {
                 val markerPosition = LatLng(listing.location.latitude, listing.location.longitude)

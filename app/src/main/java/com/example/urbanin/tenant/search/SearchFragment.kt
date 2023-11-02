@@ -90,7 +90,7 @@ class SearchFragment : Fragment() {
                         Log.d(TAG, "Place Selected: ${selectedPlaceName}\n Place Location: ${selectedPlaceLatLng}")
                         // TODO: add marker for the place selected
 //                        googleMap.addMarker(MarkerOptions().position(selectedPlaceLatLng).title(selectedPlaceName))
-//                        zoomToLocation(googleMap, selectedPlaceLatLng, selectedPlaceName)
+                        zoomToLocation(googleMap, selectedPlaceLatLng, selectedPlaceName)
                     }
                 }
 //                val latitude = latlng?.latitude
