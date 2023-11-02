@@ -9,10 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.navigation.NavDirections
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.example.urbanin.BuildConfig
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
@@ -20,6 +18,7 @@ import com.example.urbanin.databinding.FragmentSearchBinding
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
@@ -87,8 +86,11 @@ class SearchFragment : Fragment() {
                 // if location is valid, add marker and zoom to it
                 if (selectedPlaceLatLng != null) {
                     if (selectedPlaceName != null) {
-                        googleMap.clear()
-                        zoomToLocation(googleMap, selectedPlaceLatLng, selectedPlaceName)
+//                        googleMap.clear()
+                        Log.d(TAG, "Place Selected: ${selectedPlaceName}\n Place Location: ${selectedPlaceLatLng}")
+                        // TODO: add marker for the place selected
+//                        googleMap.addMarker(MarkerOptions().position(selectedPlaceLatLng).title(selectedPlaceName))
+//                        zoomToLocation(googleMap, selectedPlaceLatLng, selectedPlaceName)
                     }
                 }
 //                val latitude = latlng?.latitude
@@ -129,7 +131,7 @@ class SearchFragment : Fragment() {
         binding.listingFilterText.setOnClickListener {
             // temporarily hide bottom nav bar, when inflating filter fragment (to show full screen)
             setNavBarVisibility(false)
-            findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToSearchFilterFragment())
+            findNavController().navigate(SearchFragmentDirections.actionNavSearchToSearchFilterFragment2())
         }
         // if filter fragment not active, bottom nav bar is visible
         setNavBarVisibility(true)

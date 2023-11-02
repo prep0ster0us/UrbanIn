@@ -1,11 +1,14 @@
 package com.example.urbanin.tenant.search
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.urbanin.BuildConfig
+import com.example.urbanin.MainActivity
+import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
 import com.example.urbanin.databinding.FragmentSearchMapViewBinding
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -44,12 +47,14 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
 
     // set map callback for google maps (i.e. set position and initial manifest properties
     override fun onMapReady(googleMap: GoogleMap) {
+        Log.d(TAG, "onMapReady called")
+
         // save local instance of googleMap
         this.googleMap = googleMap
         googleMap.let{
-            val newHaven = LatLng(41.293011385559716, -72.96167849997795)
-            googleMap.addMarker(MarkerOptions().position(newHaven).title("Marker on University"))
-            zoomToLocation(googleMap, newHaven, "Marker on University")
+//            val newHaven = LatLng(41.293011385559716, -72.96167849997795)
+//            googleMap.addMarker(MarkerOptions().position(newHaven).title("Marker on University"))
+//            zoomToLocation(googleMap, newHaven, "Marker on University")
             // add markers for each listing on the map
             for (listing in listingCollection) {
                 val markerPosition = LatLng(listing.location.latitude, listing.location.longitude)
@@ -71,6 +76,8 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun zoomToLocation(googleMap: GoogleMap, location: LatLng, markerTitle: String) {
+        Log.d(TAG, "zoomToLocation called")
+
         // add marker at location, and add marker title
         googleMap.addMarker(MarkerOptions().position(location).title(markerTitle))
         // move camera to location
