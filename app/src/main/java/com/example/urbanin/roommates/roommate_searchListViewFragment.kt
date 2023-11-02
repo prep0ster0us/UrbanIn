@@ -9,26 +9,28 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.urbanin.databinding.FragmentSearchListViewBinding
 
-class RoommateSearchListViewFragment : Fragment() {
+class SearchListViewFragment : Fragment() {
 
     private var _binding: FragmentSearchListViewBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var listingRecyclerView: RecyclerView
-    private lateinit var listingAdapter: roommate_listingAdapter
+    private lateinit var listingAdapter: RoommateListingAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        _binding = FragmentSearchListViewBinding.inflate(layoutInflater)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentSearchListViewBinding.inflate(inflater, container, false)
 
         // Initialize the data source for the listings
         val listingCollection: List<ListingCard> = initializeListingCollection()
 
         // Initialize the adapter and assign it to the RecyclerView
-        listingAdapter = roommate_listingAdapter(listingCollection)
-        listingRecyclerView = binding.searchListingListView
-        listingRecyclerView.adapter = listingAdapter
-        listingRecyclerView.layoutManager = LinearLayoutManager(context)
+        listingAdapter = RoommateListingAdapter(listingCollection)
+        binding.searchListingListView.adapter = listingAdapter
+        binding.searchListingListView.layoutManager = LinearLayoutManager(context)
+
+        return binding.root
     }
 
     private fun initializeListingCollection(): List<ListingCard> {
@@ -39,17 +41,8 @@ class RoommateSearchListViewFragment : Fragment() {
         )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return binding.root
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 }
-

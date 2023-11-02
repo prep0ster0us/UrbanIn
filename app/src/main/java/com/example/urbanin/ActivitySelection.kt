@@ -18,12 +18,21 @@ class ActivitySelection : AppCompatActivity() {
 
         with(binding) {
             roommatesIcon.setOnClickListener {
-                navigateToMainContent()
+                navigateToRoommatesActivity()
             }
 
             roommatesText.setOnClickListener {
-                navigateToMainContent()
+                navigateToRoommatesActivity()
             }
+
+            rentPlaceIcon.setOnClickListener {
+                navigateToLandlordActivity()
+            }
+
+            rentPlaceText.setOnClickListener{
+                navigateToLandlordActivity()
+            }
+
 
             rentOutIcon.setOnClickListener {
                 navigateToLogin()
@@ -35,7 +44,11 @@ class ActivitySelection : AppCompatActivity() {
         }
     }
 
-    private fun navigateToMainContent() {
+    private fun navigateToLandlordActivity() {
+
+    }
+
+    private fun navigateToRoommatesActivity() {
         // Intent to navigate to the Roommates Activity
         val intent = Intent(this, RoommatesActivity::class.java)
         startActivity(intent)

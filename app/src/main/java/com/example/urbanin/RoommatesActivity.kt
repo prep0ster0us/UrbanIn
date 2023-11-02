@@ -1,9 +1,8 @@
 package com.example.urbanin
 
-
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.urbanin.roommates.RoommateSearchListViewFragment
+import com.example.urbanin.roommates.SearchListViewFragment
 
 class RoommatesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,13 +15,11 @@ class RoommatesActivity : AppCompatActivity() {
     }
 
     private fun navigateToRoommateListings() {
-        val fragment = RoommateSearchListViewFragment()
-        // Start the fragment transaction
+        val fragment = SearchListViewFragment()
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
             .addToBackStack(null)
-            .commit() // Apply the transaction
+            .commit()
     }
 }
-
 
