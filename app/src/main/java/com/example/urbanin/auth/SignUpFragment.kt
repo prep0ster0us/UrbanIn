@@ -5,42 +5,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.urbanin.R
 import com.example.urbanin.databinding.FragmentSignUpBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
-
 class SignUpFragment : Fragment() {
 
-    private lateinit var signUpBinding: FragmentSignUpBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        signUpBinding = FragmentSignUpBinding.inflate(layoutInflater)
-
-        // Configure sign-in to request the user's ID, email address, and basic profile.
-        // ID and basic profile are included in DEFAULT_SIGN_IN.
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .build()// Build a GoogleSignInClient with the options specified by gso.
-
-//        var mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        signUpBinding.signUpViewGoogle.setOnClickListener{
-            // https://developers.google.com/identity/sign-in/android/sign-in
-            // TODO: Fetch click listener code for Google Sign In API
-        }
-
-
-    }
+    private var _binding: FragmentSignUpBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sign_up, container, false)
+    ): View {
+        _binding = FragmentSignUpBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Configure sign-in to request the user's ID, email address, and basic profile.
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+
+        binding.signUpViewGoogle.setOnClickListener {
+            // TODO: Implement Google Sign-In logic here
+        }
     }
 
     override fun onStart() {
@@ -48,8 +40,12 @@ class SignUpFragment : Fragment() {
 
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
-//        val account = GoogleSignIn.getLastSignedInAccount(this)
-//        updateUI(account)
+        val account = GoogleSignIn.getLastSignedInAccount(requireContext())
+        // TODO: Update UI accordingly
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

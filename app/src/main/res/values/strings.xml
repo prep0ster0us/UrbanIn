@@ -5,4 +5,6 @@
 
     <string name="MAP_API_KEY">AIzaSyAYkHxNg9b_5z8Vtr958OCAHTEW1_RDypw</string>
     <string name="searchListingMode">List</string>
+    <string name="edit_listing">\n</string>
+    <string name="delete_listing" />
 </resources>

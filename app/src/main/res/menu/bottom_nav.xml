@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navSearch"
+        android:icon="@drawable/baseline_listing_search_24"
+        android:title="Search" />
+    <item
+        android:id="@+id/navSaved"
+        android:icon="@drawable/baseline_saved_24"
+        android:title="Saved" />
+    <item
+        android:id="@+id/navMsg"
+        android:icon="@drawable/baseline_message_24"
+        android:title="Message" />
+    <item
+        android:id="@+id/navAcct"
+        android:icon="@drawable/baseline_account_24"
+        android:title="Account" />
+</menu>
