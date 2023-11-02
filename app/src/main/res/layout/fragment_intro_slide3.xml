@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".splash.IntroSlide3Fragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -11,20 +12,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gotham_regular"
-        android:text="This is Slide 3"
+        android:text="Tour a plan virtually"
         android:textAlignment="center"
+        android:textColor="@color/black"
         android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@id/intro_slider_img1"
+        app:layout_constraintBottom_toTopOf="@id/intro_slider_img3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/intro_slider_img1"
+        android:id="@+id/intro_slider_img3"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="Intro Slider Image-2"
-        android:src="@drawable/intro_slider_image_1"
+        android:layout_height="275dp"
+        android:contentDescription="Intro Slider Image-3"
+        android:src="@drawable/intro_slider_img_3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

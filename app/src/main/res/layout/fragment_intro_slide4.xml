@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F1AB1E"
     tools:context=".splash.IntroSlide4Fragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -15,31 +16,34 @@
         android:layout_marginBottom="15dp"
         android:background="@android:color/transparent"
         android:fontFamily="@font/gotham_regular"
+        android:shadowColor="@color/black"
         android:text="Get Started"
-        android:textColor="@color/material_dynamic_primary60"
+        android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/slideTitle"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/slideTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gotham_regular"
-        android:text="This is Slide 4"
+        android:text="Switch to renter mode"
         android:textAlignment="center"
+        android:textColor="@color/black"
         android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@id/intro_slider_img1"
+        app:layout_constraintBottom_toTopOf="@id/intro_slider_img4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/intro_slider_img1"
+        android:id="@+id/intro_slider_img4"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="275dp"
         android:contentDescription="Intro Slider Image-4"
-        android:src="@drawable/intro_slider_image_1"
+        android:src="@drawable/intro_slider_img_4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
