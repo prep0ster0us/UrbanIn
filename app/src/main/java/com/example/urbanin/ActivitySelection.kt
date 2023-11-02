@@ -1,9 +1,9 @@
 package com.example.urbanin
 
+import LoginFragment
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.urbanin.auth.LoginFragment
 import com.example.urbanin.databinding.ActivitySelectionBinding
 
 class ActivitySelection : AppCompatActivity() {

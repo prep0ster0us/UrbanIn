@@ -1,11 +1,10 @@
-package com.example.urbanin.auth
-
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.urbanin.R
 import com.example.urbanin.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
@@ -21,13 +20,21 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.loginViewSubmitBtn.setOnClickListener {
+            if (isAdded) {
+                // Add your login logic here
+
+                // Navigate to LandlordFragment
+                findNavController().navigate(R.id.action_loginFragment_to_landlordFragment)
+            }
+        }
+
         binding.loginViewSignUpBtn.setOnClickListener {
             if (isAdded) {
-                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignUpFragment())
+                findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
             }
         }
     }
@@ -37,4 +44,3 @@ class LoginFragment : Fragment() {
         _binding = null
     }
 }
-
