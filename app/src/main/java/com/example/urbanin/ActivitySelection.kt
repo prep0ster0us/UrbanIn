@@ -17,35 +17,22 @@ class ActivitySelection : AppCompatActivity() {
         setContentView(binding.root)
 
         with(binding) {
-            roommatesIcon.setOnClickListener {
+            roommatesLayout.setOnClickListener {
                 navigateToRoommatesActivity()
             }
-
-            roommatesText.setOnClickListener {
-                navigateToRoommatesActivity()
+            rentPlaceLayout.setOnClickListener {
+                navigateToTenantActivity()
             }
-
-            rentPlaceIcon.setOnClickListener {
-                navigateToLandlordActivity()
-            }
-
-            rentPlaceText.setOnClickListener{
-                navigateToLandlordActivity()
-            }
-
-
-            rentOutIcon.setOnClickListener {
-                navigateToLogin()
-            }
-
-            rentOutText.setOnClickListener {
+            rentOutLayout.setOnClickListener {
                 navigateToLogin()
             }
         }
     }
 
-    private fun navigateToLandlordActivity() {
-
+    private fun navigateToTenantActivity() {
+        // Intent to navigate to the Tenant (Main) Activity
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
     private fun navigateToRoommatesActivity() {
@@ -55,13 +42,10 @@ class ActivitySelection : AppCompatActivity() {
     }
 
 
-
     private fun navigateToLogin() {
         // Navigate to the Login Fragment
         val fragment = LoginFragment()
-        supportFragmentManager.beginTransaction()
-            .replace(android.R.id.content, fragment)
-            .addToBackStack(null)
-            .commit()
+        supportFragmentManager.beginTransaction().replace(android.R.id.content, fragment)
+            .addToBackStack(null).commit()
     }
 }

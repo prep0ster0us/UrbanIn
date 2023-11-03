@@ -131,7 +131,7 @@ class SearchFragment : Fragment() {
         binding.listingFilterText.setOnClickListener {
             // temporarily hide bottom nav bar, when inflating filter fragment (to show full screen)
             setNavBarVisibility(false)
-            findNavController().navigate(SearchFragmentDirections.actionNavSearchToSearchFilterFragment2())
+            findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToSearchFilterFragment())
         }
         // if filter fragment not active, bottom nav bar is visible
         setNavBarVisibility(true)

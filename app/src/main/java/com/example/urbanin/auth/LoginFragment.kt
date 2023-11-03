@@ -32,7 +32,7 @@ class LoginFragment : Fragment() {
             }
         }
 
-        binding.loginViewSignUpBtn.setOnClickListener {
+        binding.loginViewSignUp.setOnClickListener {
             if (isAdded) {
                 findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
             }
