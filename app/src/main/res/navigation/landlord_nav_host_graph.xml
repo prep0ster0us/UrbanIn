@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/landlord_nav_host_graph">
+
+    <fragment
+        android:id="@+id/landlordLoginFragment"
+        android:name="com.example.urbanin.auth.LoginFragment"
+        tools:layout="@layout/fragment_login"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_landlordLoginFragment_to_landlordSearchFragment"
+            app:destination="@id/landlordSearchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/landlordSearchFragment"
+        android:name="com.example.urbanin.landlord.LandlordSearchFragment"
+        android:label="landlord_fragment_search"
+        tools:layout="@layout/landlord_fragment_search" />
+
+</navigation>

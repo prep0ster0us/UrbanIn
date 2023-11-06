@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primary_background">#FF1DB954</color>
-    <color name="arrow_back_color">#FFFFFF</color>
+
+    <!--    light/dark mode colors-->
+    <color name="default_text">#FFFFFFFF</color>
+    <color name="default_background">#FF000000</color>
+    <!--    for dots indicator-->
+    <color name="material_white">#FFFFFFFF</color>
+    <color name="material_blue">#FF90CAF9</color>
+    <!--    Filter page-->
+    <color name="arrow_back_color">#FFFFFFFF</color>
 </resources>

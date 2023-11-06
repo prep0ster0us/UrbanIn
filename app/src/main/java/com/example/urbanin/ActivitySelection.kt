@@ -1,9 +1,9 @@
 package com.example.urbanin
 
-import LoginFragment
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.urbanin.auth.LoginFragment
 import com.example.urbanin.databinding.ActivitySelectionBinding
 
 class ActivitySelection : AppCompatActivity() {
@@ -51,9 +51,27 @@ class ActivitySelection : AppCompatActivity() {
 
 
     private fun navigateToLogin() {
+        /*
         // Navigate to the Login Fragment
         val fragment = LoginFragment()
         supportFragmentManager.beginTransaction().replace(android.R.id.content, fragment)
             .addToBackStack(null).commit()
+        */
+
+        // Intent to navigate to the Roommates Activity
+        val intent = Intent(this, LandlordActivity::class.java)
+        startActivity(intent)
+        this.overridePendingTransition(
+            R.anim.slide_in_left,
+            R.anim.slide_out_left
+        );
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.overridePendingTransition(
+            R.anim.slide_in_right,
+            R.anim.slide_out_right
+        );
     }
 }

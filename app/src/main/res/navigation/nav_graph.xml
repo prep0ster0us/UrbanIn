@@ -13,7 +13,7 @@
         <action
             android:id="@+id/action_loginFragment_to_signUpFragment"
             app:destination="@id/signUpFragment"/>
-        <!-- this line is for navigation from LoginFragment to LandlordFragment -->
+        <!-- this line is for navigation from com.example.urbanin.auth.LoginFragment to LandlordFragment -->
         <action
             android:id="@+id/action_loginFragment_to_landlordFragment"
             app:destination="@id/landlordFragment"/>
