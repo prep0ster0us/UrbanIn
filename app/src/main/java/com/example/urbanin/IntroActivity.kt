@@ -21,7 +21,7 @@ class IntroActivity : AppCompatActivity() {
 
         prefManager = PreferencesManager(this)
         if (!prefManager.isFirstRun()) {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, ActivitySelection::class.java)
             startActivity(intent)
         }
     }

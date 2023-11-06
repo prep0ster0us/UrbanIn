@@ -33,12 +33,20 @@ class ActivitySelection : AppCompatActivity() {
         // Intent to navigate to the Tenant (Main) Activity
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+        this.overridePendingTransition(
+            R.anim.slide_in_left,
+            R.anim.slide_out_left
+        );
     }
 
     private fun navigateToRoommatesActivity() {
         // Intent to navigate to the Roommates Activity
         val intent = Intent(this, RoommatesActivity::class.java)
         startActivity(intent)
+        this.overridePendingTransition(
+            R.anim.slide_in_left,
+            R.anim.slide_out_left
+        );
     }
 
 
