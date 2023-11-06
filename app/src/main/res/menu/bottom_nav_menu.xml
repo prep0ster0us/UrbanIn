@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/bottom_nav_search"
+        android:id="@+id/searchFragment"
         android:icon="@drawable/baseline_listing_search_24"
         android:title="Search" />
     <item
-        android:id="@+id/bottom_nav_saved"
+        android:id="@+id/savedFragment"
         android:icon="@drawable/baseline_saved_24"
         android:title="Saved" />
     <item
-        android:id="@+id/navMsg"
+        android:id="@+id/messageFragment"
         android:icon="@drawable/baseline_message_24"
         android:title="Message" />
     <item
-        android:id="@+id/navAcct"
+        android:id="@+id/accountFragment"
         android:icon="@drawable/baseline_account_24"
         android:title="Account" />
 </menu>
