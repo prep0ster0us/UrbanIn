@@ -1,6 +1,7 @@
 package com.example.urbanin.tenant.search
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,13 +9,18 @@ import android.view.ViewGroup
 import androidx.navigation.NavArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
 import com.example.urbanin.databinding.FragmentSearchListViewBinding
+import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SearchListViewFragment : Fragment() {
     private lateinit var binding: FragmentSearchListViewBinding
 
     private lateinit var listingRecyclerView: RecyclerView
+
+    private var db = FirebaseFirestore.getInstance()
 
 //    private val args:
 
@@ -31,7 +37,7 @@ class SearchListViewFragment : Fragment() {
                     listing.img,
                     listing.title,
                     listing.description,
-                    listing.location
+                    listing.address
                 )
             )
         }

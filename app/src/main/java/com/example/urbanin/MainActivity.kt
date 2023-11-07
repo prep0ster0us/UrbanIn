@@ -1,17 +1,21 @@
 package com.example.urbanin
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.PersistableBundle
+import android.util.AttributeSet
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.urbanin.databinding.ActivityMainBinding
@@ -44,26 +48,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-    }
-
-    override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onPostCreate(savedInstanceState, persistentState)
-
-        // set navigation within bottom nav bar
         val navView: BottomNavigationView = binding.bottomNavbar
 
-        val navController = findNavController(binding.fragmentContainerView.id)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navSearch,
-                R.id.navSaved,
-                R.id.navMsg,
-                R.id.navAcct
-            )
-        )
-//        setupActionBarWithNavController(navController, appBarConfiguration)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
+
         navView.setupWithNavController(navController)
+// test
     }
+
 }

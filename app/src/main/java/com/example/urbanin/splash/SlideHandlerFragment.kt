@@ -5,24 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewpager2.widget.ViewPager2
+import com.example.urbanin.R
 import com.example.urbanin.databinding.FragmentSlideHandlerBinding
 
-class SlideHandlerFragment : Fragment() {
+class SlideHandlerFragment : Fragment(R.layout.fragment_slide_handler) {
 
-    private lateinit var sliderBinding: FragmentSlideHandlerBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        sliderBinding = FragmentSlideHandlerBinding.inflate(layoutInflater)
-    }
+    private var _sliderBinding: FragmentSlideHandlerBinding? = null
+    private val sliderBinding get() = _sliderBinding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-//        val view = inflater.inflate(R.layout.fragment_slide_handler, container, false)
+    ): View {
+        _sliderBinding = FragmentSlideHandlerBinding.inflate(inflater, container, false)
 
         val fragmentList = arrayListOf<Fragment>(
             IntroSlide1Fragment(),
@@ -33,18 +29,20 @@ class SlideHandlerFragment : Fragment() {
 
         val sliderAdapter = SliderViewPagerAdapter(
             fragmentList,
-            requireActivity().supportFragmentManager,
-            lifecycle
+            childFragmentManager,
+            viewLifecycleOwner.lifecycle
         )
 
-        val viewPager = sliderBinding.sliderFragmentViewPager
-        viewPager.adapter = sliderAdapter
+        sliderBinding.sliderFragmentViewPager.adapter = sliderAdapter
 
         // attach view pager adapter to dots indicator view
-        val indicator = sliderBinding.dotsIndicator
-        indicator.attachTo(viewPager)
+        sliderBinding.dotsIndicator.attachTo(sliderBinding.sliderFragmentViewPager)
 
         return sliderBinding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _sliderBinding = null
+    }
 }

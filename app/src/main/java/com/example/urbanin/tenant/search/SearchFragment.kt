@@ -7,31 +7,36 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.navigation.NavDirections
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.example.urbanin.BuildConfig
 import com.example.urbanin.MainActivity.Companion.TAG
+import com.example.urbanin.R
 import com.example.urbanin.databinding.FragmentSearchBinding
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.GeoPoint
 
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
 
     // google map object (for callback)
     private lateinit var googleMap: GoogleMap
-    // for list view
-//    private lateinit var listingView: RecyclerView
+
+    // FireStore object
+    private var db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +47,9 @@ class SearchFragment : Fragment() {
         if (!Places.isInitialized()) {
             Places.initialize(requireContext(), BuildConfig.MAPS_API_KEY)
         }
+
+        FirebaseApp.initializeApp(requireContext())
+        getListingFromFirebase()
     }
 
     override fun onCreateView(
@@ -78,7 +86,10 @@ class SearchFragment : Fragment() {
                 // if location is valid, add marker and zoom to it
                 if (selectedPlaceLatLng != null) {
                     if (selectedPlaceName != null) {
-                        googleMap.clear()
+//                        googleMap.clear()
+                        Log.d(TAG, "Place Selected: ${selectedPlaceName}\n Place Location: ${selectedPlaceLatLng}")
+                        // TODO: add marker for the place selected
+//                        googleMap.addMarker(MarkerOptions().position(selectedPlaceLatLng).title(selectedPlaceName))
                         zoomToLocation(googleMap, selectedPlaceLatLng, selectedPlaceName)
                     }
                 }
@@ -111,11 +122,24 @@ class SearchFragment : Fragment() {
             binding.listingView.getFragment<NavHostFragment>().navController.navigate(
                 actionChangeView
             )
+        }
 //            OR
 //            childFragmentManager.findFragmentById(binding.listingView.id)?.findNavController()?.navigate(actionChangeView)
-            // ***** does not work, probably because confused between outer controller (for nav bar fragments) and inner controller (for list/map) *****
-            // findNavController().navigate(actionChangeView)
+        // ***** does not work, probably because confused between outer controller (for nav bar fragments) and inner controller (for list/map) *****
+        // findNavController().navigate(actionChangeView)
+
+        binding.listingFilterText.setOnClickListener {
+            // temporarily hide bottom nav bar, when inflating filter fragment (to show full screen)
+            setNavBarVisibility(false)
+            findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToSearchFilterFragment())
         }
+        // if filter fragment not active, bottom nav bar is visible
+        setNavBarVisibility(true)
+    }
+
+    private fun setNavBarVisibility(flag: Boolean) {
+        val parentNavBar: View = requireActivity().findViewById(R.id.bottom_navbar)
+        parentNavBar.isVisible = flag
     }
 
     private fun zoomToLocation(googleMap: GoogleMap, location: LatLng, markerTitle: String) {
@@ -127,6 +151,51 @@ class SearchFragment : Fragment() {
         googleMap.animateCamera(CameraUpdateFactory.zoomIn())
         // Zoom out to zoom level 10, animating with a duration of 2 seconds.
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(15F), 2000, null)
+    }
+
+    private fun getListingFromFirebase() {
+        db.collection("Listings")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (doc in documents) {
+                    Log.d(TAG, "Document ${doc.id} => ${doc.data}")
+
+                    var checkExisting = false
+                    for (listing in listingCollection) {
+                        if (listing.listingID == doc.id) {
+                            checkExisting = true
+                            break
+                        }
+                    }
+                    Log.d(TAG, "${doc.data["utilities"]}")
+                    Log.d(TAG, "${doc.data["amenities"]}")
+                    if (!checkExisting) {
+                        listingCollection.add(
+                            ListingData(
+                                doc.id,
+                                doc.data["userID"] as String,
+                                doc.data["type"] as String,
+                                doc.data["title"] as String,
+                                doc.data["description"] as String,
+                                doc.data["location"] as GeoPoint,
+                                doc.data["address"] as String,
+                                doc.data["price"] as Long,
+                                doc.data["img"] as String,
+                                doc.data["datePosted"] as String,
+                                doc.data["availableFrom"] as String,
+                                doc.data["numRooms"] as Long,
+                                doc.data["numBaths"] as Long,
+                                doc.data["petsAllowed"] as String,
+                                doc.data["utilities"] as Map<String, Boolean>,
+                                doc.data["amenities"] as Map<String, Boolean>
+                            )
+                        )
+                    }
+                }
+            }
+            .addOnFailureListener {
+                Log.w(TAG, "Error getting data!")
+            }
     }
 
 }

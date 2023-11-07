@@ -1,89 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
-    <ImageButton
-        android:id="@+id/back_button"
-        android:layout_width="53dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="44dp"
-        android:src="@drawable/ic_arrow_back"
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/back_button"-->
+    <!--        android:layout_width="53dp"-->
+    <!--        android:layout_height="50dp"-->
+    <!--        android:layout_marginStart="10dp"-->
+    <!--        android:layout_marginTop="44dp"-->
+    <!--        android:src="@drawable/ic_arrow_back"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <TextView
+        android:id="@+id/t1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/gotham_regular"
+        android:paddingVertical="12dp"
+        android:text="What are you looking for?"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@id/roommates_layout"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:layout_width="351dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="48dp"
-        android:text="What are you looking for?"
-        android:id="@+id/t1"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@id/roommates_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <ImageView
-        android:id="@+id/roommates_icon"
-        android:layout_width="95dp"
-        android:layout_height="101dp"
-        android:layout_marginTop="68dp"
-        android:src="@drawable/ic_two_people"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/t1" />
-
-    <TextView
+    <RelativeLayout
+        android:id="@+id/roommates_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Looking for roommates"
-        app:layout_constraintEnd_toEndOf="@id/roommates_icon"
-        app:layout_constraintStart_toStartOf="@id/roommates_icon"
-        app:layout_constraintTop_toBottomOf="@id/roommates_icon" />
+        app:layout_constraintBottom_toTopOf="@id/rent_place_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/t1">
 
-    <ImageView
-        android:id="@+id/rent_place_icon"
-        android:layout_width="95dp"
-        android:layout_height="101dp"
-        android:src="@drawable/ic_building"
+        <ImageView
+            android:id="@+id/roommates_icon"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/roommates" />
+
+        <TextView
+            android:id="@+id/roommates_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/roommates_icon"
+            android:fontFamily="@font/gotham_medium"
+            android:padding="8dp"
+            android:text="Looking for roommates"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rent_place_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/rent_out_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/roommates_layout">
+
+        <ImageView
+            android:id="@+id/rent_place_icon"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/img_1" />
+
+        <TextView
+            android:id="@+id/rent_place_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rent_place_icon"
+            android:fontFamily="@font/gotham_medium"
+            android:padding="8dp"
+            android:text="Looking for a place to rent"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rent_out_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/roommates_icon"
-        app:layout_constraintVertical_bias="0.217" />
+        app:layout_constraintTop_toBottomOf="@id/rent_place_layout">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Looking for a place to rent"
-        app:layout_constraintEnd_toEndOf="@id/rent_place_icon"
-        app:layout_constraintStart_toStartOf="@id/rent_place_icon"
-        app:layout_constraintTop_toBottomOf="@id/rent_place_icon" />
+        <ImageView
+            android:id="@+id/rent_out_icon"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/img" />
 
-    <ImageView
-        android:id="@+id/rent_out_icon"
-        android:layout_width="95dp"
-        android:layout_height="101dp"
-        android:src="@drawable/ic_building_for_rent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rent_place_icon"
-        app:layout_constraintVertical_bias="0.387" />
+        <TextView
+            android:id="@+id/rent_out_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rent_out_icon"
+            android:fontFamily="@font/gotham_medium"
+            android:padding="8dp"
+            android:text="Looking to rent out"
+            android:textSize="18sp" />
+    </RelativeLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Looking to rent out"
-        app:layout_constraintEnd_toEndOf="@id/rent_out_icon"
-        app:layout_constraintStart_toStartOf="@id/rent_out_icon"
-        app:layout_constraintTop_toBottomOf="@id/rent_out_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
