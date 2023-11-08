@@ -1,11 +1,13 @@
 package com.example.urbanin.auth
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.databinding.FragmentSignUpBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -19,6 +21,7 @@ class SignUpFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var auth: FirebaseAuth
+    private var signUpFlag = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,10 +72,34 @@ class SignUpFragment : Fragment() {
 
         binding.signUpViewSubmitBtn.setOnClickListener {
             // TODO: check if important fields are empty
+            signUpFlag = true
             checkIfEmpty(fieldMap["fname"])
             checkIfEmpty(fieldMap["lname"])
             checkIfEmpty(fieldMap["pwd"])
             checkIfEmpty(fieldMap["confirmPwd"])
+
+            checkIfMatch(fieldMap["pwd"], fieldMap["confirmPwd"])
+
+            // Firebase Authentication - SIGN UP
+            if(signUpFlag) {
+                auth.createUserWithEmailAndPassword(
+                    fieldMap["email"]!!.second.text.toString(),
+                    fieldMap["pwd"]!!.second.text.toString()
+                ).addOnCompleteListener { task ->
+                    if(task.isSuccessful) {
+                        // Add information to database, and sign in the user
+                        Log.d(TAG, "Sign Up success!")
+                        val user = auth.currentUser
+                        // TODO: update UI and navigate to next page/show dialog
+
+                    } else {
+                        // if any error while signing up, display error in dialog
+                        Log.w(TAG, "Sign up ERROR ", task.exception)
+                        // TODO: show dialog and request to try again
+                    }
+                }
+            }
+
         }
     }
 
@@ -80,17 +107,19 @@ class SignUpFragment : Fragment() {
     private fun checkIfEmpty(inputView: Pair<TextInputLayout, TextInputEditText>?) {
         if (inputView!!.second.text!!.isEmpty()) {
             inputView.first.error = "Required!"
+            signUpFlag = false
         } else {
             inputView.first.error = null
         }
     }
 
     private fun checkIfMatch(
-        setPwd: Pair<TextInputLayout, TextInputEditText>,
-        confirmPwd: Pair<TextInputLayout, TextInputEditText>
+        setPwd: Pair<TextInputLayout, TextInputEditText>?,
+        confirmPwd: Pair<TextInputLayout, TextInputEditText>?
     ) {
-        if (setPwd.second.text!! != confirmPwd.second.text!!) {
-
+        if (setPwd!!.second.text!! != confirmPwd!!.second.text!!) {
+            // TODO: show dialog if passwords don't match on submit
+            confirmPwd.first.error = "Password does not match"
         }
     }
 
