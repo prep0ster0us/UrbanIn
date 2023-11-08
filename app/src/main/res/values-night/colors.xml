@@ -4,7 +4,7 @@
 
     <!--    light/dark mode colors-->
     <color name="default_text">#FFFFFFFF</color>
-    <color name="default_background">#FF000000</color>
+    <color name="default_background">#99000000</color>
     <!--    for dots indicator-->
     <color name="material_white">#FFFFFFFF</color>
     <color name="material_blue">#FF90CAF9</color>
