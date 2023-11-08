@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.UrbanIn"
+        android:enableOnBackInvokedCallback="true"
         tools:targetApi="31">
 
         <!--
@@ -47,6 +48,7 @@
         <activity android:name=".ActivitySelection" />
 
         <activity android:name=".RoommatesActivity"/>
+
 
 
     </application>
