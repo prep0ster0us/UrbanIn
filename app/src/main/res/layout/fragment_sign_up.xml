@@ -71,7 +71,9 @@
             android:layout_width="@dimen/sign_up_text_field_width"
             android:layout_height="wrap_content"
             android:hint="Enter your email address."
-            app:layout_constraintBottom_toTopOf="@id/signUpViewFname"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@drawable/ic_error_outline"
+            app:layout_constraintBottom_toTopOf="@id/signUpFnameLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/signUpViewDivider">
@@ -80,7 +82,6 @@
                 android:id="@+id/signUpViewEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/sign_up_text_field_vertical_margin"
                 android:fontFamily="@font/gotham_book"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -92,6 +93,8 @@
             android:layout_width="@dimen/sign_up_text_field_width"
             android:layout_height="wrap_content"
             android:hint="Enter your first name."
+            app:errorEnabled="true"
+            app:errorIconDrawable="@drawable/ic_error_outline"
             app:layout_constraintBottom_toTopOf="@id/signUpLnameLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +104,6 @@
                 android:id="@+id/signUpViewFname"
                 android:layout_width="@dimen/sign_up_text_field_width"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/sign_up_text_field_vertical_margin"
                 android:fontFamily="@font/gotham_book"
                 android:inputType="textPersonName" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -113,6 +115,8 @@
             android:layout_width="@dimen/sign_up_text_field_width"
             android:layout_height="wrap_content"
             android:hint="Enter your last name."
+            app:errorEnabled="true"
+            app:errorIconDrawable="@drawable/ic_error_outline"
             app:layout_constraintBottom_toTopOf="@id/signUpPwdLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -122,7 +126,6 @@
                 android:id="@+id/signUpViewLname"
                 android:layout_width="@dimen/sign_up_text_field_width"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/sign_up_text_field_vertical_margin"
                 android:fontFamily="@font/gotham_book"
                 android:inputType="textPersonName" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -159,7 +162,7 @@
             android:hint="Confirm your password."
             app:endIconMode="password_toggle"
             app:errorEnabled="true"
-            app:layout_constraintBottom_toTopOf="@id/signUpUserNameLayout"
+            app:layout_constraintBottom_toTopOf="@id/signUpPhoneLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/signUpConfirmPwdLayout">
@@ -172,7 +175,8 @@
                 android:inputType="textVisiblePassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
+        <!--        TODO: <ritwik> check for username authentication-->
+        <!--<com.google.android.material.textfield.TextInputLayout
             android:id="@+id/signUpUserNameLayout"
             style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
             android:layout_width="@dimen/sign_up_text_field_width"
@@ -191,7 +195,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gotham_book"
                 android:inputType="textPersonName" />
-        </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/signUpPhoneLayout"
@@ -204,7 +208,7 @@
             app:layout_constraintBottom_toTopOf="@id/signUpViewTnC"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/signUpUserNameLayout"
+            app:layout_constraintTop_toBottomOf="@id/signUpConfirmPwdLayout"
             app:prefixText="+1">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -216,6 +220,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
+            android:id="@+id/signUpViewTnC"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/gotham_book"
