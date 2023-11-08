@@ -3,21 +3,34 @@ package com.example.urbanin.landlord
 import LandlordListingAdapter
 import ListingItemListener
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
 import com.example.urbanin.databinding.FragmentLandlordBinding
+import com.example.urbanin.tenant.search.ListingAdapter
+import com.example.urbanin.tenant.search.ListingCard
+import com.example.urbanin.tenant.search.ListingData
+import com.example.urbanin.tenant.search.listingCollection
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class LandlordFragment : Fragment(), ListingItemListener {
 
     private var _binding: FragmentLandlordBinding? = null
     private val binding get() = _binding!!
+
+    private var db = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
+
     private lateinit var adapter: LandlordListingAdapter
-    private var listings = mutableListOf<LandlordListingCard.Listing>()
+    private var userListings: ArrayList<ListingData> = arrayListOf()
+    private var listings = ArrayList<ListingCard>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,9 +55,41 @@ class LandlordFragment : Fragment(), ListingItemListener {
 
     private fun loadData() {
         // Mock data for demonstration
-        listings.add(LandlordListingCard.Listing(listingID = "1", title = "Apartment", description = "4 bds | 1.5 ba | 1,500 sqft", location = "XX ABC St, New Haven, CT", price = 1500, img = "URL to image"))
+//        listings.add(
+//            ListingCard(
+//                imgResource = "",
+//                title = "Apartment",
+//                description = "4 bds | 1.5 ba | 1,500 sqft",
+//                location = "XX ABC St, New Haven, CT"
+//            )
+//        )
         // TODO: Load your actual data here
+        getListingsFromDatabase()
         adapter.notifyDataSetChanged()
+    }
+
+    private fun getListingsFromDatabase() {
+//        TODO("Not yet implemented")
+        db.collection("Users")
+            .document(auth.currentUser!!.uid)
+            .get()
+            .addOnSuccessListener { document ->
+                Log.d(TAG, "data fetched for user: ${auth.currentUser!!.uid}")
+                userListings = document.data!!["Listings"] as ArrayList<ListingData>
+                for (listing in userListings) {
+                    listings.add(
+                        ListingCard(
+                            listing.img,
+                            listing.title,
+                            listing.description,
+                            listing.address
+                        )
+                    )
+                }
+            }
+            .addOnFailureListener {
+                Log.d(TAG, "data fetch FAILED: $it")
+            }
     }
 
     override fun onEditClicked(listing: LandlordListingCard.Listing) {

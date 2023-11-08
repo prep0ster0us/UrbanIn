@@ -2,6 +2,7 @@ package com.example.urbanin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.urbanin.databinding.ActivityLandlordBinding
@@ -15,6 +16,7 @@ class LandlordActivity : AppCompatActivity() {
         binding = ActivityLandlordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val landlordBottomNavBar: BottomNavigationView = binding.bottomNavigationView
 
         // set navigation component graph for Landlord FragmentContainerView (based on whether the user is logged in)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.landlordFragmentContainerView) as NavHostFragment
@@ -25,8 +27,10 @@ class LandlordActivity : AppCompatActivity() {
         val isLoggedIn = false
         if (isLoggedIn){
             graph.setStartDestination(R.id.landlordSearchFragment)
+            landlordBottomNavBar.isVisible = true
         }else {
             graph.setStartDestination(R.id.landlordLoginFragment)
+            landlordBottomNavBar.isVisible = false
         }
 
         val navController = navHostFragment.navController
@@ -34,7 +38,6 @@ class LandlordActivity : AppCompatActivity() {
 
 
         // set controller for bottom navigation view
-        val landlordBottomNavBar: BottomNavigationView = binding.bottomNavigationView
         landlordBottomNavBar.setupWithNavController(navHostFragment.navController)
     }
 }

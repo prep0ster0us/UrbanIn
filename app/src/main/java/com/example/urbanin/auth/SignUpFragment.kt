@@ -9,11 +9,13 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.databinding.FragmentSignUpBinding
+import com.example.urbanin.tenant.search.ListingData
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SignUpFragment : Fragment() {
 
@@ -21,12 +23,14 @@ class SignUpFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
     private var signUpFlag = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
 
         val fieldMap = hashMapOf<String, Pair<TextInputLayout, TextInputEditText>>(
             "email" to Pair(
@@ -81,15 +85,39 @@ class SignUpFragment : Fragment() {
             checkIfMatch(fieldMap["pwd"], fieldMap["confirmPwd"])
 
             // Firebase Authentication - SIGN UP
-            if(signUpFlag) {
+            if (signUpFlag) {
                 auth.createUserWithEmailAndPassword(
                     fieldMap["email"]!!.second.text.toString(),
                     fieldMap["pwd"]!!.second.text.toString()
                 ).addOnCompleteListener { task ->
-                    if(task.isSuccessful) {
+                    if (task.isSuccessful) {
                         // Add information to database, and sign in the user
                         Log.d(TAG, "Sign Up success!")
                         val user = auth.currentUser
+
+                        // save user id to "User" collection in database
+                        val userDetails = hashMapOf(
+                            "First Name" to fieldMap["fname"]!!.second.text,
+                            "Last Name" to fieldMap["lname"]!!.second.text,
+                            "Email" to fieldMap["email"]!!.second.text,
+                            "Phone" to fieldMap["phone"]!!.second.text,
+                            "Listings" to arrayListOf<ListingData>()
+                        )
+                        db.collection("Users")
+                            .document(user!!.uid)
+                            .set(userDetails)
+                            .addOnSuccessListener {
+                                Log.d(
+                                    TAG,
+                                    "User details saved to database: ${fieldMap["fname"]!!.second.text}"
+                                )
+                            }
+                            .addOnFailureListener {
+                                Log.d(
+                                    TAG,
+                                    "Add to database failed! : ${fieldMap["fname"]!!.second.text} -> $it"
+                                )
+                            }
                         // TODO: update UI and navigate to next page/show dialog
 
                     } else {

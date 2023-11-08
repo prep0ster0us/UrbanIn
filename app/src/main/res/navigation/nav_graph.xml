@@ -15,7 +15,7 @@
             app:destination="@id/signUpFragment"/>
         <!-- this line is for navigation from com.example.urbanin.auth.LoginFragment to LandlordFragment -->
         <action
-            android:id="@+id/action_loginFragment_to_landlordFragment"
+            android:id="@+id/navigate_login_to_landlord_search"
             app:destination="@id/landlordFragment"/>
     </fragment>
 
