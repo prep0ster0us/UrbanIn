@@ -50,7 +50,7 @@
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/signUpViewGoogle"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,6 +61,7 @@
             android:id="@+id/signUpViewDivider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/signUpViewGoogle" />
@@ -70,6 +71,7 @@
             style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
             android:layout_width="@dimen/sign_up_text_field_width"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
             android:hint="Enter your email address."
             app:errorEnabled="true"
             app:errorIconDrawable="@drawable/ic_error_outline"
@@ -92,6 +94,7 @@
             style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
             android:layout_width="@dimen/sign_up_text_field_width"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
             android:hint="Enter your first name."
             app:errorEnabled="true"
             app:errorIconDrawable="@drawable/ic_error_outline"
@@ -105,7 +108,7 @@
                 android:layout_width="@dimen/sign_up_text_field_width"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gotham_book"
-                android:inputType="textPersonName" />
+                android:inputType="textCapWords" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -114,6 +117,7 @@
             style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
             android:layout_width="@dimen/sign_up_text_field_width"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
             android:hint="Enter your last name."
             app:errorEnabled="true"
             app:errorIconDrawable="@drawable/ic_error_outline"
@@ -127,7 +131,7 @@
                 android:layout_width="@dimen/sign_up_text_field_width"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gotham_book"
-                android:inputType="textPersonName" />
+                android:inputType="textCapWords" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -136,6 +140,7 @@
             style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
             android:layout_width="@dimen/sign_up_text_field_width"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
             android:hint="Create a password."
             app:endIconMode="password_toggle"
             app:errorEnabled="true"
@@ -159,6 +164,7 @@
             style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
             android:layout_width="@dimen/sign_up_text_field_width"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
             android:hint="Confirm your password."
             app:endIconMode="password_toggle"
             app:errorEnabled="true"
@@ -202,6 +208,7 @@
             style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
             android:layout_width="@dimen/sign_up_text_field_width"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
             android:hint="Enter contact information."
             app:errorEnabled="true"
             app:errorIconDrawable="@drawable/ic_error_outline"
@@ -223,11 +230,12 @@
             android:id="@+id/signUpViewTnC"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
             android:fontFamily="@font/gotham_book"
             android:gravity="center"
             android:padding="12dp"
             android:text="@string/sign_up_terms_conditions"
-            android:textSize="12sp"
+            android:textSize="10sp"
             app:layout_constraintBottom_toTopOf="@id/signUpViewSubmitBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -238,6 +246,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:layout_marginBottom="100dp"
             android:fontFamily="@font/gotham_regular"
             android:text="Create an account"
             android:textSize="18sp"

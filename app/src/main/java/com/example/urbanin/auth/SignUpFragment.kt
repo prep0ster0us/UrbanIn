@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import com.example.urbanin.MainActivity.Companion.TAG
@@ -19,8 +20,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class SignUpFragment : Fragment() {
 
-    private var _binding: FragmentSignUpBinding? = null
-    private val binding get() = _binding!!
+//    private var _binding: FragmentSignUpBinding? = null
+//    private val binding get() = _binding!!
+
+    private lateinit var binding: FragmentSignUpBinding
 
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
@@ -28,6 +31,8 @@ class SignUpFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        binding = FragmentSignUpBinding.inflate(layoutInflater)
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
@@ -38,35 +43,53 @@ class SignUpFragment : Fragment() {
                 binding.signUpViewEmail
             ),
             "fname" to Pair(
-                binding.signUpEmailLayout,
-                binding.signUpViewEmail
+                binding.signUpFnameLayout,
+                binding.signUpViewFname
             ),
             "lname" to Pair(
-                binding.signUpEmailLayout,
-                binding.signUpViewEmail
+                binding.signUpLnameLayout,
+                binding.signUpViewLname
             ),
             "pwd" to Pair(
-                binding.signUpEmailLayout,
-                binding.signUpViewEmail
+                binding.signUpPwdLayout,
+                binding.signUpViewPwd
             ),
             "confirmPwd" to Pair(
-                binding.signUpEmailLayout,
-                binding.signUpViewEmail
+                binding.signUpConfirmPwdLayout,
+                binding.signUpViewConfirmPwd
+            ),
+            "phone" to Pair(
+                binding.signUpPhoneLayout,
+                binding.signUpViewPhone
             )
         )
 
-        fieldMap["pwd"]!!.second.doOnTextChanged { text, start, before, count ->
+        fieldMap["pwd"]!!.second.doOnTextChanged { _, _, _, _ ->
             if (fieldMap["pwd"]!!.second.text!!.isNotEmpty()) {
-                if (fieldMap["confirmPwd"]!!.second.text!! != text!!) {
-                    fieldMap["pwd"]!!.first.error = "Passwords do not match"
-                } else {
+                if(fieldMap["pwd"]!!.second.text!!.length < 6) {
+                    fieldMap["pwd"]!!.first.error = "Min 6 characters"
+                }
+                    // TODO: add condition for atleast one number and one capital letter
+//                else if (!fieldMap["pwd"]!!.second.text!!.contains("\\d+")) {
+//                    fieldMap["pwd"]!!.first.error = "Must contain atleast 1 numeric character"
+//                }
+                else {
                     fieldMap["pwd"]!!.first.error = null
+                }
+
+                if (fieldMap["confirmPwd"]!!.second.text!!.isNotEmpty()) {
+                    if (fieldMap["pwd"]!!.second.text.toString() != fieldMap["confirmPwd"]!!.second.text.toString()) {
+                        fieldMap["confirmPwd"]!!.first.error = "Passwords do not match"
+                    } else {
+                        fieldMap["confirmPwd"]!!.first.error = null
+                    }
                 }
             }
         }
-        fieldMap["confirmPwd"]!!.second.doOnTextChanged { text, start, before, count ->
+
+        fieldMap["confirmPwd"]!!.second.doOnTextChanged { _, _, _, _ ->
             if (fieldMap["confirmPwd"]!!.second.text!!.isNotEmpty()) {
-                if (fieldMap["pwd"]!!.second.text!! != text!!) {
+                if (fieldMap["pwd"]!!.second.text.toString() != fieldMap["confirmPwd"]!!.second.text.toString()) {
                     fieldMap["confirmPwd"]!!.first.error = "Passwords do not match"
                 } else {
                     fieldMap["confirmPwd"]!!.first.error = null
@@ -77,6 +100,7 @@ class SignUpFragment : Fragment() {
         binding.signUpViewSubmitBtn.setOnClickListener {
             // TODO: check if important fields are empty
             signUpFlag = true
+            checkIfEmpty(fieldMap["email"])
             checkIfEmpty(fieldMap["fname"])
             checkIfEmpty(fieldMap["lname"])
             checkIfEmpty(fieldMap["pwd"])
@@ -97,12 +121,13 @@ class SignUpFragment : Fragment() {
 
                         // save user id to "User" collection in database
                         val userDetails = hashMapOf(
-                            "First Name" to fieldMap["fname"]!!.second.text,
-                            "Last Name" to fieldMap["lname"]!!.second.text,
-                            "Email" to fieldMap["email"]!!.second.text,
-                            "Phone" to fieldMap["phone"]!!.second.text,
+                            "First Name" to fieldMap["fname"]!!.second.text.toString(),
+                            "Last Name" to fieldMap["lname"]!!.second.text.toString(),
+                            "Email" to fieldMap["email"]!!.second.text.toString(),
+                            "Phone" to fieldMap["phone"]!!.second.text.toString(),
                             "Listings" to arrayListOf<ListingData>()
                         )
+                        Log.d(TAG, userDetails.toString())
                         db.collection("Users")
                             .document(user!!.uid)
                             .set(userDetails)
@@ -155,7 +180,7 @@ class SignUpFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSignUpBinding.inflate(inflater, container, false)
+//        _binding = FragmentSignUpBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -181,8 +206,8 @@ class SignUpFragment : Fragment() {
         // TODO: Update UI accordingly
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
 }
