@@ -29,7 +29,7 @@ class LandlordActivity : AppCompatActivity() {
             graph.setStartDestination(R.id.landlordSearchFragment)
             landlordBottomNavBar.isVisible = true
         }else {
-            graph.setStartDestination(R.id.landlordLoginFragment)
+            graph.setStartDestination(R.id.loginFragment)
             landlordBottomNavBar.isVisible = false
         }
 

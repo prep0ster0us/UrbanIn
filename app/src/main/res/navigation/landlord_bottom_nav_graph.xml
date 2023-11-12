@@ -5,19 +5,19 @@
     android:id="@+id/bottom_navbar" >
 
     <fragment
-        android:id="@+id/landlordLoginFragment"
+        android:id="@+id/loginFragment"
         android:name="com.example.urbanin.auth.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/navigate_landlord_login_to_sign_up"
-            app:destination="@id/landlordSignUpFragment" />
+            app:destination="@id/signUpFragment" />
         <action
             android:id="@+id/navigate_landlord_login_success_to_search"
             app:destination="@id/landlordSearchFragment" />
     </fragment>
     <fragment
-        android:id="@+id/landlordSignUpFragment"
+        android:id="@+id/signUpFragment"
         android:name="com.example.urbanin.auth.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" />
