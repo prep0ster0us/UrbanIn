@@ -9,7 +9,20 @@
         android:id="@+id/searchFragment"
         android:name="com.example.urbanin.tenant.search.SearchFragment"
         android:label="Search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/navigate_tenant_search_to_filter"
+            app:destination="@id/searchFilterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFilterFragment"
+        android:name="com.example.urbanin.tenant.search.SearchFilterFragment"
+        android:label="fragment_search_filter"
+        tools:layout="@layout/fragment_search_filter">
+        <action
+            android:id="@+id/navigate_tenant_filter_to_search"
+            app:destination="@id/searchFragment" />
+    </fragment>
     <fragment
         android:id="@+id/savedFragment"
         android:name="com.example.urbanin.tenant.saved.SavedFragment"

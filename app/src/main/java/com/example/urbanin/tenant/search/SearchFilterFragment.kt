@@ -40,7 +40,7 @@ class SearchFilterFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnFilterBack.setOnClickListener {
-            requireActivity().findNavController(R.id.fragmentContainerView).navigate(SearchFilterFragmentDirections.actionSearchFilterFragmentToSearchFragment())
+            findNavController().navigate(SearchFilterFragmentDirections.navigateTenantFilterToSearch())
         }
     }
 }
