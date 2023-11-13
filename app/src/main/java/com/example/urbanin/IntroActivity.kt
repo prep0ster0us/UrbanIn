@@ -23,6 +23,10 @@ class IntroActivity : AppCompatActivity() {
         if (!prefManager.isFirstRun()) {
             val intent = Intent(this, ActivitySelection::class.java)
             startActivity(intent)
+            this.overridePendingTransition(
+                R.anim.slide_in_left,
+                R.anim.slide_out_left
+            );
         }
     }
 }
