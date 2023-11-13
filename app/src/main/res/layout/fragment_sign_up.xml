@@ -50,7 +50,7 @@
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/signUpViewGoogle"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,86 +61,199 @@
             android:id="@+id/signUpViewDivider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/signUpViewGoogle" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signUpViewEmail"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/signUpEmailLayout"
+            style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
             android:layout_width="@dimen/sign_up_text_field_width"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/sign_up_text_field_vertical_margin"
-            android:fontFamily="@font/gotham_book"
+            android:layout_marginVertical="16dp"
             android:hint="Enter your email address."
-            android:inputType="textEmailAddress"
-            app:layout_constraintBottom_toTopOf="@id/signUpViewFname"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@drawable/ic_error_outline"
+            app:layout_constraintBottom_toTopOf="@id/signUpFnameLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/signUpViewDivider" />
+            app:layout_constraintTop_toBottomOf="@id/signUpViewDivider">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signUpViewFname"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/signUpViewEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_book"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/signUpFnameLayout"
+            style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
             android:layout_width="@dimen/sign_up_text_field_width"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/sign_up_text_field_vertical_margin"
-            android:fontFamily="@font/gotham_book"
+            android:layout_marginVertical="16dp"
             android:hint="Enter your first name."
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toTopOf="@id/signUpViewLname"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@drawable/ic_error_outline"
+            app:layout_constraintBottom_toTopOf="@id/signUpLnameLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/signUpViewEmail" />
+            app:layout_constraintTop_toBottomOf="@id/signUpEmailLayout">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signUpViewLname"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/signUpViewFname"
+                android:layout_width="@dimen/sign_up_text_field_width"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_book"
+                android:inputType="textCapWords" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/signUpLnameLayout"
+            style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
             android:layout_width="@dimen/sign_up_text_field_width"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/sign_up_text_field_vertical_margin"
-            android:fontFamily="@font/gotham_book"
+            android:layout_marginVertical="16dp"
             android:hint="Enter your last name."
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toTopOf="@id/signUpViewPwd"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@drawable/ic_error_outline"
+            app:layout_constraintBottom_toTopOf="@id/signUpPwdLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/signUpViewFname" />
+            app:layout_constraintTop_toBottomOf="@id/signUpFnameLayout">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signUpViewPwd"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/signUpViewLname"
+                android:layout_width="@dimen/sign_up_text_field_width"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_book"
+                android:inputType="textCapWords" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/signUpPwdLayout"
+            style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
             android:layout_width="@dimen/sign_up_text_field_width"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/sign_up_text_field_vertical_margin"
-            android:fontFamily="@font/gotham_book"
+            android:layout_marginVertical="16dp"
             android:hint="Create a password."
-            android:inputType="textVisiblePassword"
-            app:layout_constraintBottom_toTopOf="@id/signUpViewConfirmPwd"
+            app:endIconMode="password_toggle"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@drawable/ic_error_outline"
+            app:layout_constraintBottom_toTopOf="@id/signUpConfirmPwdLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/signUpViewLname" />
+            app:layout_constraintTop_toBottomOf="@id/signUpLnameLayout">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signUpViewConfirmPwd"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/signUpViewPwd"
+                android:layout_width="@dimen/sign_up_text_field_width"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_book"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/signUpConfirmPwdLayout"
+            style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
             android:layout_width="@dimen/sign_up_text_field_width"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/sign_up_text_field_vertical_margin"
-            android:fontFamily="@font/gotham_book"
+            android:layout_marginVertical="16dp"
             android:hint="Confirm your password."
-            android:inputType="textVisiblePassword"
-            app:layout_constraintBottom_toTopOf="@id/signUpViewSumbitBtn"
+            app:endIconMode="password_toggle"
+            app:errorEnabled="true"
+            app:layout_constraintBottom_toTopOf="@id/signUpPhoneLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/signUpViewPwd" />
+            app:layout_constraintTop_toBottomOf="@id/signUpConfirmPwdLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/signUpViewConfirmPwd"
+                android:layout_width="@dimen/sign_up_text_field_width"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_book"
+                android:inputType="textVisiblePassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--        TODO: <ritwik> check for username authentication-->
+        <!--<com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/signUpUserNameLayout"
+            style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
+            android:layout_width="@dimen/sign_up_text_field_width"
+            android:layout_height="wrap_content"
+            android:hint="Enter a username."
+            app:errorEnabled="true"
+            app:errorIconDrawable="@drawable/ic_error_outline"
+            app:layout_constraintBottom_toTopOf="@id/signUpPhoneLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signUpConfirmPwdLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/signUpViewUsername"
+                android:layout_width="@dimen/sign_up_text_field_width"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_book"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>-->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/signUpPhoneLayout"
+            style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
+            android:layout_width="@dimen/sign_up_text_field_width"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            android:hint="Enter contact information."
+            app:errorEnabled="true"
+            app:errorIconDrawable="@drawable/ic_error_outline"
+            app:layout_constraintBottom_toTopOf="@id/signUpViewTnC"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signUpConfirmPwdLayout"
+            app:prefixText="+1">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/signUpViewPhone"
+                android:layout_width="@dimen/sign_up_text_field_width"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_book"
+                android:inputType="phone" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/signUpViewTnC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:fontFamily="@font/gotham_book"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="@string/sign_up_terms_conditions"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toTopOf="@id/signUpViewSubmitBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/signUpPhoneLayout" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/signUpViewSumbitBtn"
+            android:id="@+id/signUpViewSubmitBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="100dp"
             android:fontFamily="@font/gotham_regular"
             android:text="Create an account"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/signUpViewConfirmPwd" />
+            app:layout_constraintTop_toBottomOf="@id/signUpPhoneLayout" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

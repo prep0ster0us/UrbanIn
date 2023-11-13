@@ -7,4 +7,5 @@
     <string name="searchListingMode">List</string>
     <string name="edit_listing">\n</string>
     <string name="delete_listing" />
+    <string name="sign_up_terms_conditions">By continuing, I agree to UrbanIn\'s <font color='#01C6DB'><u>Terms &amp; Conditions</u></font></string>
 </resources>

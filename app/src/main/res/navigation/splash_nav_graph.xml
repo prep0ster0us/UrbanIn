@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/splash_launch_nav.xml"
+    app:startDestination="@id/slideHandlerFragment">
+
+    <fragment
+        android:id="@+id/slideHandlerFragment"
+        android:name="com.example.urbanin.splash.SlideHandlerFragment"
+        android:label="fragment_slide_handler"
+        tools:layout="@layout/fragment_slide_handler" />
+</navigation>

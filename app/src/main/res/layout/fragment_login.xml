@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_blue_A200"
+    android:background="@color/default_background"
     tools:context=".auth.LoginFragment">
 
     <ImageView
@@ -13,36 +13,52 @@
         android:layout_height="wrap_content"
         android:contentDescription="appLogo"
         android:src="@drawable/baseline_listing_search_24"
-        app:layout_constraintBottom_toTopOf="@id/loginViewUsnField"
+        app:layout_constraintBottom_toTopOf="@id/loginUsnLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/loginViewUsnField"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/loginUsnLayout"
+        style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/gotham_medium"
-        android:hint="Enter your username"
-        android:inputType="text"
-        android:paddingHorizontal="12dp"
-        app:layout_constraintBottom_toTopOf="@id/loginViewPwdField"
+        android:hint="Email Address"
+        app:layout_constraintBottom_toTopOf="@id/loginPwdLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginViewAppLogo" />
+        app:layout_constraintTop_toBottomOf="@id/loginViewAppLogo">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/loginViewPwdField"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/loginViewUsnField"
+            android:layout_width="@dimen/sign_in_text_field_width"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gotham_medium"
+            android:inputType="text"
+            android:textColor="@color/default_text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/loginPwdLayout"
+        style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/gotham_medium"
-        android:hint="Enter your Password"
-        android:inputType="textPassword"
-        android:paddingHorizontal="12dp"
+        android:hint="Password"
+        app:endIconMode="password_toggle"
         app:layout_constraintBottom_toTopOf="@id/loginViewSubmitBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginViewUsnField" />
+        app:layout_constraintTop_toBottomOf="@id/loginUsnLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/loginViewPwdField"
+            android:layout_width="@dimen/sign_in_text_field_width"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gotham_medium"
+            android:inputType="textPassword"
+            android:textColor="@color/default_text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/loginViewSubmitBtn"
@@ -51,32 +67,35 @@
         android:fontFamily="@font/gotham_regular"
         android:text="Log In"
         android:textColor="#FFFFFFFF"
+        android:textSize="24sp"
         android:tooltipText="Sign In"
         app:layout_constraintBottom_toTopOf="@id/loginViewForgotPwd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginViewPwdField" />
+        app:layout_constraintTop_toBottomOf="@id/loginPwdLayout" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/loginViewForgotPwd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gotham_medium"
+        android:padding="16dp"
         android:paddingHorizontal="24dp"
-        android:paddingTop="16dp"
         android:text="Forgot your password?"
         android:textColor="@color/material_dynamic_primary60"
         android:textStyle="italic"
         app:layout_constraintBottom_toTopOf="@id/loginViewSignUp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/loginViewSubmitBtn" />
 
     <TextView
         android:id="@+id/loginViewSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/gotham_medium"
+        android:fontFamily="@font/gotham_regular"
         android:text="Don't have an account? Sign up"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -7,6 +7,10 @@
     <color name="light_blue_A200">#FF40C4FF</color>
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
+
+<!--    light/dark mode colors-->
+    <color name="default_text">#FF000000</color>
+    <color name="default_background">#FFFFFFFF</color>
 <!--    background colors for splash screens-->
     <color name="splash_screen_background_dark">#EE7B1FB2</color>
     <color name="splash_screen_background_light">#EEE1BEE7</color>

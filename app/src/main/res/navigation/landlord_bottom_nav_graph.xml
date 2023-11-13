@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_navbar" >
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.urbanin.auth.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/navigate_landlord_login_to_sign_up"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/navigate_landlord_login_success_to_search"
+            app:destination="@id/landlordSearchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.urbanin.auth.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" />
+    <fragment
+        android:id="@+id/landlordSearchFragment"
+        android:name="com.example.urbanin.landlord.LandlordFragment"
+        android:label="fragment_landlord"
+        tools:layout="@layout/fragment_landlord" />
+    <fragment
+        android:id="@+id/landlordMessageFragment"
+        android:name="com.example.urbanin.landlord.LandlordMessageFragment"
+        android:label="LandlordMessageFragment" />
+    <fragment
+        android:id="@+id/landlordAccountFragment"
+        android:name="com.example.urbanin.landlord.LandlordAccountFragment"
+        android:label="LandlordAccountFragment" />
+
+</navigation>

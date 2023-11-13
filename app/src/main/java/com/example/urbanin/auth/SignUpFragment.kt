@@ -1,24 +1,186 @@
 package com.example.urbanin.auth
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.databinding.FragmentSignUpBinding
+import com.example.urbanin.tenant.search.ListingData
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SignUpFragment : Fragment() {
 
-    private var _binding: FragmentSignUpBinding? = null
-    private val binding get() = _binding!!
+//    private var _binding: FragmentSignUpBinding? = null
+//    private val binding get() = _binding!!
+
+    private lateinit var binding: FragmentSignUpBinding
+
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
+    private var signUpFlag = true
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = FragmentSignUpBinding.inflate(layoutInflater)
+
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+
+        val fieldMap = hashMapOf<String, Pair<TextInputLayout, TextInputEditText>>(
+            "email" to Pair(
+                binding.signUpEmailLayout,
+                binding.signUpViewEmail
+            ),
+            "fname" to Pair(
+                binding.signUpFnameLayout,
+                binding.signUpViewFname
+            ),
+            "lname" to Pair(
+                binding.signUpLnameLayout,
+                binding.signUpViewLname
+            ),
+            "pwd" to Pair(
+                binding.signUpPwdLayout,
+                binding.signUpViewPwd
+            ),
+            "confirmPwd" to Pair(
+                binding.signUpConfirmPwdLayout,
+                binding.signUpViewConfirmPwd
+            ),
+            "phone" to Pair(
+                binding.signUpPhoneLayout,
+                binding.signUpViewPhone
+            )
+        )
+
+        fieldMap["pwd"]!!.second.doOnTextChanged { _, _, _, _ ->
+            if (fieldMap["pwd"]!!.second.text!!.isNotEmpty()) {
+                if(fieldMap["pwd"]!!.second.text!!.length < 6) {
+                    fieldMap["pwd"]!!.first.error = "Min 6 characters"
+                }
+                    // TODO: add condition for atleast one number and one capital letter
+//                else if (!fieldMap["pwd"]!!.second.text!!.contains("\\d+")) {
+//                    fieldMap["pwd"]!!.first.error = "Must contain atleast 1 numeric character"
+//                }
+                else {
+                    fieldMap["pwd"]!!.first.error = null
+                }
+
+                if (fieldMap["confirmPwd"]!!.second.text!!.isNotEmpty()) {
+                    if (fieldMap["pwd"]!!.second.text.toString() != fieldMap["confirmPwd"]!!.second.text.toString()) {
+                        fieldMap["confirmPwd"]!!.first.error = "Passwords do not match"
+                    } else {
+                        fieldMap["confirmPwd"]!!.first.error = null
+                    }
+                }
+            }
+        }
+
+        fieldMap["confirmPwd"]!!.second.doOnTextChanged { _, _, _, _ ->
+            if (fieldMap["confirmPwd"]!!.second.text!!.isNotEmpty()) {
+                if (fieldMap["pwd"]!!.second.text.toString() != fieldMap["confirmPwd"]!!.second.text.toString()) {
+                    fieldMap["confirmPwd"]!!.first.error = "Passwords do not match"
+                } else {
+                    fieldMap["confirmPwd"]!!.first.error = null
+                }
+            }
+        }
+
+        binding.signUpViewSubmitBtn.setOnClickListener {
+            // TODO: check if important fields are empty
+            signUpFlag = true
+            checkIfEmpty(fieldMap["email"])
+            checkIfEmpty(fieldMap["fname"])
+            checkIfEmpty(fieldMap["lname"])
+            checkIfEmpty(fieldMap["pwd"])
+            checkIfEmpty(fieldMap["confirmPwd"])
+
+            checkIfMatch(fieldMap["pwd"], fieldMap["confirmPwd"])
+
+            // Firebase Authentication - SIGN UP
+            if (signUpFlag) {
+                auth.createUserWithEmailAndPassword(
+                    fieldMap["email"]!!.second.text.toString(),
+                    fieldMap["pwd"]!!.second.text.toString()
+                ).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // Add information to database, and sign in the user
+                        Log.d(TAG, "Sign Up success!")
+                        val user = auth.currentUser
+
+                        // save user id to "User" collection in database
+                        val userDetails = hashMapOf(
+                            "First Name" to fieldMap["fname"]!!.second.text.toString(),
+                            "Last Name" to fieldMap["lname"]!!.second.text.toString(),
+                            "Email" to fieldMap["email"]!!.second.text.toString(),
+                            "Phone" to fieldMap["phone"]!!.second.text.toString(),
+                            "Listings" to arrayListOf<ListingData>()
+                        )
+                        Log.d(TAG, userDetails.toString())
+                        db.collection("Users")
+                            .document(user!!.uid)
+                            .set(userDetails)
+                            .addOnSuccessListener {
+                                Log.d(
+                                    TAG,
+                                    "User details saved to database: ${fieldMap["fname"]!!.second.text}"
+                                )
+                            }
+                            .addOnFailureListener {
+                                Log.d(
+                                    TAG,
+                                    "Add to database failed! : ${fieldMap["fname"]!!.second.text} -> $it"
+                                )
+                            }
+                        // TODO: update UI and navigate to next page/show dialog
+
+                    } else {
+                        // if any error while signing up, display error in dialog
+                        Log.w(TAG, "Sign up ERROR ", task.exception)
+                        // TODO: show dialog and request to try again
+                    }
+                }
+            }
+
+        }
+    }
+
+
+    private fun checkIfEmpty(inputView: Pair<TextInputLayout, TextInputEditText>?) {
+        if (inputView!!.second.text!!.isEmpty()) {
+            inputView.first.error = "Required!"
+            signUpFlag = false
+        } else {
+            inputView.first.error = null
+        }
+    }
+
+    private fun checkIfMatch(
+        setPwd: Pair<TextInputLayout, TextInputEditText>?,
+        confirmPwd: Pair<TextInputLayout, TextInputEditText>?
+    ) {
+        if (setPwd!!.second.text!! != confirmPwd!!.second.text!!) {
+            // TODO: show dialog if passwords don't match on submit
+            confirmPwd.first.error = "Password does not match"
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSignUpBinding.inflate(inflater, container, false)
+//        _binding = FragmentSignUpBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -44,8 +206,8 @@ class SignUpFragment : Fragment() {
         // TODO: Update UI accordingly
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
 }

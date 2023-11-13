@@ -40,8 +40,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-
-
+    sourceSets {
+        getByName("main").java.srcDirs("build/generated/source/navigation-args")
+    }
 
 }
 
@@ -79,6 +80,7 @@ dependencies {
     // Firebase Firestore
     implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
     implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-auth")
 
 
 }
