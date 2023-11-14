@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -25,6 +27,7 @@ class LoginFragment : Fragment() {
     private lateinit var db: FirebaseFirestore
     private var isLoggedIn: Boolean = false
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -43,8 +46,15 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val forgotPasswordButton = view.findViewById<TextView>(R.id.loginViewForgotPwd)
+        forgotPasswordButton.setOnClickListener {
+            findNavController().navigate(R.id.navigate_landlord_login_to_forgot_pwd)
+        }
+
 
         binding.loginViewSubmitBtn.setOnClickListener {
             if (checkIfUserExists()) {
@@ -85,6 +95,8 @@ class LoginFragment : Fragment() {
             }
         }
 
+
+
         binding.loginViewSignUp.setOnClickListener {
             findNavController().navigate(LoginFragmentDirections.navigateLandlordLoginToSignUp())
 //                requireActivity().findNavController(R.id.landlordFragmentContainerView).navigate(R.id.navigate_landlord_login_to_sign_up)
@@ -94,6 +106,8 @@ class LoginFragment : Fragment() {
 //                navController.navigate(R.id.navigate_login_to_sign_up)
         }
     }
+
+
 
     private fun checkIfUserExists(): Boolean {
         var isRegistered = false

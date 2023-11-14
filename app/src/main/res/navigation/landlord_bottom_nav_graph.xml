@@ -10,6 +10,9 @@
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
+            android:id="@+id/navigate_landlord_login_to_forgot_pwd"
+            app:destination="@id/forgotPwdFragment" />
+        <action
             android:id="@+id/navigate_landlord_login_to_sign_up"
             app:destination="@id/signUpFragment" />
         <action
@@ -34,5 +37,9 @@
         android:id="@+id/landlordAccountFragment"
         android:name="com.example.urbanin.landlord.LandlordAccountFragment"
         android:label="LandlordAccountFragment" />
+    <fragment
+        android:id="@+id/forgotPwdFragment"
+        android:name="com.example.urbanin.auth.ForgotPwdFragment"
+        android:label="ForgotPasswordFragment" />
 
 </navigation>
