@@ -75,14 +75,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/gotham_book"
-            android:justificationMode="inter_word"
             android:hint="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor leo a diam sollicitudin tempor id eu nisl nunc. Tellus integer feugiat scelerisque varius morbi."
+            android:justificationMode="inter_word"
             android:paddingHorizontal="18dp"
             android:paddingBottom="24dp"
             android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/detailedListingAmenities"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detailedListingDescriptionHeader"
-            app:layout_constraintBottom_toTopOf="@id/detailedListingAmenities"/>
+            app:layout_constraintTop_toBottomOf="@id/detailedListingDescriptionHeader" />
 
         <TextView
             android:id="@+id/detailedListingAmenitiesTitle"
@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/gotham_regular"
             android:hint="Amenities"
-            android:padding="12dp"
+            android:paddingHorizontal="12dp"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/detailedListingDescription" />
@@ -99,14 +99,15 @@
             android:id="@+id/detailedListingAmenities"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:horizontalSpacing="0dp"
+            android:numColumns="2"
+            android:padding="12dp"
+            android:verticalSpacing="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/detailedListingAmenitiesTitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:numColumns="2"
-            tools:listitem="@layout/amenities_card"
-            android:padding="12dp"
-            android:horizontalSpacing="0dp"
-            android:verticalSpacing="0dp" />
+            tools:listitem="@layout/amenities_card" />
+
 
 
 

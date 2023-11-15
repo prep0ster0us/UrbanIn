@@ -10,6 +10,7 @@
 
 <!--    light/dark mode colors-->
     <color name="default_text">#FF000000</color>
+    <color name="default_icon">#FF000000</color>
     <color name="default_background">#FFFFFFFF</color>
 <!--    background colors for splash screens-->
     <color name="splash_screen_background_dark">#EE7B1FB2</color>

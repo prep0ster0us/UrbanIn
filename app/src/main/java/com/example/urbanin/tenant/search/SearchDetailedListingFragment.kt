@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.example.urbanin.R
 import com.example.urbanin.databinding.TenantSearchDetailedListingBinding
 import com.example.urbanin.tenant.search.Amenities.AmenitiesAdapter
 import com.example.urbanin.tenant.search.Amenities.AmenitiesCard
@@ -17,6 +18,8 @@ class SearchDetailedListingFragment: Fragment() {
 
     private lateinit var db: FirebaseFirestore
 
+    private lateinit var amenitiesList: Map<String, Boolean>
+
     private val args: SearchDetailedListingFragmentArgs by navArgs<SearchDetailedListingFragmentArgs>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,16 +29,23 @@ class SearchDetailedListingFragment: Fragment() {
 
         db = FirebaseFirestore.getInstance()
 
-
-
         // check which amenities are available and only include those in the card view
-        val amenitiesList: ArrayList<AmenitiesCard> = ArrayList()
-        val aList = hashMapOf<String, Pair<Int, Boolean>>()
-        for (amenity in aList) {
-            if (amenity.value.second) {
-                amenitiesList.add(
+        val amenitiesGrid: ArrayList<AmenitiesCard> = ArrayList()
+
+        // drawable resource id map for icons for each amenity
+        val amenitiesGridIcons = hashMapOf(
+            "In-Unit Laundry" to R.drawable.amenities_laundry_24,
+            "Security" to R.drawable.amenities_security_24,
+            "gym" to R.drawable.amenities_gym_24,
+            "pool" to R.drawable.amenities_pets_24
+        )
+
+        val amenitiesList = args.listing.amenities
+        for (amenity in amenitiesList) {
+            if (amenity.value) {
+                amenitiesGrid.add(
                     AmenitiesCard(
-                        amenity.value.first,
+                        amenitiesGridIcons[amenity.key]!!,
                         amenity.key
                     )
                 )
@@ -45,7 +55,7 @@ class SearchDetailedListingFragment: Fragment() {
         val grid = binding.detailedListingAmenities
         grid.adapter = AmenitiesAdapter(
             requireContext(),
-            amenitiesList
+            amenitiesGrid
         )
     }
 
@@ -59,6 +69,7 @@ class SearchDetailedListingFragment: Fragment() {
             val listingParcel = args.listing
             binding.detailedListingTitle.text = listingParcel.title
             binding.detailedListingDescription.text = listingParcel.description
+            amenitiesList = listingParcel.amenities
             // TODO: populate data for listing to respective view
 //            binding.detailedImageGallery.resources = listingParcel.img
 //            binding.detailedListingAmenities = listingParel.amenities
