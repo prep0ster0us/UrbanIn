@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottom_navbar" >
-
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.urbanin.auth.LoginFragment"
@@ -25,7 +24,11 @@
         android:id="@+id/landlordSearchFragment"
         android:name="com.example.urbanin.landlord.LandlordFragment"
         android:label="fragment_landlord"
-        tools:layout="@layout/fragment_landlord" />
+        tools:layout="@layout/fragment_landlord" >
+        <action
+            android:id="@+id/navigate_to_landlord_add_listing"
+            app:destination="@id/landlordAddListingFragment" />
+    </fragment>
     <fragment
         android:id="@+id/landlordMessageFragment"
         android:name="com.example.urbanin.landlord.LandlordMessageFragment"
@@ -34,5 +37,10 @@
         android:id="@+id/landlordAccountFragment"
         android:name="com.example.urbanin.landlord.LandlordAccountFragment"
         android:label="LandlordAccountFragment" />
+    <fragment
+        android:id="@+id/landlordAddListingFragment"
+        android:name="com.example.urbanin.landlord.LandlordAddListingFragment"
+        android:label="landlord_fragment_add_listing"
+        tools:layout="@layout/landlord_fragment_add_listing" />
 
 </navigation>

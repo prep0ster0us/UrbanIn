@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".landlord.LandlordAddListingFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/addListingTopLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/addListingPhotoLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/btnBackAddListing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:contentDescription="Back button"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp"
+                android:src="@drawable/arrow_back_24" />
+
+            <TextView
+                android:id="@+id/addListingHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@id/btnBackAddListing"
+                android:fontFamily="@font/gotham_regular"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:text="Add Listing"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <!-- TODO: show confirmation dialog box and redirect back to landlord search page (if ok); do nothing (if cancel)-->
+            <ImageButton
+                android:id="@+id/btnCloseAddListing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:contentDescription="Back button"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp"
+                android:src="@drawable/baseline_close_24" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/addListingPhotoLayout"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:background="@color/default_contrast_background"
+            app:layout_constraintBottom_toTopOf="@id/addListingNameLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addListingTopLayout">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/photoFromCamera"
+                android:layout_width="175dp"
+                android:layout_height="100dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/baseline_close_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/photoFromCamera"
+                android:layout_alignEnd="@id/photoFromCamera"
+                android:layout_alignParentStart="true"
+                android:fontFamily="@font/gotham_medium"
+                android:textColor="@color/default_text"
+                android:text="Take a photo"
+                android:textAlignment="center"
+                android:textSize="16sp" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/photoFromGallery"
+                android:layout_width="175dp"
+                android:layout_height="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/baseline_close_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/photoFromGallery"
+                android:layout_alignStart="@id/photoFromGallery"
+                android:layout_alignParentEnd="true"
+                android:fontFamily="@font/gotham_medium"
+                android:text="Select from Gallery"
+                android:textAlignment="center"
+                android:textColor="@color/default_text"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addListingNameLayout"
+            style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:hint="Name of Property"
+            app:layout_constraintBottom_toTopOf="@id/addListingAddressLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addListingPhotoLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addListingName"
+                android:layout_width="@dimen/add_listing_text_field_width"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_medium"
+                android:inputType="text"
+                android:textColor="@color/default_text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addListingAddressLayout"
+            style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:hint="Property Address"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addListingNameLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addListingAddress"
+                android:layout_width="@dimen/add_listing_text_field_width"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_medium"
+                android:inputType="text"
+                android:textColor="@color/default_text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addListingDescriptionLayout"
+            style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:hint="Property Description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addListingAddressLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addListingDescription"
+                android:layout_width="@dimen/add_listing_text_field_width"
+                android:layout_height="100dp"
+                android:fontFamily="@font/gotham_medium"
+                android:gravity="top"
+                android:inputType="text|textLongMessage|textMultiLine"
+                android:textColor="@color/default_text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RelativeLayout
+            android:id="@+id/addListingRoomBathLayout"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addListingDescriptionLayout">
+
+            <TextView
+                android:id="@+id/numRoomHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:fontFamily="@font/gotham_regular"
+                android:text="Number of Rooms"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/numBathHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:fontFamily="@font/gotham_regular"
+                android:text="Number of Baths"
+                android:textSize="18sp" />
+
+            <GridView
+                android:id="@+id/numRoomGrid"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_below="@id/numRoomHeader"
+                android:layout_alignEnd="@id/numRoomHeader"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="15dp"
+                android:numColumns="5" />
+
+            <GridView
+                android:id="@+id/numBathGrid"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_below="@id/numBathHeader"
+                android:layout_alignStart="@id/numBathHeader"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="15dp"
+                android:numColumns="5" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/addListingTypeLayout"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addListingRoomBathLayout">
+
+            <TextView
+                android:id="@+id/typeHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:fontFamily="@font/gotham_regular"
+                android:text="Property Type"
+                android:textSize="18sp" />
+
+            <GridView
+                android:id="@+id/typeGrid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/typeHeader"
+                android:layout_marginTop="15dp"
+                android:numColumns="3" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/addListingAmenitiesLayout"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addListingTypeLayout">
+
+            <TextView
+                android:id="@+id/amenitiesHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:fontFamily="@font/gotham_regular"
+                android:text="Rental Amenities"
+                android:textSize="18sp" />
+
+            <!--            TODO: see if better with grid view (1 column) or recycler list-->
+            <GridView
+                android:id="@+id/amenitiesGrid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/amenitiesHeader"
+                android:layout_marginTop="15dp"
+                android:numColumns="1" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/addListingUtilitiesLayout"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addListingAmenitiesLayout">
+
+            <TextView
+                android:id="@+id/utilitiesHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:fontFamily="@font/gotham_regular"
+                android:text="Utilities"
+                android:textSize="18sp" />
+
+            <!--            TODO: see if better with grid view (1 column) or recycler list-->
+            <GridView
+                android:id="@+id/utilitiesGrid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/utilitiesHeader"
+                android:layout_marginTop="15dp"
+                android:numColumns="1" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/addListingFurnishedLayout"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addListingUtilitiesLayout">
+
+            <TextView
+                android:id="@+id/furnishedHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:fontFamily="@font/gotham_regular"
+                android:text="Furnished"
+                android:textSize="18sp" />
+
+            <GridView
+                android:id="@+id/furnishedGrid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/furnishedHeader"
+                android:layout_marginTop="15dp"
+                android:numColumns="3" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/addListingSubmitLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:background="@color/default_contrast_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addListingFurnishedLayout">
+
+            <Button
+                android:id="@+id/btnSubmitAddListing"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="12dp"
+                android:backgroundTint="@color/primary_background"
+                android:fontFamily="@font/gotham_regular"
+                android:paddingVertical="12dp"
+                android:text="Add Listing"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
+
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

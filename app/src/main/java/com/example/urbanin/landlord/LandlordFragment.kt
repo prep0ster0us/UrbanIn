@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.urbanin.MainActivity.Companion.TAG
@@ -32,6 +33,15 @@ class LandlordFragment : Fragment(), ListingItemListener {
     private var userListings: ArrayList<ListingData> = arrayListOf()
     private var listings = ArrayList<ListingCard>()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding.addListingFAB.setOnClickListener {
+            val action = LandlordFragmentDirections.navigateToLandlordAddListing()
+            findNavController().navigate(action)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,8 +59,8 @@ class LandlordFragment : Fragment(), ListingItemListener {
 
     private fun setupRecyclerView() {
         adapter = LandlordListingAdapter(listings, this)
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = adapter
+        binding.landlordListingRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.landlordListingRecyclerView.adapter = adapter
     }
 
     private fun loadData() {
