@@ -22,5 +22,16 @@
         <action
             android:id="@+id/action_searchListViewFragment_to_searchMapViewFragment"
             app:destination="@id/searchMapViewFragment" />
+        <action
+            android:id="@+id/navigate_to_detailed_listing_fragment"
+            app:destination="@id/searchDetailedListingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchDetailedListingFragment"
+        android:name="com.example.urbanin.tenant.search.SearchDetailedListingFragment"
+        android:label="SearchDetailedListingFragment" >
+        <argument
+            android:name="listing"
+            app:argType="com.example.urbanin.tenant.search.ListingData" />
     </fragment>
 </navigation>

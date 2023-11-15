@@ -1,15 +1,20 @@
 package com.example.urbanin.tenant.search
 
+import android.os.Parcel
+import android.os.Parcelable
 import android.widget.ImageView
 import com.google.firebase.firestore.GeoPoint
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class ListingData(
     var listingID: String = "",
     var userID: String = "",
     var type: String = "",
     var title: String = "",
     var description: String = "",
-    var location: GeoPoint,
+    var latitude: Double = 0.00,
+    var longitude: Double = 0.00,
     var address: String = "",
     var price: Long = 0,
     var img: String = "",       // TODO: change to image type
@@ -18,9 +23,9 @@ data class ListingData(
     var numRooms: Long = 0,
     var numBaths: Long = 0,
     var petsAllowed: String = "",
-    var utilities: Map<String, Boolean>,
-    var amenities: Map<String, Boolean>
-)
+    var utilities: Map<String, Boolean> = hashMapOf(),
+    var amenities: Map<String, Boolean> = hashMapOf()
+) : Parcelable
 
 var listingCollection: ArrayList<ListingData> = arrayListOf()
 //    arrayListOf(      // TODO: Only for debugging, need to populate using data stored in firestore

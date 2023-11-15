@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavArgs
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.urbanin.MainActivity.Companion.TAG
@@ -15,7 +16,7 @@ import com.example.urbanin.databinding.FragmentSearchListViewBinding
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 
-class SearchListViewFragment : Fragment() {
+class SearchListViewFragment : Fragment(), ListingAdapter.Callbacks {
     private lateinit var binding: FragmentSearchListViewBinding
 
     private lateinit var listingRecyclerView: RecyclerView
@@ -30,23 +31,16 @@ class SearchListViewFragment : Fragment() {
         binding = FragmentSearchListViewBinding.inflate(layoutInflater)
 
         // Recycler View
-        val listingRecyclerList: ArrayList<ListingCard> = ArrayList()
+        val listingRecyclerList: ArrayList<ListingData> = ArrayList()
         for (listing in listingCollection) {
-            listingRecyclerList.add(
-                ListingCard(
-                    listing.img,
-                    listing.title,
-                    listing.description,
-                    listing.address
-                )
-            )
+            listingRecyclerList.add(listing)
         }
 
         // Moving data into recycler view
         listingRecyclerView = binding.searchListingListView
         listingRecyclerView.setHasFixedSize(true)
         listingRecyclerView.layoutManager = LinearLayoutManager(context)
-        listingRecyclerView.adapter = ListingAdapter(listingRecyclerList, this)
+        listingRecyclerView.adapter = ListingAdapter(listingRecyclerList, context,this)
 
     }
 
@@ -56,5 +50,10 @@ class SearchListViewFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    override fun handleListingData(data: ListingData) {
+        val action = SearchListViewFragmentDirections.navigateToDetailedListingFragment(data)
+        findNavController().navigate(action)
     }
 }

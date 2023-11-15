@@ -169,6 +169,10 @@ class SearchFragment : Fragment() {
                     }
                     Log.d(TAG, "${doc.data["utilities"]}")
                     Log.d(TAG, "${doc.data["amenities"]}")
+                    Log.d(TAG, "Location = ${doc.data["location"]}")
+                    val location: GeoPoint = doc.data["location"] as GeoPoint
+                    Log.d(TAG, location.latitude.toString())
+                    Log.d(TAG, location.longitude.toString())
                     if (!checkExisting) {
                         listingCollection.add(
                             ListingData(
@@ -177,7 +181,8 @@ class SearchFragment : Fragment() {
                                 doc.data["type"] as String,
                                 doc.data["title"] as String,
                                 doc.data["description"] as String,
-                                doc.data["location"] as GeoPoint,
+                                (doc.data["location"] as GeoPoint).latitude,
+                                (doc.data["location"] as GeoPoint).longitude,
                                 doc.data["address"] as String,
                                 doc.data["price"] as Long,
                                 doc.data["img"] as String,

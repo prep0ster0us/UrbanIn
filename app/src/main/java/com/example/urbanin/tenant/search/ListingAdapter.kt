@@ -1,17 +1,22 @@
 package com.example.urbanin.tenant.search
 
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
 
 class ListingAdapter(
-    private val listingList: ArrayList<ListingCard>,
-    private val context: SearchListViewFragment,
+    private val listingList: ArrayList<ListingData>,
+    private val context: Context?,
+    private val handler: Callbacks
 ) : RecyclerView.Adapter<ListingAdapter.listingViewHolder>() {
 
     private lateinit var contextViewGroup: ViewGroup
@@ -30,7 +35,8 @@ class ListingAdapter(
     }
 
     override fun onBindViewHolder(holder: listingViewHolder, position: Int) {
-        val (imgResource, title, description, location) = listingList[position]
+//        val (imgResource, title, description, location) = listingList[position]
+        val (imgResource, title, description, location) = listOf(listingList[position].img, listingList[position].title, listingList[position].description, listingList[position].address)
         // TODO: pass ImageView in "imgResource" var, which can be set for each card view (or each listing)
 //        holder.listingImageView.setImageResource(imgResource)
         holder.listingTitleView.text = title
@@ -44,6 +50,10 @@ class ListingAdapter(
                 "Clicked on item num-$position",
                 Toast.LENGTH_SHORT
             ).show()
+            Log.d(TAG, "Position: $position -> ${listingList[position]}")
+            // navigate (without passing arguments)
+//            Navigation.createNavigateOnClickListener(R.id.navigate_to_detailed_listing_fragment).onClick(holder.listingImageView)
+            handler.handleListingData(listingList[position])
         }
     }
 
@@ -52,5 +62,11 @@ class ListingAdapter(
         val listingTitleView: TextView = itemView.findViewById(R.id.listingItemPrice)
         val listingDescriptionView: TextView = itemView.findViewById(R.id.listingItemDescription)
         val listingAddressView: TextView = itemView.findViewById(R.id.listingItemAddress)
+    }
+    
+    interface  Callbacks {
+        fun handleListingData(data: ListingData) {
+
+        }
     }
 }
