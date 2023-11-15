@@ -1,5 +1,7 @@
 package com.example.urbanin.auth
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,202 +14,206 @@ import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.databinding.FragmentSignUpBinding
 import com.example.urbanin.tenant.search.ListingData
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import androidx.appcompat.app.AlertDialog
+import androidx.navigation.fragment.findNavController
+import com.example.urbanin.R
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 
 class SignUpFragment : Fragment() {
 
-//    private var _binding: FragmentSignUpBinding? = null
-//    private val binding get() = _binding!!
-
     private lateinit var binding: FragmentSignUpBinding
-
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+    private lateinit var googleSignInClient: GoogleSignInClient
     private var signUpFlag = true
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentSignUpBinding.inflate(inflater, container, false)
 
-        binding = FragmentSignUpBinding.inflate(layoutInflater)
-
+        // Initialize FirebaseAuth
         auth = FirebaseAuth.getInstance()
+
+        // Initialize FirebaseFirestore
         db = FirebaseFirestore.getInstance()
 
-        val fieldMap = hashMapOf<String, Pair<TextInputLayout, TextInputEditText>>(
-            "email" to Pair(
-                binding.signUpEmailLayout,
-                binding.signUpViewEmail
-            ),
-            "fname" to Pair(
-                binding.signUpFnameLayout,
-                binding.signUpViewFname
-            ),
-            "lname" to Pair(
-                binding.signUpLnameLayout,
-                binding.signUpViewLname
-            ),
-            "pwd" to Pair(
-                binding.signUpPwdLayout,
-                binding.signUpViewPwd
-            ),
-            "confirmPwd" to Pair(
-                binding.signUpConfirmPwdLayout,
-                binding.signUpViewConfirmPwd
-            ),
-            "phone" to Pair(
-                binding.signUpPhoneLayout,
-                binding.signUpViewPhone
-            )
+        val fieldMap = hashMapOf(
+            "email" to Pair(binding.signUpEmailLayout, binding.signUpViewEmail),
+            "fname" to Pair(binding.signUpFnameLayout, binding.signUpViewFname),
+            "lname" to Pair(binding.signUpLnameLayout, binding.signUpViewLname),
+            "pwd" to Pair(binding.signUpPwdLayout, binding.signUpViewPwd),
+            "confirmPwd" to Pair(binding.signUpConfirmPwdLayout, binding.signUpViewConfirmPwd),
+            "phone" to Pair(binding.signUpPhoneLayout, binding.signUpViewPhone)
         )
 
-        fieldMap["pwd"]!!.second.doOnTextChanged { _, _, _, _ ->
-            if (fieldMap["pwd"]!!.second.text!!.isNotEmpty()) {
-                if(fieldMap["pwd"]!!.second.text!!.length < 6) {
-                    fieldMap["pwd"]!!.first.error = "Min 6 characters"
-                }
-                    // TODO: add condition for atleast one number and one capital letter
-//                else if (!fieldMap["pwd"]!!.second.text!!.contains("\\d+")) {
-//                    fieldMap["pwd"]!!.first.error = "Must contain atleast 1 numeric character"
-//                }
-                else {
-                    fieldMap["pwd"]!!.first.error = null
-                }
-
-                if (fieldMap["confirmPwd"]!!.second.text!!.isNotEmpty()) {
-                    if (fieldMap["pwd"]!!.second.text.toString() != fieldMap["confirmPwd"]!!.second.text.toString()) {
-                        fieldMap["confirmPwd"]!!.first.error = "Passwords do not match"
-                    } else {
-                        fieldMap["confirmPwd"]!!.first.error = null
-                    }
-                }
-            }
-        }
-
-        fieldMap["confirmPwd"]!!.second.doOnTextChanged { _, _, _, _ ->
-            if (fieldMap["confirmPwd"]!!.second.text!!.isNotEmpty()) {
-                if (fieldMap["pwd"]!!.second.text.toString() != fieldMap["confirmPwd"]!!.second.text.toString()) {
-                    fieldMap["confirmPwd"]!!.first.error = "Passwords do not match"
-                } else {
-                    fieldMap["confirmPwd"]!!.first.error = null
-                }
-            }
-        }
+        setUpPasswordValidation(fieldMap["pwd"]!!.first, fieldMap["pwd"]!!.second)
 
         binding.signUpViewSubmitBtn.setOnClickListener {
-            // TODO: check if important fields are empty
             signUpFlag = true
-            checkIfEmpty(fieldMap["email"])
-            checkIfEmpty(fieldMap["fname"])
-            checkIfEmpty(fieldMap["lname"])
-            checkIfEmpty(fieldMap["pwd"])
-            checkIfEmpty(fieldMap["confirmPwd"])
-
+            fieldMap.forEach { (_, value) -> checkIfEmpty(value) }
             checkIfMatch(fieldMap["pwd"], fieldMap["confirmPwd"])
 
-            // Firebase Authentication - SIGN UP
             if (signUpFlag) {
-                auth.createUserWithEmailAndPassword(
-                    fieldMap["email"]!!.second.text.toString(),
-                    fieldMap["pwd"]!!.second.text.toString()
-                ).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        // Add information to database, and sign in the user
-                        Log.d(TAG, "Sign Up success!")
-                        val user = auth.currentUser
-
-                        // save user id to "User" collection in database
-                        val userDetails = hashMapOf(
-                            "First Name" to fieldMap["fname"]!!.second.text.toString(),
-                            "Last Name" to fieldMap["lname"]!!.second.text.toString(),
-                            "Email" to fieldMap["email"]!!.second.text.toString(),
-                            "Phone" to fieldMap["phone"]!!.second.text.toString(),
-                            "Listings" to arrayListOf<ListingData>()
-                        )
-                        Log.d(TAG, userDetails.toString())
-                        db.collection("Users")
-                            .document(user!!.uid)
-                            .set(userDetails)
-                            .addOnSuccessListener {
-                                Log.d(
-                                    TAG,
-                                    "User details saved to database: ${fieldMap["fname"]!!.second.text}"
-                                )
-                            }
-                            .addOnFailureListener {
-                                Log.d(
-                                    TAG,
-                                    "Add to database failed! : ${fieldMap["fname"]!!.second.text} -> $it"
-                                )
-                            }
-                        // TODO: update UI and navigate to next page/show dialog
-
-                    } else {
-                        // if any error while signing up, display error in dialog
-                        Log.w(TAG, "Sign up ERROR ", task.exception)
-                        // TODO: show dialog and request to try again
-                    }
-                }
+                performFirebaseSignUp(fieldMap)
             }
-
         }
-    }
 
-
-    private fun checkIfEmpty(inputView: Pair<TextInputLayout, TextInputEditText>?) {
-        if (inputView!!.second.text!!.isEmpty()) {
-            inputView.first.error = "Required!"
-            signUpFlag = false
-        } else {
-            inputView.first.error = null
+        binding.signUpViewGoogle.setOnClickListener {
+            googleSignIn()
         }
-    }
 
-    private fun checkIfMatch(
-        setPwd: Pair<TextInputLayout, TextInputEditText>?,
-        confirmPwd: Pair<TextInputLayout, TextInputEditText>?
-    ) {
-        if (setPwd!!.second.text!! != confirmPwd!!.second.text!!) {
-            // TODO: show dialog if passwords don't match on submit
-            confirmPwd.first.error = "Password does not match"
+        binding.backToLoginButton.setOnClickListener {
+            findNavController().navigate(SignUpFragmentDirections.navigateSignUpToLandlordLogin())
         }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-//        _binding = FragmentSignUpBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // Configure sign-in to request the user's ID, email address, and basic profile.
+    private fun configureGoogleSignIn() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()
+        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+    }
 
-        binding.signUpViewGoogle.setOnClickListener {
-            // TODO: Implement Google Sign-In logic here
+    private fun googleSignIn() {
+        val signInIntent = googleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+    private fun setUpPasswordValidation(passwordLayout: TextInputLayout, passwordEditText: TextInputEditText) {
+        passwordEditText.doOnTextChanged { text, _, _, _ ->
+            if (text.isNullOrEmpty()) {
+                passwordLayout.error = "Password required"
+                signUpFlag = false
+            } else if (text.length < 6) {
+                passwordLayout.error = "Minimum 6 characters required"
+                signUpFlag = false
+            } else if (!text.matches(".*[A-Z].*".toRegex())) {
+                passwordLayout.error = "Must contain at least 1 uppercase letter"
+                signUpFlag = false
+            } else if (!text.matches(".*[0-9].*".toRegex())) {
+                passwordLayout.error = "Must contain at least 1 number"
+                signUpFlag = false
+            } else {
+                passwordLayout.error = null
+            }
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        // Check for existing Google Sign In account, if the user is already signed in
-        // the GoogleSignInAccount will be non-null.
-        val account = GoogleSignIn.getLastSignedInAccount(requireContext())
-        // TODO: Update UI accordingly
+    private fun performFirebaseSignUp(fieldMap: HashMap<String, Pair<TextInputLayout, TextInputEditText>>) {
+        auth.createUserWithEmailAndPassword(
+            fieldMap["email"]!!.second.text.toString(),
+            fieldMap["pwd"]!!.second.text.toString()
+        ).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                handleSuccessfulSignUp(fieldMap)
+            } else {
+                if (task.exception is FirebaseAuthUserCollisionException) {
+                    showUserCollisionDialog()
+                } else {
+                    showSignUpError(task.exception?.message)
+                }
+            }
+        }
     }
 
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        _binding = null
-//    }
+    private fun handleSuccessfulSignUp(fieldMap: HashMap<String, Pair<TextInputLayout, TextInputEditText>>) {
+        val user = auth.currentUser
+        val userDetails = hashMapOf(
+            "First Name" to fieldMap["fname"]!!.second.text.toString(),
+            "Last Name" to fieldMap["lname"]!!.second.text.toString(),
+            "Email" to fieldMap["email"]!!.second.text.toString(),
+            "Phone" to fieldMap["phone"]!!.second.text.toString(),
+            "Listings" to arrayListOf<ListingData>()
+        )
+        db.collection("Users").document(user!!.uid).set(userDetails)
+            .addOnSuccessListener {
+                showSuccessDialog()
+                clearInputFields(fieldMap)
+            }
+            .addOnFailureListener { e ->
+                showSignUpError(e.message)
+            }
+    }
+
+    private fun showSuccessDialog() {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle("Success")
+            setMessage("Signed Up successfully.")
+            setPositiveButton("OK", null)
+            setIcon(R.drawable.success)
+            show()
+        }
+    }
+
+    private fun clearInputFields(fieldMap: HashMap<String, Pair<TextInputLayout, TextInputEditText>>) {
+        fieldMap.values.forEach { it.second.text?.clear() }
+    }
+
+    private fun showUserCollisionDialog() {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle("Sign In Failed")
+            setMessage("User already exists")
+            setPositiveButton("OK", null)
+            setIcon(R.drawable.failure)
+            show()
+        }
+    }
+
+    private fun showSignUpError(errorMessage: String?) {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle("Sign Up Error")
+            setMessage(errorMessage ?: "An unknown error occurred")
+            setPositiveButton("OK", null)
+            show()
+        }
+    }
+
+    private fun checkIfEmpty(inputView: Pair<TextInputLayout, TextInputEditText>?) {
+        if (inputView?.second?.text.isNullOrEmpty()) {
+            inputView?.first?.error = "This field is required"
+            signUpFlag = false
+        } else {
+            inputView?.first?.error = null
+        }
+    }
+
+    private fun checkIfMatch(setPwd: Pair<TextInputLayout, TextInputEditText>?, confirmPwd: Pair<TextInputLayout, TextInputEditText>?) {
+        if (setPwd?.second?.text.toString() != confirmPwd?.second?.text.toString()) {
+            confirmPwd?.first?.error = "Passwords do not match"
+            signUpFlag = false
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN && resultCode == Activity.RESULT_OK) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(task)
+        }
+    }
+
+    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account = completedTask.getResult(ApiException::class.java)
+            // Successfully signed in
+            // TODO: Perform after sign-in logic here (e.g., store user info in Firebase)
+        } catch (e: ApiException) {
+            Log.w(TAG, "signInResult:failed code=" + e.statusCode)
+            // Handle sign-in failure
+        }
+    }
+
+    companion object {
+        private const val RC_SIGN_IN = 9001
+    }
 }
+
