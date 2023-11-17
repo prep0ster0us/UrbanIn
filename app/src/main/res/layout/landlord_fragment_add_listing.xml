@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".landlord.LandlordAddListingFragment">
+    android:fillViewport="true"
+    tools:context=".landlord.AddListing.LandlordAddListingFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -38,7 +39,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/btnBackAddListing"
-                android:fontFamily="@font/gotham_regular"
+                android:fontFamily="@font/gotham_medium"
                 android:gravity="center_vertical"
                 android:padding="8dp"
                 android:text="Add Listing"
@@ -86,9 +87,9 @@
                 android:layout_alignEnd="@id/photoFromCamera"
                 android:layout_alignParentStart="true"
                 android:fontFamily="@font/gotham_medium"
-                android:textColor="@color/default_text"
                 android:text="Take a photo"
                 android:textAlignment="center"
+                android:textColor="@color/default_text"
                 android:textSize="16sp" />
 
             <androidx.appcompat.widget.AppCompatImageButton
@@ -176,7 +177,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
-            android:id="@+id/addListingRoomBathLayout"
+            android:id="@+id/addListingRoomLayout"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
@@ -193,34 +194,161 @@
                 android:text="Number of Rooms"
                 android:textSize="18sp" />
 
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/numRoomList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/numRoomHeader"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="12dp"
+                app:singleSelection="true">
+
+                <Button
+                    android:id="@+id/roomStudio"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_book"
+                    android:minWidth="0dp"
+                    android:paddingHorizontal="18dp"
+                    android:text="Studio"
+                    app:cornerRadius="0dp" />
+
+                <Button
+                    android:id="@+id/room1"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_book"
+                    android:minWidth="0dp"
+                    android:paddingHorizontal="22dp"
+                    android:text="1" />
+
+                <Button
+                    android:id="@+id/room2"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_book"
+                    android:minWidth="0dp"
+                    android:paddingHorizontal="22dp"
+                    android:text="2" />
+
+                <Button
+                    android:id="@+id/room3"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_book"
+                    android:minWidth="0dp"
+                    android:paddingHorizontal="22dp"
+                    android:text="3" />
+
+                <Button
+                    android:id="@+id/room4"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_book"
+                    android:minWidth="0dp"
+                    android:paddingHorizontal="22dp"
+                    android:text="4" />
+
+                <Button
+                    android:id="@+id/room5"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_book"
+                    android:minWidth="0dp"
+                    android:paddingHorizontal="22dp"
+                    android:text="5"
+                    app:cornerRadius="0dp" />
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/addListingBathLayout"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addListingRoomLayout">
+
             <TextView
                 android:id="@+id/numBathHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
                 android:fontFamily="@font/gotham_regular"
-                android:text="Number of Baths"
+                android:text="Number of Bath"
                 android:textSize="18sp" />
 
-            <GridView
-                android:id="@+id/numRoomGrid"
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/numBathList"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_below="@id/numRoomHeader"
-                android:layout_alignEnd="@id/numRoomHeader"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="15dp"
-                android:numColumns="5" />
-
-            <GridView
-                android:id="@+id/numBathGrid"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/numBathHeader"
-                android:layout_alignStart="@id/numBathHeader"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="15dp"
-                android:numColumns="5" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="12dp"
+                app:singleSelection="true">
+
+                <Button
+                    android:id="@+id/bath1"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_book"
+                    android:minWidth="0dp"
+                    android:paddingHorizontal="28dp"
+                    android:text="1"
+                    app:cornerRadius="0dp" />
+
+                <Button
+                    android:id="@+id/bath1_5"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_book"
+                    android:minWidth="0dp"
+                    android:paddingHorizontal="32dp"
+                    android:text="1.5" />
+
+                <Button
+                    android:id="@+id/bath2"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_book"
+                    android:minWidth="0dp"
+                    android:paddingHorizontal="28dp"
+                    android:text="2" />
+
+                <Button
+                    android:id="@+id/bath3"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_book"
+                    android:minWidth="0dp"
+                    android:paddingHorizontal="28dp"
+                    android:text="3" />
+
+                <Button
+                    android:id="@+id/bath4"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_book"
+                    android:minWidth="0dp"
+                    android:paddingHorizontal="28dp"
+                    android:text="4"
+                    app:cornerRadius="0dp" />
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
 
         </RelativeLayout>
 
@@ -231,7 +359,7 @@
             android:layout_marginTop="25dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addListingRoomBathLayout">
+            app:layout_constraintTop_toBottomOf="@id/addListingBathLayout">
 
             <TextView
                 android:id="@+id/typeHeader"
@@ -270,14 +398,55 @@
                 android:text="Rental Amenities"
                 android:textSize="18sp" />
 
-            <!--            TODO: see if better with grid view (1 column) or recycler list-->
-            <GridView
-                android:id="@+id/amenitiesGrid"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/amenitiesList"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/amenitiesHeader"
-                android:layout_marginTop="15dp"
-                android:numColumns="1" />
+                android:layout_marginTop="12dp">
+
+                <include
+                    android:id="@+id/amen1"
+                    layout="@layout/checkbox_item_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/amen2"
+                    layout="@layout/checkbox_item_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/amen1" />
+
+                <include
+                    android:id="@+id/amen3"
+                    layout="@layout/checkbox_item_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/amen2" />
+
+                <include
+                    android:id="@+id/amen4"
+                    layout="@layout/checkbox_item_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/amen3" />
+
+                <include
+                    android:id="@+id/amen5"
+                    layout="@layout/checkbox_item_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/amen4" />
+
+                <include
+                    android:id="@+id/amen6"
+                    layout="@layout/checkbox_item_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/amen5" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
@@ -299,14 +468,48 @@
                 android:text="Utilities"
                 android:textSize="18sp" />
 
-            <!--            TODO: see if better with grid view (1 column) or recycler list-->
-            <GridView
-                android:id="@+id/utilitiesGrid"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/utilitiesList"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/utilitiesHeader"
-                android:layout_marginTop="15dp"
-                android:numColumns="1" />
+                android:layout_marginTop="12dp">
+
+                <include
+                    android:id="@+id/util1"
+                    layout="@layout/checkbox_item_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/util2"
+                    layout="@layout/checkbox_item_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/util1" />
+
+                <include
+                    android:id="@+id/util3"
+                    layout="@layout/checkbox_item_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/util2" />
+
+                <include
+                    android:id="@+id/util4"
+                    layout="@layout/checkbox_item_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/util3" />
+
+                <include
+                    android:id="@+id/util5"
+                    layout="@layout/checkbox_item_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/util4" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
@@ -314,7 +517,7 @@
             android:id="@+id/addListingFurnishedLayout"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/addListingUtilitiesLayout">
@@ -364,4 +567,4 @@
 
         </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

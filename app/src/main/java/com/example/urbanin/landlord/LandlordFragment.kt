@@ -23,8 +23,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class LandlordFragment : Fragment(), ListingItemListener {
 
-    private var _binding: FragmentLandlordBinding? = null
-    private val binding get() = _binding!!
+//    private var _binding: FragmentLandlordBinding? = null
+//    private val binding get() = _binding!!
+    private lateinit var binding: FragmentLandlordBinding
 
     private var db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
@@ -36,6 +37,8 @@ class LandlordFragment : Fragment(), ListingItemListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        binding = FragmentLandlordBinding.inflate(layoutInflater)
+
         binding.addListingFAB.setOnClickListener {
             val action = LandlordFragmentDirections.navigateToLandlordAddListing()
             findNavController().navigate(action)
@@ -46,7 +49,7 @@ class LandlordFragment : Fragment(), ListingItemListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentLandlordBinding.inflate(inflater, container, false)
+//        _binding = FragmentLandlordBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -74,7 +77,7 @@ class LandlordFragment : Fragment(), ListingItemListener {
 //            )
 //        )
         // TODO: Load your actual data here
-        getListingsFromDatabase()
+//        getListingsFromDatabase()
         adapter.notifyDataSetChanged()
     }
 
@@ -114,8 +117,8 @@ class LandlordFragment : Fragment(), ListingItemListener {
         println("Delete clicked for listing: ${listing.listingID}")
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
 }

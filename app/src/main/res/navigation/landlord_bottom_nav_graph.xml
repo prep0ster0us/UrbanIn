@@ -39,7 +39,7 @@
         android:label="LandlordAccountFragment" />
     <fragment
         android:id="@+id/landlordAddListingFragment"
-        android:name="com.example.urbanin.landlord.LandlordAddListingFragment"
+        android:name="com.example.urbanin.landlord.AddListing.LandlordAddListingFragment"
         android:label="landlord_fragment_add_listing"
         tools:layout="@layout/landlord_fragment_add_listing" />
 
