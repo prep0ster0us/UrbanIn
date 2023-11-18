@@ -299,52 +299,42 @@
                 <Button
                     android:id="@+id/bath1"
                     style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/gotham_book"
-                    android:minWidth="0dp"
-                    android:paddingHorizontal="28dp"
                     android:text="1"
                     app:cornerRadius="0dp" />
 
                 <Button
                     android:id="@+id/bath1_5"
                     style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/gotham_book"
-                    android:minWidth="0dp"
-                    android:paddingHorizontal="32dp"
                     android:text="1.5" />
 
                 <Button
                     android:id="@+id/bath2"
                     style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/gotham_book"
-                    android:minWidth="0dp"
-                    android:paddingHorizontal="28dp"
                     android:text="2" />
 
                 <Button
                     android:id="@+id/bath3"
                     style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/gotham_book"
-                    android:minWidth="0dp"
-                    android:paddingHorizontal="28dp"
                     android:text="3" />
 
                 <Button
                     android:id="@+id/bath4"
                     style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/gotham_book"
-                    android:minWidth="0dp"
-                    android:paddingHorizontal="28dp"
                     android:text="4"
                     app:cornerRadius="0dp" />
 
@@ -370,13 +360,90 @@
                 android:text="Property Type"
                 android:textSize="18sp" />
 
-            <GridView
-                android:id="@+id/typeGrid"
-                android:layout_width="wrap_content"
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/typeListTop"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/typeHeader"
-                android:layout_marginTop="15dp"
-                android:numColumns="3" />
+                android:layout_marginTop="12dp"
+                app:singleSelection="true">
+
+                <Button
+                    android:id="@+id/type1"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_book"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="Apartment"
+                    app:cornerRadius="0dp" />
+
+                <Button
+                    android:id="@+id/type2"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_book"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="House" />
+
+                <Button
+                    android:id="@+id/type3"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_book"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="Dormitory"
+                    app:cornerRadius="0dp" />
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/typeListBottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/typeListTop"
+                app:singleSelection="true">
+
+                <Button
+                    android:id="@+id/type4"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_book"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="TownHouse"
+                    app:cornerRadius="0dp" />
+
+                <Button
+                    android:id="@+id/type5"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_book"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="Duplex"
+                    app:cornerRadius="0dp" />
+
+                <Button
+                    android:id="@+id/type6"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_book"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="Condomonium"
+                    app:cornerRadius="0dp" />
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
 
         </RelativeLayout>
 
@@ -531,13 +598,43 @@
                 android:text="Furnished"
                 android:textSize="18sp" />
 
-            <GridView
-                android:id="@+id/furnishedGrid"
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/furnishedList"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/furnishedHeader"
-                android:layout_marginTop="15dp"
-                android:numColumns="3" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="12dp"
+                app:singleSelection="true">
+
+                <Button
+                    android:id="@+id/furnished1"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="117dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_book"
+                    android:text="Full"
+                    app:cornerRadius="0dp" />
+
+                <Button
+                    android:id="@+id/furnished2"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="117dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_book"
+                    android:text="Semi"
+                    app:cornerRadius="0dp" />
+
+                <Button
+                    android:id="@+id/furnished3"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="117dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_book"
+                    android:text="None"
+                    app:cornerRadius="0dp" />
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
 
         </RelativeLayout>
 

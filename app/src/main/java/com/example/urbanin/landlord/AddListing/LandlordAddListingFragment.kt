@@ -19,6 +19,49 @@ class LandlordAddListingFragment : Fragment() {
 
         setupAmenitiesGrid()
         setupUtilitiesGrid()
+        setupFurnishedGrid()
+        setupTypeGrid()
+    }
+
+    private fun setupTypeGrid() {
+        val topList = binding.typeListTop
+        val bottomList = binding.typeListBottom
+
+        binding.typeListTop.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            // uncheck selections from bottom grid
+            bottomList.uncheck(binding.type4.id)
+            bottomList.uncheck(binding.type5.id)
+            bottomList.uncheck(binding.type6.id)
+
+            // handle selections from top grid
+            if(isChecked) {
+                when(checkedId) {
+                    binding.type1.id -> topList.check(binding.type1.id)
+                    binding.type2.id -> topList.check(binding.type2.id)
+                    binding.type3.id -> topList.check(binding.type3.id)
+                }
+            }
+        }
+
+        binding.typeListBottom.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            // uncheck selections from top grid
+            topList.uncheck(binding.type1.id)
+            topList.uncheck(binding.type2.id)
+            topList.uncheck(binding.type3.id)
+
+            // handle selections from bottom grid
+            if(isChecked) {
+                when(checkedId) {
+                    binding.type4.id -> bottomList.check(binding.type4.id)
+                    binding.type5.id -> bottomList.check(binding.type5.id)
+                    binding.type6.id -> bottomList.check(binding.type6.id)
+                }
+            }
+        }
+    }
+
+    private fun setupFurnishedGrid() {
+
     }
 
     private fun setupUtilitiesGrid() {
