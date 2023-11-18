@@ -57,7 +57,7 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
             zoomToLocation(googleMap, newHaven, "Marker on University")
             // add markers for each listing on the map
             for (listing in listingCollection) {
-                val markerPosition = LatLng(listing.latitude, listing.longitude)
+                val markerPosition = LatLng(listing.latitude.toDouble(), listing.longitude.toDouble())
                 googleMap.addMarker(MarkerOptions().position(markerPosition).title(listing.address))
             }
             // zoom to last loaded marker
@@ -66,8 +66,8 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
                 zoomToLocation(
                     googleMap,
                     LatLng(
-                        lastMarker.latitude,
-                        lastMarker.longitude
+                        lastMarker.latitude.toDouble(),
+                        lastMarker.longitude.toDouble()
                     ),
                     lastMarker.address
                 )

@@ -170,9 +170,9 @@ class SearchFragment : Fragment() {
                     Log.d(TAG, "${doc.data["utilities"]}")
                     Log.d(TAG, "${doc.data["amenities"]}")
                     Log.d(TAG, "Location = ${doc.data["location"]}")
-                    val location: GeoPoint = doc.data["location"] as GeoPoint
-                    Log.d(TAG, location.latitude.toString())
-                    Log.d(TAG, location.longitude.toString())
+//                    val location: GeoPoint = doc.data["location"] as GeoPoint
+//                    Log.d(TAG, location.latitude.toString())
+//                    Log.d(TAG, location.longitude.toString())
                     if (!checkExisting) {
                         listingCollection.add(
                             ListingData(
@@ -181,16 +181,19 @@ class SearchFragment : Fragment() {
                                 doc.data["type"] as String,
                                 doc.data["title"] as String,
                                 doc.data["description"] as String,
-                                (doc.data["location"] as GeoPoint).latitude,
-                                (doc.data["location"] as GeoPoint).longitude,
+//                                (doc.data["location"] as GeoPoint).latitude,
+//                                (doc.data["location"] as GeoPoint).longitude,
+                                doc.data["latitude"] as String,
+                                doc.data["longitude"] as String,
                                 doc.data["address"] as String,
-                                doc.data["price"] as Long,
+//                                doc.data["price"] as Long,
+                                doc.data["price"] as String,
                                 doc.data["img"] as String,
                                 doc.data["datePosted"] as String,
                                 doc.data["availableFrom"] as String,
-                                doc.data["numRooms"] as Long,
-                                doc.data["numBaths"] as Long,
-                                doc.data["petsAllowed"] as String,
+                                doc.data["numRooms"] as String,
+                                doc.data["numBaths"] as String,
+                                doc.data["furnished"] as String,
                                 doc.data["utilities"] as Map<String, Boolean>,
                                 doc.data["amenities"] as Map<String, Boolean>
                             )

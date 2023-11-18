@@ -121,6 +121,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:hint="Name of Property"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@drawable/ic_error_outline"
             app:layout_constraintBottom_toTopOf="@id/addListingAddressLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -140,8 +142,8 @@
             style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
             android:hint="Property Address"
+            app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/addListingNameLayout">
@@ -153,6 +155,14 @@
                 android:fontFamily="@font/gotham_medium"
                 android:inputType="text"
                 android:textColor="@color/default_text" />
+
+<!--            <androidx.fragment.app.FragmentContainerView-->
+<!--                android:id="@+id/test"-->
+<!--                android:autofillHints="postalAddress"-->
+<!--                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
+<!--                android:layout_width="@dimen/add_listing_text_field_width"-->
+<!--                android:background="@android:color/transparent"-->
+<!--                android:layout_height="25dp" />-->
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -162,6 +172,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:hint="Property Description"
+            app:endIconMode="clear_text"
+            app:counterEnabled="true"
+            app:counterMaxLength="200"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/addListingAddressLayout">
@@ -171,6 +184,7 @@
                 android:layout_width="@dimen/add_listing_text_field_width"
                 android:layout_height="100dp"
                 android:fontFamily="@font/gotham_medium"
+                android:maxLength="200"
                 android:gravity="top"
                 android:inputType="text|textLongMessage|textMultiLine"
                 android:textColor="@color/default_text" />
@@ -439,13 +453,35 @@
                     android:fontFamily="@font/gotham_book"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:text="Condomonium"
+                    android:text="Condo"
                     app:cornerRadius="0dp" />
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
-
         </RelativeLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addListingPriceLayout"
+            style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:hint="Rent"
+            app:prefixText=" $ "
+            app:prefixTextColor="@color/quantum_googgreen800"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addListingTypeLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addListingPrice"
+                android:layout_width="@dimen/add_listing_text_field_width"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_medium"
+                android:gravity="top"
+                android:inputType="number"
+                android:textColor="@color/default_text" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
             android:id="@+id/addListingAmenitiesLayout"
@@ -454,7 +490,7 @@
             android:layout_marginTop="25dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addListingTypeLayout">
+            app:layout_constraintTop_toBottomOf="@id/addListingPriceLayout">
 
             <TextView
                 android:id="@+id/amenitiesHeader"
