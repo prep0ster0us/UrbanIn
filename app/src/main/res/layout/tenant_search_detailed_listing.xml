@@ -108,8 +108,30 @@
             app:layout_constraintTop_toBottomOf="@id/detailedListingAmenitiesTitle"
             tools:listitem="@layout/amenities_card" />
 
+        <TextView
+            android:id="@+id/detailedListingUtilitiesTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/gotham_regular"
+            android:hint="Utilities"
+            android:paddingHorizontal="12dp"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detailedListingAmenities" />
 
-
+        <GridView
+            android:id="@+id/detailedListingUtilities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:horizontalSpacing="0dp"
+            android:numColumns="2"
+            android:padding="12dp"
+            android:verticalSpacing="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detailedListingUtilitiesTitle"
+            tools:listitem="@layout/amenities_card" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

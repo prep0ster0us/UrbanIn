@@ -1,6 +1,10 @@
 package com.example.urbanin.landlord.AddListing
 
 import android.app.Activity
+import android.app.Activity.RESULT_CANCELED
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.activity.result.ActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.example.urbanin.BuildConfig
@@ -35,6 +40,9 @@ class LandlordAddListingFragment : Fragment() {
 
     private var saveListing: ListingData = ListingData()
     private lateinit var listingLocation: LatLng
+
+    // save uploaded images
+    private var galleryImages: ArrayList<Uri>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,8 +94,8 @@ class LandlordAddListingFragment : Fragment() {
                 binding.root.findViewById<Button>(binding.numRoomList.checkedButtonId).text.toString(),
                 binding.root.findViewById<Button>(binding.numBathList.checkedButtonId).text.toString(),
                 binding.root.findViewById<Button>(binding.furnishedList.checkedButtonId).text.toString(),
-                getAmenitiesMap(),
-                getUtilitiesMap()
+                getUtilitiesMap(),
+                getAmenitiesMap()
             )
 
             // save this data in database
@@ -106,12 +114,13 @@ class LandlordAddListingFragment : Fragment() {
         // format rent price as currency
         binding.addListingPrice.setOnFocusChangeListener { _, hasFocus ->
             val currentText = binding.addListingPrice.text.toString()
-            if(!hasFocus) {
+            if (!hasFocus) {
                 val formatter: NumberFormat = DecimalFormat("#,###.##")
                 binding.addListingPrice.setText(formatter.format(currentText.toInt()))
             } else {
-                if(currentText.isNotEmpty()) {
-                    val numberFormat = NumberFormat.getNumberInstance(Locale.ENGLISH) as DecimalFormat
+                if (currentText.isNotEmpty()) {
+                    val numberFormat =
+                        NumberFormat.getNumberInstance(Locale.ENGLISH) as DecimalFormat
                     binding.addListingPrice.setText(numberFormat.parse(currentText)!!.toString())
                 }
             }
@@ -127,6 +136,7 @@ class LandlordAddListingFragment : Fragment() {
             binding.util5.itemText.text.toString() to binding.util5.itemCheckbox.isChecked,
         )
     }
+
     private fun getAmenitiesMap(): Map<String, Boolean> {
         return hashMapOf(
             binding.amen1.itemText.text.toString() to binding.amen1.itemCheckbox.isChecked,
@@ -235,6 +245,7 @@ class LandlordAddListingFragment : Fragment() {
         binding.util4.itemText.text = "Trash Removal"
         binding.util5.itemText.text = "Snow Removal"
     }
+
     private fun setupAmenitiesGrid() {
         binding.amen1.itemText.text = "Pets Allowed"
         binding.amen2.itemText.text = "In-Unit laundry"
@@ -250,8 +261,42 @@ class LandlordAddListingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 //        return super.onCreateView(inflater, container, savedInstanceState)
+        // enable user to upload image from gallery
+        binding.addListingSelectImg.setOnClickListener {
+//            val intent = Intent.ACTION_OPEN_DOCUMENT
+//            intent.plus(Intent.EXTRA_ALLOW_MULTIPLE)
+//            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+
+            pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+        }
         return binding.root
     }
 
+    // Registers a photo picker activity launcher in multi-select mode.
+    private val pickMultipleMedia =
+        registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { uris ->
+            // Callback is invoked after the user selects media items or closes the
+            // photo picker.
+            if (uris.isNotEmpty()) {
+                Log.d(TAG, "Number of items selected: ${uris.size}")
+                // set first selected image as the thumbnail for photos selected
+                binding.photoFromGallery.setImageURI(uris[0])
+                // save selected photos (to add in database when listing finally added)
+                for (imgUri in uris) {
+                    galleryImages!!.add(imgUri);
+                }
+            } else {
+                Log.d(TAG, "No media selected")
+            }
+        }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != RESULT_CANCELED) {
+            val photo = data?.data
+//          val photo = data.extras!!["data"] as Bitmap?
+            binding.photoFromGallery.setImageURI(photo)
+        }
+    }
 
 }
