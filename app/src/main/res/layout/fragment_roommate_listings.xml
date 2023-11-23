@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Header Text -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello,"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="find a roomie."
+        android:textSize="18sp" />
+
+    <!-- Search Bar -->
+    <EditText
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Search for roommates"
+        android:drawableLeft="@drawable/ic_search"
+        android:drawablePadding="10dp"
+        android:padding="12dp"
+        android:background="@drawable/rounded_edit"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+
+    <!-- Options Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <!-- View Option -->
+            <TextView
+                android:id="@+id/textViewViewOption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_view"
+                android:text="View"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="8dp" />
+
+            <!-- Sort Option -->
+            <TextView
+                android:id="@+id/textViewSortOption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_sort"
+                android:text="Sort"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="8dp" />
+
+            <!-- Filters Option -->
+            <TextView
+                android:id="@+id/textViewFilterOption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_filter"
+                android:text="Filter"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="8dp" />
+        </LinearLayout>
+
+
+
+    <!-- ScrollView for Listings -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRoommates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"/>
+</LinearLayout>
