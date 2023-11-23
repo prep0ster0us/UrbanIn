@@ -1,9 +1,6 @@
 package com.example.urbanin.landlord.AddListing
 
 import android.app.Activity
-import android.app.Activity.RESULT_CANCELED
-import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -262,14 +260,15 @@ class LandlordAddListingFragment : Fragment() {
     ): View? {
 //        return super.onCreateView(inflater, container, savedInstanceState)
         // enable user to upload image from gallery
-        binding.addListingSelectImg.setOnClickListener {
-//            val intent = Intent.ACTION_OPEN_DOCUMENT
-//            intent.plus(Intent.EXTRA_ALLOW_MULTIPLE)
-//            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
 
+        return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.addListingFromStorage.setOnClickListener {
             pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
         }
-        return binding.root
     }
 
     // Registers a photo picker activity launcher in multi-select mode.
@@ -280,23 +279,15 @@ class LandlordAddListingFragment : Fragment() {
             if (uris.isNotEmpty()) {
                 Log.d(TAG, "Number of items selected: ${uris.size}")
                 // set first selected image as the thumbnail for photos selected
-                binding.photoFromGallery.setImageURI(uris[0])
+                binding.addListingPhotoGallery.setImageURI(uris[0])
+                Toast.makeText(requireContext(), uris.size.toString(), Toast.LENGTH_SHORT).show()
                 // save selected photos (to add in database when listing finally added)
-                for (imgUri in uris) {
-                    galleryImages!!.add(imgUri);
-                }
+//                for (imgUri in uris) {
+//                    galleryImages!!.add(imgUri);
+//                }
             } else {
                 Log.d(TAG, "No media selected")
             }
         }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != RESULT_CANCELED) {
-            val photo = data?.data
-//          val photo = data.extras!!["data"] as Bitmap?
-            binding.photoFromGallery.setImageURI(photo)
-        }
-    }
 
 }

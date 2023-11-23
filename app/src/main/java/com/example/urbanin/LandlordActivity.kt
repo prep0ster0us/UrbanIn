@@ -43,32 +43,6 @@ class LandlordActivity : AppCompatActivity() {
 
         // set controller for bottom navigation view
         landlordBottomNavBar.setupWithNavController(navHostFragment.navController)
-        
-        // set up registerForActivityResult (for photo picker, in "add listing" view)
-        setupActivityResult()
     }
 
-    private fun setupActivityResult(): ArrayList<Uri> {
-        val galleryImages: ArrayList<Uri> = arrayListOf()
-        val pickMultipleMedia =
-            registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { uris ->
-                // Callback is invoked after the user selects media items or closes the
-                // photo picker.
-                if (uris.isNotEmpty()) {
-                    Log.d(MainActivity.TAG, "Number of items selected: ${uris.size}")
-                    // save selected photos (to add in database when listing finally added)
-                    for(imgUri in uris) {
-                        galleryImages.add(imgUri);
-                    }
-                } else {
-                    Log.d(MainActivity.TAG, "No media selected")
-                }
-            }
-
-        return galleryImages
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-    }
 }
