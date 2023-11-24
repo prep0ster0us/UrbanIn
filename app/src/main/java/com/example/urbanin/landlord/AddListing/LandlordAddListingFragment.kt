@@ -1,20 +1,31 @@
 package com.example.urbanin.landlord.AddListing
 
 import android.app.Activity
+import android.app.Dialog
+import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.example.urbanin.BuildConfig
 import com.example.urbanin.MainActivity.Companion.TAG
+import com.example.urbanin.R
 import com.example.urbanin.databinding.LandlordFragmentAddListingBinding
 import com.example.urbanin.tenant.search.ListingData
 import com.google.android.gms.maps.model.LatLng
@@ -24,9 +35,12 @@ import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.io.File
 import java.text.DecimalFormat
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.util.Date
 import java.util.Locale
 
 
@@ -41,6 +55,11 @@ class LandlordAddListingFragment : Fragment() {
 
     // save uploaded images
     private var galleryImages: ArrayList<Uri>? = null
+
+    // for camera intent request
+    private lateinit var currentMediaPath: String
+    private var imageUri: Uri? = null
+    private var videoUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -259,8 +278,6 @@ class LandlordAddListingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 //        return super.onCreateView(inflater, container, savedInstanceState)
-        // enable user to upload image from gallery
-
         return binding.root
     }
 
@@ -268,6 +285,125 @@ class LandlordAddListingFragment : Fragment() {
         super.onStart()
         binding.addListingFromStorage.setOnClickListener {
             pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+        }
+
+        binding.addListingFromCamera.setOnClickListener {
+            // check for camera permissions
+            if (checkPermission()) {
+                // show dialog to select if user wants to take a photo or video
+                pickResourceTypeDialog()
+            }
+        }
+    }
+
+    private fun pickResourceTypeDialog() {
+
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.pick_type_dialog)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        dialog.window?.setGravity(Gravity.BOTTOM)
+
+//        val dialogBinding = PickTypeDialogBinding.inflate(dialog.layoutInflater)
+//        dialogBinding.cameraPhoto.setOnClickListener {
+//            dialog.dismiss()
+//            Toast.makeText(requireContext(), "Clicked photo", Toast.LENGTH_SHORT).show()
+//        }
+//
+//        dialogBinding.cameraVideo.setOnClickListener {
+//            dialog.dismiss()
+//            Toast.makeText(requireContext(), "Clicked video", Toast.LENGTH_SHORT).show()
+//        }
+
+
+        dialog.findViewById<ImageView>(R.id.cameraPhoto).setOnClickListener {
+            dialog.dismiss()
+            val tempFile = createImageFile()
+            try {
+                imageUri = FileProvider.getUriForFile(
+                    requireContext(),
+                    "com.example.urbanin.mediaFileProvider",
+                    tempFile
+                )
+            } catch (e: Exception) {
+                Log.e(TAG, "ERROR: ${e.message}")
+            }
+            pickCameraImage.launch(imageUri)
+        }
+        dialog.findViewById<ImageView>(R.id.cameraVideo).setOnClickListener {
+            // create temp uri for the media file (to be taken from camera intent)
+            val tempFile = createVideoFile()
+            try {
+                videoUri = FileProvider.getUriForFile(
+                    requireContext(),
+                    "com.example.urbanin.mediaFileProvider",
+                    tempFile
+                )
+            } catch (e: Exception) {
+                Log.e(TAG, "ERROR: ${e.message}")
+            }
+            // TODO: pickCameraVideo.launch(videoUri)
+        }
+    }
+
+    private fun checkPermission(): Boolean {
+        return when (PackageManager.PERMISSION_GRANTED) {
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.CAMERA
+            ) -> {
+                true
+            }
+
+            else -> {
+                requestPermissionLauncher.launch(
+                    android.Manifest.permission.CAMERA
+                )
+                false
+            }
+        }
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                Log.i(TAG, "Permission: Granted")
+            } else {
+                Log.i(TAG, "Permission: Denied")
+            }
+        }
+
+    private fun createVideoFile(): File {
+        val timeStamp = SimpleDateFormat.getDateTimeInstance().toString()
+        val videoDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES)
+        return File.createTempFile(
+            "Listing_${timeStamp}",
+            ".mp4",
+            videoDir
+        ).apply {
+            currentMediaPath = absolutePath
+        }
+    }
+
+    private fun createImageFile(): File {
+        val timeStamp = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss_", Locale.US).format(Date())
+        val imageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(
+            "Listing_${timeStamp}",
+            ".jpg",
+            imageDir
+        ).apply {
+            currentMediaPath = absolutePath
         }
     }
 
@@ -285,6 +421,21 @@ class LandlordAddListingFragment : Fragment() {
 //                for (imgUri in uris) {
 //                    galleryImages!!.add(imgUri);
 //                }
+            } else {
+                Log.d(TAG, "No media selected")
+            }
+        }
+
+    // Registers a photo picker activity launcher in multi-select mode.
+    private val pickCameraImage =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            // Callback is invoked after the user clicks and saves an image or closes the camera intent.
+            if (success) {
+                // set first selected image as the thumbnail for photo(s) selected
+                // TODO: add view pager (with horizontal scroll) and add all images to this list (taken from camera + seleected from storage)
+                binding.addListingPhotoGallery.setImageURI(imageUri)
+
+                // TODO: save uri so that can be saved to firestore (once user submits everything and clicks "Add listing"
             } else {
                 Log.d(TAG, "No media selected")
             }
