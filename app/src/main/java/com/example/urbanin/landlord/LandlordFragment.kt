@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,10 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
 import com.example.urbanin.databinding.FragmentLandlordBinding
+import com.example.urbanin.splash.LoginPreferenceManager
 import com.example.urbanin.tenant.search.ListingAdapter
 import com.example.urbanin.tenant.search.ListingCard
 import com.example.urbanin.tenant.search.ListingData
 import com.example.urbanin.tenant.search.listingCollection
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -30,6 +33,9 @@ class LandlordFragment : Fragment(), ListingItemListener {
     private var db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
+    // for shared preferences
+    private lateinit var prefManager: LoginPreferenceManager
+
     private lateinit var adapter: LandlordListingAdapter
     private var userListings: ArrayList<ListingData> = arrayListOf()
     private var listings = ArrayList<ListingCard>()
@@ -39,10 +45,36 @@ class LandlordFragment : Fragment(), ListingItemListener {
 
         binding = FragmentLandlordBinding.inflate(layoutInflater)
 
+        prefManager =  LoginPreferenceManager(requireContext())
+
+        // if first login, show dialog to ask user to opt in for biometric login
+        Log.d(TAG, prefManager.isFirstLogin().toString())
+        if(prefManager.isFirstLogin()) {
+            prefManager.setFirstLogin()
+            showOptForBiometricDialog()
+        }
+
         binding.addListingFAB.setOnClickListener {
             val action = LandlordFragmentDirections.navigateToLandlordAddListing()
             findNavController().navigate(action)
         }
+    }
+
+    private fun showOptForBiometricDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Enable biometric login")
+            .setMessage("Would you like to enable biometric login for easier access?")
+            .setPositiveButton(
+                "I'M IN!"
+            ) { _, _ ->
+                prefManager.setBiometricEnabled(true)
+            }
+            .setNegativeButton(
+                "OPT-OUT"
+            ) { _, _ ->
+                prefManager.setBiometricEnabled(false)
+            }
+            .show()
     }
 
     override fun onCreateView(
@@ -58,6 +90,10 @@ class LandlordFragment : Fragment(), ListingItemListener {
         setupRecyclerView()
         // TODO: Load your listings data into the 'listings' list
         loadData()
+
+        // show bottom nav bar
+        val parentNavBar: View = requireActivity().findViewById(R.id.bottomNavigationView)
+        parentNavBar.isVisible = true
     }
 
     private fun setupRecyclerView() {
