@@ -65,32 +65,44 @@
             android:id="@+id/addListingPhotoLayout"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="15dp"
             app:layout_constraintBottom_toTopOf="@id/addListingNameLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/addListingTopLayout">
 
-            <ImageView
-                android:id="@+id/addListingPhotoGallery"
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/addListingMediaLayout"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="350dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginBottom="8dp"
-                android:background="@color/default_contrast_background"
-                android:contentDescription="uploaded photos"
-                android:scaleType="fitCenter"
-                android:src="@drawable/baseline_photo_camera_24"
-                app:cornerRadius="12dp" />
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="8dp" />
+
+            <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
+                android:id="@+id/mediaDotsIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/addListingMediaLayout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="15dp"
+                android:foregroundGravity="center"
+                app:dotsColor="@color/default_contrast_background"
+                app:dotsCornerRadius="8dp"
+                app:dotsSize="8dp"
+                app:dotsSpacing="2dp"
+                app:dotsWidthFactor="2.5"
+                app:progressMode="true"
+                app:selectedDotColor="@color/default_icon" />
 
             <Button
                 android:id="@+id/addListingFromCamera"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="165dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/addListingPhotoGallery"
+                android:layout_below="@id/addListingMediaLayout"
                 android:layout_alignParentStart="true"
                 android:layout_marginEnd="8dp"
                 android:fontFamily="@font/gotham_medium"
@@ -107,7 +119,7 @@
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/addListingPhotoGallery"
+                android:layout_below="@id/addListingMediaLayout"
                 android:layout_alignParentEnd="true"
                 android:layout_toEndOf="@id/addListingFromCamera"
                 android:fontFamily="@font/gotham_medium"

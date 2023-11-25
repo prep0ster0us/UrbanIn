@@ -53,18 +53,31 @@ class LandlordAddListingFragment : Fragment() {
     private var saveListing: ListingData = ListingData()
     private lateinit var listingLocation: LatLng
 
+    // to display selected images
+    private lateinit var mediaAdapter: MediaPagerAdapter
+    private var mediaList: MutableList<MediaPagerItem> = arrayListOf()
+
     // save uploaded images
-    private var galleryImages: ArrayList<Uri>? = null
+    private var listingMediaList: MutableList<Uri> = mutableListOf()
 
     // for camera intent request
     private lateinit var currentMediaPath: String
-    private var imageUri: Uri? = null
-    private var videoUri: Uri? = null
+    private lateinit var imageUri: Uri
+    private lateinit var videoUri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = LandlordFragmentAddListingBinding.inflate(layoutInflater)
+
+        mediaAdapter = MediaPagerAdapter(mediaList, requireContext())
+
+//        if(mediaList.size != 0) {
+//            binding.addListingMediaLayout.isVisible = true
+//            mediaAdapter = MediaPagerAdapter(mediaList, requireContext())
+//        } else {
+//            binding.addListingMediaLayout.isVisible = false
+//        }
 
         db = FirebaseFirestore.getInstance()
 
@@ -142,6 +155,13 @@ class LandlordAddListingFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.addListingMediaLayout.adapter = mediaAdapter
+        binding.mediaDotsIndicator.attachTo(binding.addListingMediaLayout)
     }
 
     private fun getUtilitiesMap(): Map<String, Boolean> {
@@ -312,20 +332,9 @@ class LandlordAddListingFragment : Fragment() {
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         dialog.window?.setGravity(Gravity.BOTTOM)
 
-//        val dialogBinding = PickTypeDialogBinding.inflate(dialog.layoutInflater)
-//        dialogBinding.cameraPhoto.setOnClickListener {
-//            dialog.dismiss()
-//            Toast.makeText(requireContext(), "Clicked photo", Toast.LENGTH_SHORT).show()
-//        }
-//
-//        dialogBinding.cameraVideo.setOnClickListener {
-//            dialog.dismiss()
-//            Toast.makeText(requireContext(), "Clicked video", Toast.LENGTH_SHORT).show()
-//        }
-
-
         dialog.findViewById<ImageView>(R.id.cameraPhoto).setOnClickListener {
             dialog.dismiss()
+            // create temp uri for the media file (to be taken from camera intent)
             val tempFile = createImageFile()
             try {
                 imageUri = FileProvider.getUriForFile(
@@ -339,6 +348,7 @@ class LandlordAddListingFragment : Fragment() {
             pickCameraImage.launch(imageUri)
         }
         dialog.findViewById<ImageView>(R.id.cameraVideo).setOnClickListener {
+            dialog.dismiss()
             // create temp uri for the media file (to be taken from camera intent)
             val tempFile = createVideoFile()
             try {
@@ -350,7 +360,7 @@ class LandlordAddListingFragment : Fragment() {
             } catch (e: Exception) {
                 Log.e(TAG, "ERROR: ${e.message}")
             }
-            // TODO: pickCameraVideo.launch(videoUri)
+            pickCameraVideo.launch(videoUri)
         }
     }
 
@@ -378,6 +388,8 @@ class LandlordAddListingFragment : Fragment() {
         ) { isGranted: Boolean ->
             if (isGranted) {
                 Log.i(TAG, "Permission: Granted")
+                // if allowed, display dialog to pick type of resource for camera intent
+                pickResourceTypeDialog()
             } else {
                 Log.i(TAG, "Permission: Denied")
             }
@@ -415,27 +427,80 @@ class LandlordAddListingFragment : Fragment() {
             if (uris.isNotEmpty()) {
                 Log.d(TAG, "Number of items selected: ${uris.size}")
                 // set first selected image as the thumbnail for photos selected
-                binding.addListingPhotoGallery.setImageURI(uris[0])
-                Toast.makeText(requireContext(), uris.size.toString(), Toast.LENGTH_SHORT).show()
-                // save selected photos (to add in database when listing finally added)
-//                for (imgUri in uris) {
-//                    galleryImages!!.add(imgUri);
-//                }
+//                binding.addListingPhotoGallery.setImageURI(uris[0])
+                // add selected image to media view pager
+                updateMediaGallery(uris)
+//                Toast.makeText(requireContext(), uris.size.toString(), Toast.LENGTH_SHORT).show()
             } else {
                 Log.d(TAG, "No media selected")
             }
         }
 
-    // Registers a photo picker activity launcher in multi-select mode.
+    private fun getMediaType(uri: Uri): String {
+        val contentResolver = requireContext().contentResolver
+        return contentResolver.getType(uri).toString()
+    }
+
+    private fun updateMediaGallery(uris: List<Uri>?) {
+        if(uris != null) {
+            for(uri in uris) {
+                // save selected photos (to add in database when listing finally added)
+                listingMediaList.add(uri);
+
+                // add media to media gallery (based on media type)
+                val mediaType = getMediaType(uri)
+                if(mediaType.startsWith("image")) {
+                    addImageToMediaGallery(uri)
+                } else if(mediaType.startsWith("video")){
+                    addVideoToMediaGallery(uri)
+                }
+            }
+        }
+    }
+
+    private fun addImageToMediaGallery(uri: Uri) {
+        mediaList.add(
+            MediaPagerItem(MediaPagerItem.ItemType.IMAGE, uri)
+        )
+        // refresh view pager
+        mediaAdapter.notifyDataSetChanged()
+        // slide to newly inserted media file
+        binding.addListingMediaLayout.currentItem = mediaAdapter.count;
+    }
+    private fun addVideoToMediaGallery(uri: Uri) {
+        mediaList.add(
+            MediaPagerItem(MediaPagerItem.ItemType.VIDEO, uri)
+        )
+        mediaList
+        // refresh view pager
+        mediaAdapter.notifyDataSetChanged()
+        // slide to newly inserted media file
+        binding.addListingMediaLayout.currentItem = mediaAdapter.count;
+    }
+
+    // Registers a camera launcher (picture mode).
     private val pickCameraImage =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
             // Callback is invoked after the user clicks and saves an image or closes the camera intent.
             if (success) {
-                // set first selected image as the thumbnail for photo(s) selected
-                // TODO: add view pager (with horizontal scroll) and add all images to this list (taken from camera + seleected from storage)
-                binding.addListingPhotoGallery.setImageURI(imageUri)
+                // TODO: add view pager (with horizontal scroll) and add all images to this list (taken from camera + selected from storage)
+                addImageToMediaGallery(imageUri)
+                // save media uri (to be uploaded to database)
+                listingMediaList.add(imageUri)
+            } else {
+                Log.d(TAG, "No media selected")
+            }
+        }
 
-                // TODO: save uri so that can be saved to firestore (once user submits everything and clicks "Add listing"
+    // Registers a camera launcher (video mode).
+    private val pickCameraVideo =
+        registerForActivityResult(ActivityResultContracts.CaptureVideo()) { success ->
+            // Callback is invoked after the user clicks and saves an image or closes the camera intent.
+            if (success) {
+                // TODO: add view pager (with horizontal scroll) and add all images to this list (taken from camera + selected from storage)
+                addVideoToMediaGallery(videoUri)
+                // save media uri (to be uploaded to database)
+                listingMediaList.add(videoUri)
             } else {
                 Log.d(TAG, "No media selected")
             }
