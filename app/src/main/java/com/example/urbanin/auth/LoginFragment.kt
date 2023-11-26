@@ -26,12 +26,10 @@ import java.util.concurrent.Executor
 
 class LoginFragment : Fragment() {
 
-    private var existingUser: Boolean = false
     private lateinit var binding: FragmentLoginBinding
 
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-    private var isLoggedIn: Boolean = false
 
     // for biometrics
     private lateinit var executor: Executor
@@ -50,20 +48,12 @@ class LoginFragment : Fragment() {
         db = FirebaseFirestore.getInstance()
 
         prefManager = LoginPreferenceManager(requireContext())
-        
-        isLoggedIn = (auth.currentUser != null)
+
+//        isLoggedIn = (auth.currentUser != null)
 
         binding.loginBiometricButton.isVisible = prefManager.isBiometricEnabled()
         binding.loginBiometricButton.setOnClickListener {
             checkDeviceHasBiometrics()
-
-
-            if (binding.loginViewUsnField.text.toString().isEmpty()) {
-                binding.loginUsnLayout.error = "Please enter email address to continue!"
-            } else {
-                binding.loginUsnLayout.error = null
-                checkDeviceHasBiometrics()
-            }
         }
 
         binding.loginViewUsnField.doOnTextChanged { _, _, _, _ ->
@@ -160,13 +150,17 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // show biometric prompt straight away if biometric enabled by user
+        if(prefManager.isBiometricEnabled()) {
+            checkDeviceHasBiometrics()
+        }
+
         binding.loginViewSubmitBtn.setOnClickListener {
             // check if credentials match
             checkIfExists()
-            Log.d(TAG, "User status: $existingUser")
-            if (existingUser) {
-                matchCredentials()
-            }
+//            if (existingUser) {
+//                matchCredentials()
+//            }
 //                val isValid = checkCredentials();
 //                if(isValid) {
 //                    // navigate successfully to next page
@@ -189,23 +183,20 @@ class LoginFragment : Fragment() {
         }
     }
 
-
-
     private fun checkIfExists() {
         db.collection("Users")
             .whereEqualTo("Email", binding.loginViewUsnField.text.toString())
             .get()
             .addOnSuccessListener { documents ->
-                existingUser = true
                 for (document in documents) {
                     Log.d(TAG, "User found! Document id: ${document.id}")
-                    Toast.makeText(requireContext(), "User found!", Toast.LENGTH_SHORT).show()
+                    matchCredentials()
                 }
             }
             .addOnFailureListener { e ->
-                existingUser = false
                 Log.w(TAG, "No User! Error: ${e.message}")
-                Toast.makeText(requireContext(), "No user found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "No associated account found!", Toast.LENGTH_SHORT).show()
+                binding.loginViewPwdField.setText("")
             }
     }
 

@@ -47,9 +47,27 @@ class LoginPreferenceManager(context: Context) {
         editor.commit()
     }
 
+    // keep track if user already logged in (even when app destroyed)
+    fun isLoggedIn() = preferences.getBoolean(LOGGED_IN, false)
+
+    fun setLoggedIn(status: Boolean) {
+        editor.putBoolean(LOGGED_IN, status).apply()
+        editor.apply()
+    }
+
+    // keep track of which mode the user uses
+    fun setUserMode(mode: String) {
+        // mode = ["tenant", "landlord", "roommate"] <- possible values
+        editor.putString(USER_MODE, mode).apply()
+        editor.apply()
+    }
+
+    fun getUserMode() = preferences.getString(USER_MODE, "tenant")
     companion object {
         private const val PREFERENCE_NAME = "loginData"
         private const val FIRST_LOGIN = "isFirstLogin"
         private const val BIOMETRIC_ENABLED = "biometricEnabled"
+        private const val LOGGED_IN = "isLoggedIn"
+        private const val USER_MODE = "userMode"
     }
 }

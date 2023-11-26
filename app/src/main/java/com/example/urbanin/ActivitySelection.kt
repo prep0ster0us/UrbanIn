@@ -4,11 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.urbanin.auth.LoginFragment
+import com.example.urbanin.auth.LoginPreferenceManager
 import com.example.urbanin.databinding.ActivitySelectionBinding
 
 class ActivitySelection : AppCompatActivity() {
 
     private lateinit var binding: ActivitySelectionBinding
+    private lateinit var prefManager: LoginPreferenceManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,12 +21,15 @@ class ActivitySelection : AppCompatActivity() {
         with(binding) {
             roommatesLayout.setOnClickListener {
                 navigateToRoommatesActivity()
+                prefManager.setUserMode("roommate")
             }
             rentPlaceLayout.setOnClickListener {
+                prefManager.setUserMode("tenant")
                 navigateToTenantActivity()
             }
             rentOutLayout.setOnClickListener {
                 navigateToLogin()
+                prefManager.setUserMode("landlord")
             }
         }
     }
