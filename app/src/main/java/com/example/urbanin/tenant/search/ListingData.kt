@@ -20,7 +20,7 @@ data class ListingData(
     var address: String = "",
 //    var price: Long = 0,
     var price: String = "",
-    var img: String = "",       // TODO: change to image type
+    var img: MutableList<String> = mutableListOf(),       // TODO: change to image type
     var datePosted: String = "",
     var availableFrom: String = "",
     var numRooms: String = "",

@@ -1,52 +1,76 @@
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.urbanin.MainActivity
 import com.example.urbanin.R
-import com.example.urbanin.databinding.LandlordListingCardBinding
-import com.example.urbanin.landlord.LandlordListingCard
-import com.example.urbanin.tenant.search.ListingCard
+import com.example.urbanin.landlord.LandlordListingData
+import com.example.urbanin.tenant.search.ListingData
+import com.squareup.picasso.Picasso
 
 
 class LandlordListingAdapter(
-    private val listings: List<ListingCard>,
-    private val listener: ListingItemListener
-) : RecyclerView.Adapter<LandlordListingAdapter.ViewHolder>() {
+    private val listingList: ArrayList<LandlordListingData>,
+    private val context: Context?,
+    private val handler: Callbacks
+) : RecyclerView.Adapter<LandlordListingAdapter.listingViewHolder>() {
 
-    class ViewHolder(binding: LandlordListingCardBinding) : RecyclerView.ViewHolder(binding.root) {
-        val imageView: ImageView = binding.listingItemImage
-        val priceTextView: TextView = binding.listingItemPrice
-        val descriptionTextView: TextView = binding.listingItemDescription
-        val addressTextView: TextView = binding.listingItemAddress
-        val editButton: ImageButton = binding.editListingButton
-        val deleteButton: ImageButton = binding.deleteListingButton
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LandlordListingCardBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val listing = listings[position]
-        holder.apply {
-            // Here you should load the image into imageView using an image loading library like Glide or Picasso
-            // For example: Glide.with(imageView.context).load(listing.img).into(imageView)
-            priceTextView.text = "Listing Price: $${listing.title}"
-            descriptionTextView.text = "Listing Description: ${listing.description}"
-            addressTextView.text = "Listing Address: ${listing.location}"
-//            editButton.setOnClickListener { listener.onEditClicked(listing) }
-//            deleteButton.setOnClickListener { listener.onDeleteClicked(listing) }
-        }
+    private lateinit var contextViewGroup: ViewGroup
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): LandlordListingAdapter.listingViewHolder {
+        contextViewGroup = parent
+        val itemView =
+            LayoutInflater.from(parent.context).inflate(R.layout.landlord_listing_card, parent, false)
+        return listingViewHolder(itemView)
     }
 
     override fun getItemCount(): Int {
-        return listings.size
+        return listingList.size
     }
-}
 
-interface ListingItemListener {
-    fun onEditClicked(listing: LandlordListingCard.Listing)
-    fun onDeleteClicked(listing: LandlordListingCard.Listing)
+    override fun onBindViewHolder(holder: listingViewHolder, position: Int) {
+        val imgResource = listingList[position].img
+        val title = listingList[position].title
+        val description = listingList[position].description
+        val location = listingList[position].address
+        // TODO: pass ImageView in "imgResource" var, which can be set for each card view (or each listing)
+        Toast.makeText(context, imgResource[0], Toast.LENGTH_SHORT).show()
+        Picasso.get().load(imgResource[0]).into(holder.listingImageView)
+        holder.listingTitleView.text = title
+        holder.listingDescriptionView.text = description
+        holder.listingAddressView.text = location
+
+        // on click listener for each item in the recycler view
+        holder.itemView.setOnClickListener {
+            Toast.makeText(
+                contextViewGroup.context,
+                "Clicked on item num-$position",
+                Toast.LENGTH_SHORT
+            ).show()
+            Log.d(MainActivity.TAG, "Position: $position -> ${listingList[position]}")
+            // navigate (without passing arguments)
+//            Navigation.createNavigateOnClickListener(R.id.navigate_to_detailed_listing_fragment).onClick(holder.listingImageView)
+            handler.handleListingData(listingList[position])
+        }
+    }
+
+    class listingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val listingImageView: ImageView = itemView.findViewById(R.id.listingItemImage)
+        val listingTitleView: TextView = itemView.findViewById(R.id.listingItemPrice)
+        val listingDescriptionView: TextView = itemView.findViewById(R.id.listingItemDescription)
+        val listingAddressView: TextView = itemView.findViewById(R.id.listingItemAddress)
+    }
+
+    interface  Callbacks {
+        fun handleListingData(data: LandlordListingData) {
+
+        }
+    }
 }

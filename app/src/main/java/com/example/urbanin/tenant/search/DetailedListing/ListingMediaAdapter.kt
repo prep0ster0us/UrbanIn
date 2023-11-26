@@ -1,16 +1,17 @@
-package com.example.urbanin.landlord.AddListing
+package com.example.urbanin.tenant.search.DetailedListing
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.MediaController
 import android.widget.VideoView
 import androidx.viewpager.widget.PagerAdapter
 import com.example.urbanin.R
 
-class MediaPagerAdapter (
-    private val items: List<MediaPagerItem>,
+class ListingMediaAdapter (
+    private val items: List<ListingMediaItem>,
     private val context: Context
 ) : PagerAdapter() {
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
@@ -18,7 +19,7 @@ class MediaPagerAdapter (
         val item = items[position]
 
         return when(item.type) {
-            MediaPagerItem.ItemType.IMAGE -> {
+            ListingMediaItem.ItemType.IMAGE -> {
                 // inflate image layout
                 val view = inflater.inflate(R.layout.listing_media_image_layout, container, false) as ImageView
                 // set image resource (using Uri path of image (clicked by camera intent/selected from storage)
@@ -28,15 +29,13 @@ class MediaPagerAdapter (
                 view
             }
 
-            MediaPagerItem.ItemType.VIDEO -> {
+            ListingMediaItem.ItemType.VIDEO -> {
                 val view = inflater.inflate(R.layout.listing_media_video_layout, container, false) as VideoView
                 view.setVideoURI(item.data)
                 // add playback controls (optional)
-                /*
-                    val mediaController = MediaController(context)
-                    view.setMediaController((mediaController))
-                    mediaController.setAnchorView(view)
-                 */
+                val mediaController = MediaController(context)
+                view.setMediaController((mediaController))
+                mediaController.setAnchorView(view)
 
                 // seamlessly loop the video
                 view.setOnPreparedListener { mp ->

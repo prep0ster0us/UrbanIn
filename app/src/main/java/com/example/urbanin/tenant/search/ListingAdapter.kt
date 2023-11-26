@@ -12,6 +12,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
+import com.squareup.picasso.Picasso
 
 class ListingAdapter(
     private val listingList: ArrayList<ListingData>,
@@ -36,9 +37,13 @@ class ListingAdapter(
 
     override fun onBindViewHolder(holder: listingViewHolder, position: Int) {
 //        val (imgResource, title, description, location) = listingList[position]
-        val (imgResource, title, description, location) = listOf(listingList[position].img, listingList[position].title, listingList[position].description, listingList[position].address)
+//        val (imgResource, title, description, location) = listOf(listingList[position].img, listingList[position].title, listingList[position].description, listingList[position].address)
+        val imgResource = listingList[position].img
+        val title = listingList[position].title
+        val description = listingList[position].description
+        val location = listingList[position].address
         // TODO: pass ImageView in "imgResource" var, which can be set for each card view (or each listing)
-//        holder.listingImageView.setImageResource(imgResource)
+        Picasso.get().load(imgResource[0]).into(holder.listingImageView)
         holder.listingTitleView.text = title
         holder.listingDescriptionView.text = description
         holder.listingAddressView.text = location
