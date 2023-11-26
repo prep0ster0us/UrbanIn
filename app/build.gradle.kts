@@ -83,6 +83,12 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-auth")
 
+    // Firebase Storage
+    implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
+
+    // For downloading and caching Firestore media files
+    implementation("com.squareup.picasso:picasso:2.8")
+
     /// Biometric Authentication
     implementation("androidx.biometric:biometric:1.2.0-alpha05")
 

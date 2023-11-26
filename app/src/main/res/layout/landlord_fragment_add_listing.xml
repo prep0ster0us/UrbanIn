@@ -1,714 +1,728 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     tools:context=".landlord.AddListing.LandlordAddListingFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <RelativeLayout
-            android:id="@+id/addListingTopLayout"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/addListingPhotoLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageButton
-                android:id="@+id/btnBackAddListing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:background="@android:color/transparent"
-                android:contentDescription="Back button"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="12dp"
-                android:src="@drawable/arrow_back_24" />
-
-            <TextView
-                android:id="@+id/addListingHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="8dp"
-                android:layout_toEndOf="@id/btnBackAddListing"
-                android:fontFamily="@font/gotham_medium"
-                android:gravity="center_vertical"
-                android:padding="8dp"
-                android:text="Add Listing"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <!-- TODO: show confirmation dialog box and redirect back to landlord search page (if ok); do nothing (if cancel)-->
-            <ImageButton
-                android:id="@+id/btnCloseAddListing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:background="@android:color/transparent"
-                android:contentDescription="Back button"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="12dp"
-                android:src="@drawable/baseline_close_24" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/addListingPhotoLayout"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            app:layout_constraintBottom_toTopOf="@id/addListingNameLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addListingTopLayout">
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/addListingMediaLayout"
-                android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"
-                android:layout_marginBottom="8dp" />
-
-            <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
-                android:id="@+id/mediaDotsIndicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/addListingMediaLayout"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="15dp"
-                android:foregroundGravity="center"
-                app:dotsColor="@color/default_contrast_background"
-                app:dotsCornerRadius="8dp"
-                app:dotsSize="8dp"
-                app:dotsSpacing="2dp"
-                app:dotsWidthFactor="2.5"
-                app:progressMode="true"
-                app:selectedDotColor="@color/default_icon" />
-
-            <Button
-                android:id="@+id/addListingFromCamera"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="165dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/addListingMediaLayout"
-                android:layout_alignParentStart="true"
-                android:layout_marginEnd="8dp"
-                android:fontFamily="@font/gotham_medium"
-                android:minWidth="0dp"
-                android:paddingHorizontal="0dp"
-                android:text="Camera"
-                android:textAlignment="center"
-                android:textColor="@color/default_text"
-                android:textSize="15sp"
-                app:cornerRadius="0dp" />
-
-            <Button
-                android:id="@+id/addListingFromStorage"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/addListingMediaLayout"
-                android:layout_alignParentEnd="true"
-                android:layout_toEndOf="@id/addListingFromCamera"
-                android:fontFamily="@font/gotham_medium"
-                android:minWidth="0dp"
-                android:paddingHorizontal="0dp"
-                android:text="Gallery"
-                android:textAlignment="center"
-                android:textColor="@color/default_text"
-                android:textSize="15sp"
-                app:cornerRadius="0dp" />
-
-        </RelativeLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/addListingNameLayout"
-            style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:hint="Name of Property"
-            app:errorEnabled="true"
-            app:errorIconDrawable="@drawable/ic_error_outline"
-            app:layout_constraintBottom_toTopOf="@id/addListingAddressLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addListingPhotoLayout">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/addListingName"
-                android:layout_width="@dimen/add_listing_text_field_width"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/gotham_medium"
-                android:inputType="text"
-                android:textColor="@color/default_text" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/addListingAddressLayout"
-            style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Property Address"
-            app:endIconMode="clear_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addListingNameLayout">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/addListingAddress"
-                android:layout_width="@dimen/add_listing_text_field_width"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/gotham_medium"
-                android:inputType="text"
-                android:textColor="@color/default_text" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/addListingDescriptionLayout"
-            style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:hint="Property Description"
-            app:counterEnabled="true"
-            app:counterMaxLength="200"
-            app:endIconMode="clear_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addListingAddressLayout">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/addListingDescription"
-                android:layout_width="@dimen/add_listing_text_field_width"
-                android:layout_height="100dp"
-                android:fontFamily="@font/gotham_medium"
-                android:gravity="top"
-                android:inputType="text|textLongMessage|textMultiLine"
-                android:maxLength="200"
-                android:textColor="@color/default_text" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <RelativeLayout
-            android:id="@+id/addListingRoomLayout"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addListingDescriptionLayout">
-
-            <TextView
-                android:id="@+id/numRoomHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:fontFamily="@font/gotham_regular"
-                android:text="Number of Rooms"
-                android:textSize="18sp" />
-
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/numRoomList"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/numRoomHeader"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="12dp"
-                app:singleSelection="true">
-
-                <Button
-                    android:id="@+id/roomStudio"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-                    android:minWidth="0dp"
-                    android:paddingHorizontal="18dp"
-                    android:text="Studio"
-                    app:cornerRadius="0dp" />
-
-                <Button
-                    android:id="@+id/room1"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-                    android:minWidth="0dp"
-                    android:paddingHorizontal="22dp"
-                    android:text="1" />
-
-                <Button
-                    android:id="@+id/room2"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-                    android:minWidth="0dp"
-                    android:paddingHorizontal="22dp"
-                    android:text="2" />
-
-                <Button
-                    android:id="@+id/room3"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-                    android:minWidth="0dp"
-                    android:paddingHorizontal="22dp"
-                    android:text="3" />
-
-                <Button
-                    android:id="@+id/room4"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-                    android:minWidth="0dp"
-                    android:paddingHorizontal="22dp"
-                    android:text="4" />
-
-                <Button
-                    android:id="@+id/room5"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-                    android:minWidth="0dp"
-                    android:paddingHorizontal="22dp"
-                    android:text="5"
-                    app:cornerRadius="0dp" />
-
-            </com.google.android.material.button.MaterialButtonToggleGroup>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/addListingBathLayout"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addListingRoomLayout">
-
-            <TextView
-                android:id="@+id/numBathHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:fontFamily="@font/gotham_regular"
-                android:text="Number of Bath"
-                android:textSize="18sp" />
-
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/numBathList"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/numBathHeader"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="12dp"
-                app:singleSelection="true">
-
-                <Button
-                    android:id="@+id/bath1"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-                    android:text="1"
-                    app:cornerRadius="0dp" />
-
-                <Button
-                    android:id="@+id/bath1_5"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-                    android:text="1.5" />
-
-                <Button
-                    android:id="@+id/bath2"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-                    android:text="2" />
-
-                <Button
-                    android:id="@+id/bath3"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-                    android:text="3" />
-
-                <Button
-                    android:id="@+id/bath4"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-                    android:text="4"
-                    app:cornerRadius="0dp" />
-
-            </com.google.android.material.button.MaterialButtonToggleGroup>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/addListingTypeLayout"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addListingBathLayout">
-
-            <TextView
-                android:id="@+id/typeHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:fontFamily="@font/gotham_regular"
-                android:text="Property Type"
-                android:textSize="18sp" />
-
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/typeListTop"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/typeHeader"
-                android:layout_marginTop="12dp"
-                app:singleSelection="true">
-
-                <Button
-                    android:id="@+id/type1"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="Apartment"
-                    app:cornerRadius="0dp" />
-
-                <Button
-                    android:id="@+id/type2"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="House" />
-
-                <Button
-                    android:id="@+id/type3"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="Dormitory"
-                    app:cornerRadius="0dp" />
-
-            </com.google.android.material.button.MaterialButtonToggleGroup>
-
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/typeListBottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/typeListTop"
-                app:singleSelection="true">
-
-                <Button
-                    android:id="@+id/type4"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="TownHouse"
-                    app:cornerRadius="0dp" />
-
-                <Button
-                    android:id="@+id/type5"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="Duplex"
-                    app:cornerRadius="0dp" />
-
-                <Button
-                    android:id="@+id/type6"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="Condo"
-                    app:cornerRadius="0dp" />
-
-            </com.google.android.material.button.MaterialButtonToggleGroup>
-
-        </RelativeLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/addListingPriceLayout"
-            style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:hint="Rent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addListingTypeLayout"
-            app:prefixText=" $ "
-            app:prefixTextColor="@color/quantum_googgreen800">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/addListingPrice"
-                android:layout_width="@dimen/add_listing_text_field_width"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/gotham_medium"
-                android:gravity="top"
-                android:inputType="number"
-                android:textColor="@color/default_text" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <RelativeLayout
-            android:id="@+id/addListingAmenitiesLayout"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addListingPriceLayout">
-
-            <TextView
-                android:id="@+id/amenitiesHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:fontFamily="@font/gotham_regular"
-                android:text="Rental Amenities"
-                android:textSize="18sp" />
+            android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:id="@+id/amenitiesList"
+                android:id="@+id/addListingTopLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/amenitiesHeader"
-                android:layout_marginTop="12dp">
+                app:layout_constraintBottom_toTopOf="@id/addListingPhotoLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <include
-                    android:id="@+id/amen1"
-                    layout="@layout/checkbox_item_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <include
-                    android:id="@+id/amen2"
-                    layout="@layout/checkbox_item_layout"
-                    android:layout_width="match_parent"
+                <ImageButton
+                    android:id="@+id/btnBackAddListing"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/amen1" />
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="Back button"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    android:src="@drawable/arrow_back_24" />
 
-                <include
-                    android:id="@+id/amen3"
-                    layout="@layout/checkbox_item_layout"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/addListingHeader"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/amen2" />
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@id/btnBackAddListing"
+                    android:fontFamily="@font/gotham_medium"
+                    android:gravity="center_vertical"
+                    android:padding="8dp"
+                    android:text="Add Listing"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
-                <include
-                    android:id="@+id/amen4"
-                    layout="@layout/checkbox_item_layout"
-                    android:layout_width="match_parent"
+                <!-- TODO: show confirmation dialog box and redirect back to landlord search page (if ok); do nothing (if cancel)-->
+                <ImageButton
+                    android:id="@+id/btnCloseAddListing"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/amen3" />
-
-                <include
-                    android:id="@+id/amen5"
-                    layout="@layout/checkbox_item_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/amen4" />
-
-                <include
-                    android:id="@+id/amen6"
-                    layout="@layout/checkbox_item_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/amen5" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="Back button"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    android:src="@drawable/baseline_close_24" />
 
             </RelativeLayout>
 
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/addListingUtilitiesLayout"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addListingAmenitiesLayout">
-
-            <TextView
-                android:id="@+id/utilitiesHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:fontFamily="@font/gotham_regular"
-                android:text="Utilities"
-                android:textSize="18sp" />
-
             <RelativeLayout
-                android:id="@+id/utilitiesList"
-                android:layout_width="match_parent"
+                android:id="@+id/addListingPhotoLayout"
+                android:layout_width="350dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/utilitiesHeader"
-                android:layout_marginTop="12dp">
+                android:layout_marginTop="15dp"
+                app:layout_constraintBottom_toTopOf="@id/addListingNameLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addListingTopLayout">
 
-                <include
-                    android:id="@+id/util1"
-                    layout="@layout/checkbox_item_layout"
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/addListingMediaLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="350dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="8dp" />
 
-                <include
-                    android:id="@+id/util2"
-                    layout="@layout/checkbox_item_layout"
-                    android:layout_width="match_parent"
+                <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
+                    android:id="@+id/mediaDotsIndicator"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/util1" />
+                    android:layout_alignBottom="@id/addListingMediaLayout"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="15dp"
+                    android:foregroundGravity="center"
+                    app:dotsColor="@color/default_contrast_background"
+                    app:dotsCornerRadius="8dp"
+                    app:dotsSize="8dp"
+                    app:dotsSpacing="2dp"
+                    app:dotsWidthFactor="2.5"
+                    app:progressMode="true"
+                    app:selectedDotColor="@color/default_icon" />
 
-                <include
-                    android:id="@+id/util3"
-                    layout="@layout/checkbox_item_layout"
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/addListingFromCamera"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="165dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/util2" />
+                    android:layout_below="@id/addListingMediaLayout"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/gotham_medium"
+                    android:minWidth="0dp"
+                    android:paddingHorizontal="0dp"
+                    android:text="Camera"
+                    android:textAlignment="center"
+                    android:textColor="@color/default_text"
+                    android:textSize="15sp"
+                    app:cornerRadius="0dp" />
 
-                <include
-                    android:id="@+id/util4"
-                    layout="@layout/checkbox_item_layout"
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/addListingFromStorage"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/util3" />
-
-                <include
-                    android:id="@+id/util5"
-                    layout="@layout/checkbox_item_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/util4" />
+                    android:layout_below="@id/addListingMediaLayout"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/addListingFromCamera"
+                    android:fontFamily="@font/gotham_medium"
+                    android:minWidth="0dp"
+                    android:paddingHorizontal="0dp"
+                    android:text="Gallery"
+                    android:textAlignment="center"
+                    android:textColor="@color/default_text"
+                    android:textSize="15sp"
+                    app:cornerRadius="0dp" />
 
             </RelativeLayout>
 
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/addListingFurnishedLayout"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addListingUtilitiesLayout">
-
-            <TextView
-                android:id="@+id/furnishedHeader"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/addListingNameLayout"
+                style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:fontFamily="@font/gotham_regular"
-                android:text="Furnished"
-                android:textSize="18sp" />
+                android:layout_marginTop="25dp"
+                android:hint="Name of Property"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@drawable/ic_error_outline"
+                app:layout_constraintBottom_toTopOf="@id/addListingAddressLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addListingPhotoLayout">
 
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/furnishedList"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/addListingName"
+                    android:layout_width="@dimen/add_listing_text_field_width"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_medium"
+                    android:inputType="text"
+                    android:textColor="@color/default_text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/addListingAddressLayout"
+                style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/furnishedHeader"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="12dp"
-                app:singleSelection="true">
+                android:hint="Property Address"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addListingNameLayout">
 
-                <Button
-                    android:id="@+id/furnished1"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="117dp"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/addListingAddress"
+                    android:layout_width="@dimen/add_listing_text_field_width"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-                    android:text="Full"
-                    app:cornerRadius="0dp" />
+                    android:fontFamily="@font/gotham_medium"
+                    android:inputType="text"
+                    android:textColor="@color/default_text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <Button
-                    android:id="@+id/furnished2"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="117dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-                    android:text="Semi"
-                    app:cornerRadius="0dp" />
-
-                <Button
-                    android:id="@+id/furnished3"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="117dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/gotham_book"
-                    android:text="None"
-                    app:cornerRadius="0dp" />
-
-            </com.google.android.material.button.MaterialButtonToggleGroup>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/addListingSubmitLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:background="@color/default_contrast_background"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/addListingFurnishedLayout">
-
-            <Button
-                android:id="@+id/btnSubmitAddListing"
-                android:layout_width="300dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/addListingDescriptionLayout"
+                style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_margin="12dp"
-                android:backgroundTint="@color/primary_background"
-                android:fontFamily="@font/gotham_regular"
-                android:paddingVertical="12dp"
-                android:text="Add Listing"
-                android:textColor="@color/white"
-                android:textSize="22sp" />
+                android:layout_marginTop="25dp"
+                android:hint="Property Description"
+                app:counterEnabled="true"
+                app:counterMaxLength="200"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addListingAddressLayout">
 
-        </RelativeLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/addListingDescription"
+                    android:layout_width="@dimen/add_listing_text_field_width"
+                    android:layout_height="100dp"
+                    android:fontFamily="@font/gotham_medium"
+                    android:gravity="top"
+                    android:inputType="text|textLongMessage|textMultiLine"
+                    android:maxLength="200"
+                    android:textColor="@color/default_text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RelativeLayout
+                android:id="@+id/addListingRoomLayout"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addListingDescriptionLayout">
+
+                <TextView
+                    android:id="@+id/numRoomHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="@font/gotham_regular"
+                    android:text="Number of Rooms"
+                    android:textSize="18sp" />
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/numRoomList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/numRoomHeader"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="12dp"
+                    app:singleSelection="true">
+
+                    <Button
+                        android:id="@+id/roomStudio"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:minWidth="0dp"
+                        android:paddingHorizontal="18dp"
+                        android:text="Studio"
+                        app:cornerRadius="0dp" />
+
+                    <Button
+                        android:id="@+id/room1"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:minWidth="0dp"
+                        android:paddingHorizontal="22dp"
+                        android:text="1" />
+
+                    <Button
+                        android:id="@+id/room2"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:minWidth="0dp"
+                        android:paddingHorizontal="22dp"
+                        android:text="2" />
+
+                    <Button
+                        android:id="@+id/room3"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:minWidth="0dp"
+                        android:paddingHorizontal="22dp"
+                        android:text="3" />
+
+                    <Button
+                        android:id="@+id/room4"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:minWidth="0dp"
+                        android:paddingHorizontal="22dp"
+                        android:text="4" />
+
+                    <Button
+                        android:id="@+id/room5"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:minWidth="0dp"
+                        android:paddingHorizontal="22dp"
+                        android:text="5"
+                        app:cornerRadius="0dp" />
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/addListingBathLayout"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addListingRoomLayout">
+
+                <TextView
+                    android:id="@+id/numBathHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="@font/gotham_regular"
+                    android:text="Number of Bath"
+                    android:textSize="18sp" />
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/numBathList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/numBathHeader"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="12dp"
+                    app:singleSelection="true">
+
+                    <Button
+                        android:id="@+id/bath1"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:text="1"
+                        app:cornerRadius="0dp" />
+
+                    <Button
+                        android:id="@+id/bath1_5"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:text="1.5" />
+
+                    <Button
+                        android:id="@+id/bath2"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:text="2" />
+
+                    <Button
+                        android:id="@+id/bath3"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:text="3" />
+
+                    <Button
+                        android:id="@+id/bath4"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:text="4"
+                        app:cornerRadius="0dp" />
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/addListingTypeLayout"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addListingBathLayout">
+
+                <TextView
+                    android:id="@+id/typeHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="@font/gotham_regular"
+                    android:text="Property Type"
+                    android:textSize="18sp" />
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/typeListTop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/typeHeader"
+                    android:layout_marginTop="12dp"
+                    app:singleSelection="true">
+
+                    <Button
+                        android:id="@+id/type1"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="Apartment"
+                        app:cornerRadius="0dp" />
+
+                    <Button
+                        android:id="@+id/type2"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="House" />
+
+                    <Button
+                        android:id="@+id/type3"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="Dormitory"
+                        app:cornerRadius="0dp" />
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/typeListBottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/typeListTop"
+                    app:singleSelection="true">
+
+                    <Button
+                        android:id="@+id/type4"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="TownHouse"
+                        app:cornerRadius="0dp" />
+
+                    <Button
+                        android:id="@+id/type5"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="Duplex"
+                        app:cornerRadius="0dp" />
+
+                    <Button
+                        android:id="@+id/type6"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="Condo"
+                        app:cornerRadius="0dp" />
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            </RelativeLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/addListingPriceLayout"
+                style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:hint="Rent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addListingTypeLayout"
+                app:prefixText=" $ "
+                app:prefixTextColor="@color/quantum_googgreen800">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/addListingPrice"
+                    android:layout_width="@dimen/add_listing_text_field_width"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_medium"
+                    android:gravity="top"
+                    android:inputType="number"
+                    android:textColor="@color/default_text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RelativeLayout
+                android:id="@+id/addListingAmenitiesLayout"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addListingPriceLayout">
+
+                <TextView
+                    android:id="@+id/amenitiesHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="@font/gotham_regular"
+                    android:text="Rental Amenities"
+                    android:textSize="18sp" />
+
+                <RelativeLayout
+                    android:id="@+id/amenitiesList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/amenitiesHeader"
+                    android:layout_marginTop="12dp">
+
+                    <include
+                        android:id="@+id/amen1"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        android:id="@+id/amen2"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/amen1" />
+
+                    <include
+                        android:id="@+id/amen3"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/amen2" />
+
+                    <include
+                        android:id="@+id/amen4"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/amen3" />
+
+                    <include
+                        android:id="@+id/amen5"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/amen4" />
+
+                    <include
+                        android:id="@+id/amen6"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/amen5" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/addListingUtilitiesLayout"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addListingAmenitiesLayout">
+
+                <TextView
+                    android:id="@+id/utilitiesHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="@font/gotham_regular"
+                    android:text="Utilities"
+                    android:textSize="18sp" />
+
+                <RelativeLayout
+                    android:id="@+id/utilitiesList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/utilitiesHeader"
+                    android:layout_marginTop="12dp">
+
+                    <include
+                        android:id="@+id/util1"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        android:id="@+id/util2"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/util1" />
+
+                    <include
+                        android:id="@+id/util3"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/util2" />
+
+                    <include
+                        android:id="@+id/util4"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/util3" />
+
+                    <include
+                        android:id="@+id/util5"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/util4" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/addListingFurnishedLayout"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addListingUtilitiesLayout">
+
+                <TextView
+                    android:id="@+id/furnishedHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="@font/gotham_regular"
+                    android:text="Furnished"
+                    android:textSize="18sp" />
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/furnishedList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/furnishedHeader"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="12dp"
+                    app:singleSelection="true">
+
+                    <Button
+                        android:id="@+id/furnished1"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="117dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:text="Full"
+                        app:cornerRadius="0dp" />
+
+                    <Button
+                        android:id="@+id/furnished2"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="117dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:text="Semi"
+                        app:cornerRadius="0dp" />
+
+                    <Button
+                        android:id="@+id/furnished3"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="117dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:text="None"
+                        app:cornerRadius="0dp" />
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/addListingSubmitLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:background="@color/default_contrast_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addListingFurnishedLayout">
+
+                <Button
+                    android:id="@+id/btnSubmitAddListing"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="12dp"
+                    android:backgroundTint="@color/primary_background"
+                    android:fontFamily="@font/gotham_regular"
+                    android:paddingVertical="12dp"
+                    android:text="Add Listing"
+                    android:textColor="@color/white"
+                    android:textSize="22sp" />
+
+            </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <ProgressBar
+        android:id="@+id/uploadProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"/>
+
+</RelativeLayout>
+

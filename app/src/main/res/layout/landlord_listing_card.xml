@@ -15,6 +15,7 @@
             android:id="@+id/listingItemImage"
             android:layout_width="match_parent"
             android:layout_height="180dp"
+            android:scaleType="centerCrop"
             android:contentDescription="Listing Image"
             android:src="@drawable/baseline_listing_search_24" />
 

@@ -1,5 +1,6 @@
-package com.example.urbanin.tenant.search
+package com.example.urbanin.tenant.search.DetailedListing
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +12,10 @@ import com.example.urbanin.R
 import com.example.urbanin.databinding.TenantSearchDetailedListingBinding
 import com.example.urbanin.tenant.search.Amenities.AmenitiesAdapter
 import com.example.urbanin.tenant.search.Amenities.AmenitiesCard
+import com.example.urbanin.tenant.search.DetailedListing.SearchDetailedListingFragmentArgs
 import com.google.firebase.firestore.FirebaseFirestore
 
-class SearchDetailedListingFragment: Fragment() {
+class SearchDetailedListingFragment : Fragment() {
 
     private lateinit var binding: TenantSearchDetailedListingBinding
 
@@ -22,6 +24,9 @@ class SearchDetailedListingFragment: Fragment() {
     private lateinit var amenitiesList: Map<String, Boolean>
 
     private val args: SearchDetailedListingFragmentArgs by navArgs<SearchDetailedListingFragmentArgs>()
+
+    // for media gallery
+    private lateinit var mediaAdapter: ListingMediaAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +38,29 @@ class SearchDetailedListingFragment: Fragment() {
         binding.detailedListingTitle.text = args.listing.title
         binding.detailedListingSubTitle.text = args.listing.address
 
+        setupMediaGallery()
+
         showAmenitiesGrid()
         showUtilitiesGrid()
+    }
+
+    private fun setupMediaGallery() {
+//        mediaAdapter = ListingMediaAdapter(args.listing.img, requireContext())
+        val mediaList: MutableList<ListingMediaItem> = mutableListOf()
+        for (mediaFile in args.listing.img) {
+            mediaList.add(
+                ListingMediaItem(
+                    ListingMediaItem.ItemType.VIDEO,
+                    Uri.parse(mediaFile)
+                )
+            )
+        }
+        mediaAdapter = ListingMediaAdapter(mediaList, requireContext())
+
+        binding.detailedImageGallery.adapter = mediaAdapter
+        binding.imageGalleryDots.attachTo(binding.detailedImageGallery)
+
+        // fetch all media for listing
     }
 
     private fun showUtilitiesGrid() {
@@ -56,7 +82,7 @@ class SearchDetailedListingFragment: Fragment() {
                 utilGrid.add(
                     AmenitiesCard(
                         utilGridIcons[util.key]!!,
-                        util.key.replaceFirstChar{ it.uppercase() }
+                        util.key.replaceFirstChar { it.uppercase() }
                     )
                 )
             }

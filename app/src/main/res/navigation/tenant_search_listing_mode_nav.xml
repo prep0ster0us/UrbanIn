@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchDetailedListingFragment"
-        android:name="com.example.urbanin.tenant.search.SearchDetailedListingFragment"
+        android:name="com.example.urbanin.tenant.search.DetailedListing.SearchDetailedListingFragment"
         android:label="SearchDetailedListingFragment" >
         <argument
             android:name="listing"

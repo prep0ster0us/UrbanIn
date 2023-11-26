@@ -2,7 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/bottom_navbar" >
+    android:id="@+id/bottom_navbar"
+    app:startDestination="@id/landlordDetailedListingFragment">
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.urbanin.auth.LoginFragment"
@@ -28,6 +29,9 @@
         <action
             android:id="@+id/navigate_to_landlord_add_listing"
             app:destination="@id/landlordAddListingFragment" />
+        <action
+            android:id="@+id/navigate_to_landlord_detailed_listing_fragment"
+            app:destination="@id/landlordDetailedListingFragment" />
     </fragment>
     <fragment
         android:id="@+id/landlordMessageFragment"
@@ -41,6 +45,24 @@
         android:id="@+id/landlordAddListingFragment"
         android:name="com.example.urbanin.landlord.AddListing.LandlordAddListingFragment"
         android:label="landlord_fragment_add_listing"
-        tools:layout="@layout/landlord_fragment_add_listing" />
+        tools:layout="@layout/landlord_fragment_add_listing" >
+        <action
+            android:id="@+id/navigate_back_to_search_fragment"
+            app:destination="@id/landlordSearchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/landlordDetailedListingFragment"
+        android:name="com.example.urbanin.landlord.LandlordDetailedListingFragment"
+        android:label="LandlordDetailedListingFragment" >
+        <argument
+            android:name="landlordListing"
+            app:argType="com.example.urbanin.landlord.LandlordListingData" />
+    </fragment>
+
+    <!-- add this argument to pass data from "LandlordFragment" to "DetailedListingLandlordFragment"
+    <argument
+            android:name="listing"
+            app:argType="com.example.urbanin.tenant.search.ListingData" />
+            -->
 
 </navigation>

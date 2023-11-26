@@ -1,32 +1,27 @@
 package com.example.urbanin.landlord
 
 import LandlordListingAdapter
-import ListingItemListener
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
+import com.example.urbanin.auth.LoginPreferenceManager
 import com.example.urbanin.databinding.FragmentLandlordBinding
-import com.example.urbanin.splash.LoginPreferenceManager
-import com.example.urbanin.tenant.search.ListingAdapter
-import com.example.urbanin.tenant.search.ListingCard
-import com.example.urbanin.tenant.search.ListingData
-import com.example.urbanin.tenant.search.listingCollection
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class LandlordFragment : Fragment(), ListingItemListener {
+class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
 
-//    private var _binding: FragmentLandlordBinding? = null
+    //    private var _binding: FragmentLandlordBinding? = null
 //    private val binding get() = _binding!!
     private lateinit var binding: FragmentLandlordBinding
 
@@ -37,19 +32,21 @@ class LandlordFragment : Fragment(), ListingItemListener {
     private lateinit var prefManager: LoginPreferenceManager
 
     private lateinit var adapter: LandlordListingAdapter
-    private var userListings: ArrayList<ListingData> = arrayListOf()
-    private var listings = ArrayList<ListingCard>()
+
+    //    private var userListings: ArrayList<ListingData> = arrayListOf()
+    private var userListings: ArrayList<String> = arrayListOf()
+    private var recyclerList = ArrayList<LandlordListingData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = FragmentLandlordBinding.inflate(layoutInflater)
 
-        prefManager =  LoginPreferenceManager(requireContext())
+        prefManager = LoginPreferenceManager(requireContext())
 
         // if first login, show dialog to ask user to opt in for biometric login
         Log.d(TAG, prefManager.isFirstLogin().toString())
-        if(prefManager.isFirstLogin()) {
+        if (prefManager.isFirstLogin()) {
             prefManager.setFirstLogin()
             showOptForBiometricDialog()
         }
@@ -58,6 +55,51 @@ class LandlordFragment : Fragment(), ListingItemListener {
             val action = LandlordFragmentDirections.navigateToLandlordAddListing()
             findNavController().navigate(action)
         }
+
+        // TODO: test
+        /*
+        db.collection("Users")
+            .document(auth.currentUser!!.uid)
+            .get()
+            .addOnSuccessListener {user ->
+//                db.collection("Listings")
+//                    .document(it.id.toString())
+//                    .get()
+//                    .addOnSuccessListener { document ->
+//                        Toast.makeText(requireContext(), "id: ${document.id}  data: ${document.data}", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(requireContext(), "sample data: ${document.data!!["userID"]}", Toast.LENGTH_SHORT).show()
+//                    }
+//                    .addOnFailureListener {
+//                        Toast.makeText(requireContext(), "ERROR", Toast.LENGTH_SHORT).show()
+//                    }
+
+//                Toast.makeText(requireContext(), "user id: ${user.id}; data: ${user.data}", Toast.LENGTH_SHORT).show()
+                Log.d(TAG,"user id: ${user.id}; data: ${user.data}")
+                db.collection("Listings")
+                    .document("IvkTM1LYTbGnTFaLyERM_")
+                    .get()
+                    .addOnCompleteListener { task ->
+                        if(task.isSuccessful) {
+                            val document = task.result
+                            Toast.makeText(
+                                requireContext(),
+                                "id: ${document.id}  data: ${document.data}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "sample data: ${document.data!!["userID"]}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(requireContext(), "ERROR", Toast.LENGTH_SHORT).show()
+                    }
+            }.addOnFailureListener {
+                Toast.makeText(requireContext(), "couldn't find user", Toast.LENGTH_SHORT).show()
+            }
+*/
     }
 
     private fun showOptForBiometricDialog() {
@@ -97,8 +139,13 @@ class LandlordFragment : Fragment(), ListingItemListener {
     }
 
     private fun setupRecyclerView() {
-        adapter = LandlordListingAdapter(listings, this)
-        binding.landlordListingRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+//        val recyclerList: ArrayList<LandlordListingData> = arrayListOf()
+//        for (listing in userListingCollection) {
+//            recyclerList.add(listing)
+//        }
+        binding.landlordListingRecyclerView.setHasFixedSize(true)
+        binding.landlordListingRecyclerView.layoutManager = LinearLayoutManager(context)
+        adapter = LandlordListingAdapter(userListingCollection, context,this)
         binding.landlordListingRecyclerView.adapter = adapter
     }
 
@@ -113,8 +160,8 @@ class LandlordFragment : Fragment(), ListingItemListener {
 //            )
 //        )
         // TODO: Load your actual data here
-//        getListingsFromDatabase()
-        adapter.notifyDataSetChanged()
+        getListingsFromDatabase()
+//        adapter.notifyDataSetChanged()
     }
 
     private fun getListingsFromDatabase() {
@@ -123,38 +170,79 @@ class LandlordFragment : Fragment(), ListingItemListener {
             .document(auth.currentUser!!.uid)
             .get()
             .addOnSuccessListener { document ->
-                Log.d(TAG, "data fetched for user: ${auth.currentUser!!.uid}")
-                userListings = document.data!!["Listings"] as ArrayList<ListingData>
-                for (listing in userListings) {
-                    listings.add(
-                        ListingCard(
-                            listing.img,
-                            listing.title,
-                            listing.description,
-                            listing.address
-                        )
-                    )
+                Log.d(TAG, "data fetched for user: ${auth.currentUser!!.uid}__")
+//                userListings = document.data!!["Listings"] as ArrayList<ListingData>
+
+                userListings = document.data!!["Listings"] as ArrayList<String>
+                for (listingId in userListings) {
+                    // check if listing already in the recycler view collection
+                    var checkExisting = false
+                    for (existingListing in userListingCollection) {
+                        if (existingListing.listingID == listingId) {
+                            checkExisting = true
+                            break
+                        }
+                    }
+
+                    if (!checkExisting) {
+                        db.collection("Listings")
+                            .document(listingId)
+                            .get()
+                            .addOnSuccessListener { doc ->
+                                Log.d(TAG, "Listing fetch: SUCCESS - id= " + doc.id)
+                                Log.d(TAG, "doc data: $doc")
+                                if (doc != null) {
+                                    // check if this listing already exists in the recycler list (for listings)
+                                    Toast.makeText(requireContext(), doc.data!!["userID"].toString(), Toast.LENGTH_SHORT).show()
+                                    userListingCollection.add(
+                                        LandlordListingData(
+                                            listingId,
+//                                            auth.currentUser!!.uid,
+                                            doc.data!!["userID"] as String,
+                                            doc.data!!["type"] as String,
+                                            doc.data!!["title"] as String,
+                                            doc.data!!["description"] as String,
+                                            doc.data!!["latitude"] as String,
+                                            doc.data!!["longitude"] as String,
+                                            doc.data!!["address"] as String,
+                                            doc.data!!["price"] as String,
+                                            doc.data!!["img"] as MutableList<String>,
+                                            doc.data!!["datePosted"] as String,
+                                            doc.data!!["availableFrom"] as String,
+                                            doc.data!!["numRooms"] as String,
+                                            doc.data!!["numBaths"] as String,
+                                            doc.data!!["furnished"] as String,
+                                            doc.data!!["utilities"] as Map<String, Boolean>,
+                                            doc.data!!["amenities"] as Map<String, Boolean>
+                                        )
+                                    )
+                                } else {
+                                    Log.d(TAG, "Listing fetch: NO-DATA - No such document")
+                                }
+                            }
+                            .addOnFailureListener { exception ->
+                                Log.e(TAG, "Listing fetch: ERROR - " + exception.message.toString())
+                            }
+                    }
                 }
+                adapter.notifyDataSetChanged()
             }
             .addOnFailureListener {
                 Log.d(TAG, "data fetch FAILED: $it")
             }
     }
 
-    override fun onEditClicked(listing: LandlordListingCard.Listing) {
-        // Handle edit action
-        // For example, you can navigate to another fragment or activity for editing the listing
-        println("Edit clicked for listing: ${listing.listingID}")
-    }
-
-    override fun onDeleteClicked(listing: LandlordListingCard.Listing) {
-        // Handle delete action
-        // For example, you can show a confirmation dialog, and if confirmed, delete the listing from the database and update the RecyclerView
-        println("Delete clicked for listing: ${listing.listingID}")
-    }
+//    private fun getUserListings(userListings: ArrayList<String>) {
+//
+//    }
 
 //    override fun onDestroyView() {
 //        super.onDestroyView()
 //        _binding = null
 //    }
+
+    override fun handleListingData(data: LandlordListingData) {
+        val action = LandlordFragmentDirections.navigateToLandlordDetailedListingFragment(data)
+        findNavController().navigate(action)
+    }
 }
