@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -28,7 +29,7 @@ import com.example.urbanin.BuildConfig
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
 import com.example.urbanin.databinding.LandlordFragmentAddListingBinding
-import com.example.urbanin.tenant.search.ListingData
+import com.example.urbanin.landlord.LandlordListingData
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -56,7 +57,7 @@ class LandlordAddListingFragment : Fragment() {
     private lateinit var storage: FirebaseStorage
     private lateinit var storageRef: StorageReference
 
-    private var saveListing: ListingData = ListingData()
+    private var saveListing: LandlordListingData = LandlordListingData()
     private lateinit var listingLocation: LatLng
 
     // to display selected images
@@ -64,7 +65,7 @@ class LandlordAddListingFragment : Fragment() {
     private var mediaList: MutableList<MediaPagerItem> = arrayListOf()
 
     // save uploaded images
-    private var listingUriList: MutableList<Uri> = mutableListOf()
+    private var listingUriMap: HashMap<Uri, String> = hashMapOf()
     private var storageMediaList: MutableList<String> = mutableListOf()
 
     // for camera intent request
@@ -83,22 +84,12 @@ class LandlordAddListingFragment : Fragment() {
 
         mediaAdapter = MediaPagerAdapter(mediaList, requireContext())
 
-//        if(mediaList.size != 0) {
-//            binding.addListingMediaLayout.isVisible = true
-//            mediaAdapter = MediaPagerAdapter(mediaList, requireContext())
-//        } else {
-//            binding.addListingMediaLayout.isVisible = false
-//        }
-
         db = FirebaseFirestore.getInstance()
 
         auth = FirebaseAuth.getInstance()
 
         storage = FirebaseStorage.getInstance()
         storageRef = storage.reference
-        // fetch id of user logged in (i.e. user creating the listing)
-        // 2. userID
-//        saveListing.userID = auth.currentUser!!.uid
 
         // initialize Places, Places API  autocomplete bar does not work without this
         if (!Places.isInitialized()) {
@@ -115,15 +106,13 @@ class LandlordAddListingFragment : Fragment() {
             // TODO: check if any required fields haven't been entered
 
             // TODO: IF ALL REQUIRED FIELDS FILLED; PROCEED WITH UPLOADING TO DATABASE
-
             // get random document ID for adding the listing (to store within ListingData)
             val fetchLink = db.collection("Listings").document()
 
             // if all fields filled in properly, save as "ListingData" object
-            saveListing = ListingData(
+            saveListing = LandlordListingData(
                 fetchLink.id,
                 auth.currentUser!!.uid.toString(),
-//                "testUser",
                 getPropertyType(binding.root),
                 binding.addListingName.text.toString(),
                 binding.addListingDescription.text.toString(),
@@ -131,8 +120,8 @@ class LandlordAddListingFragment : Fragment() {
                 listingLocation.longitude.toString(),
                 binding.addListingAddress.text.toString(),
                 binding.addListingPrice.text.toString(),
-//                binding.addListingPrice.text.toString().toLong(),
-                // TODO: save images to listing data
+                // save images to listing data
+                mutableListOf(),
                 mutableListOf(),
                 LocalDate.now().toString(),
                 // TODO: add availableFrom date picker layout
@@ -167,9 +156,10 @@ class LandlordAddListingFragment : Fragment() {
                 }
 
             // TODO: save media files to firestore storage
-            for (file in listingUriList) {
+            for ((file, type) in listingUriMap) {
                 // to check if all files have been uploaded
                 var awaitUpload = 0
+                Toast.makeText(requireContext(), listingUriMap.size.toString(), Toast.LENGTH_SHORT).show()
 
                 val fileName = File(file.path!!).name
                 val fileReference = storageRef.child(
@@ -182,77 +172,77 @@ class LandlordAddListingFragment : Fragment() {
 
                             fileReference.downloadUrl.addOnSuccessListener { uri ->
                                 // TODO: add media url to listing (in database for reference)
-                                db.collection("Listings")
-                                    .document(saveListing.listingID)
-                                    .update("img", FieldValue.arrayUnion(uri.toString()))
-                                    .addOnSuccessListener {
-                                        Log.d(TAG, "Media File added: ${uri.toString()}")
-                                        // redirect back to search page, once all files uploaded
-                                        if (awaitUpload == listingUriList.size) {
-                                            Log.d(TAG, awaitUpload.toString())
-                                            binding.uploadProgressBar.isVisible = false
-                                            findNavController().navigate(
-                                                LandlordAddListingFragmentDirections.navigateBackToSearchFragment()
-                                            )
-                                        } else {
-                                            awaitUpload += 1
+                                if(type == "image") {
+                                    // IMAGES
+                                    db.collection("Listings")
+                                        .document(saveListing.listingID)
+                                        .update("img", FieldValue.arrayUnion(uri.toString()))
+                                        .addOnSuccessListener {
+                                            Log.d(TAG, "Image File added: ${uri.toString()}")
+                                            // redirect back to search page, once all files uploaded
+                                            if (awaitUpload == listingUriMap.size) {
+                                                Log.d(TAG, awaitUpload.toString())
+                                                binding.uploadProgressBar.isVisible = false
+                                                findNavController().navigate(
+                                                    LandlordAddListingFragmentDirections.navigateBackToSearchFragment()
+                                                )
+                                            } else {
+                                                awaitUpload += 1
+                                            }
                                         }
-                                    }
-                                    .addOnFailureListener { e ->
-                                        Log.d(TAG, "Error adding in media uri: ${e.message}")
-                                        // redirect back to search page, once all files uploaded
-                                        if (awaitUpload == listingUriList.size) {
-                                            binding.uploadProgressBar.isVisible = false
-                                            findNavController().navigate(
-                                                LandlordAddListingFragmentDirections.navigateBackToSearchFragment()
-                                            )
-                                        } else {
-                                            awaitUpload += 1
+                                        .addOnFailureListener { e ->
+                                            Log.d(TAG, "Error adding in image uri: ${e.message}")
+                                            // redirect back to search page, once all files uploaded
+                                            if (awaitUpload == listingUriMap.size) {
+                                                binding.uploadProgressBar.isVisible = false
+                                                findNavController().navigate(
+                                                    LandlordAddListingFragmentDirections.navigateBackToSearchFragment()
+                                                )
+                                            } else {
+                                                awaitUpload += 1
+                                            }
                                         }
-                                    }
-
+                                } else {
+                                    // VIDEOS
+                                    db.collection("Listings")
+                                        .document(saveListing.listingID)
+                                        .update("vid", FieldValue.arrayUnion(uri.toString()))
+                                        .addOnSuccessListener {
+                                            Log.d(TAG, "Video File added: ${uri.toString()}")
+                                            // redirect back to search page, once all files uploaded
+                                            if (awaitUpload == listingUriMap.size) {
+                                                Log.d(TAG, awaitUpload.toString())
+                                                binding.uploadProgressBar.isVisible = false
+                                                findNavController().navigate(
+                                                    LandlordAddListingFragmentDirections.navigateBackToSearchFragment()
+                                                )
+                                            } else {
+                                                awaitUpload += 1
+                                            }
+                                        }
+                                        .addOnFailureListener { e ->
+                                            Log.d(TAG, "Error adding in video uri: ${e.message}")
+                                            // redirect back to search page, once all files uploaded
+                                            if (awaitUpload == listingUriMap.size) {
+                                                binding.uploadProgressBar.isVisible = false
+                                                findNavController().navigate(
+                                                    LandlordAddListingFragmentDirections.navigateBackToSearchFragment()
+                                                )
+                                            } else {
+                                                awaitUpload += 1
+                                            }
+                                        }
+                                }
                             }
                         } else {
                             Log.e(TAG, task.exception?.message.toString())
                         }
-//                        storageMediaList.add(downloadUri.toString())
                     }
-//                    .addOnSuccessListener { task ->
-//                        Log.d(TAG, "Media Upload: Success! - "+saveListing.listingID)
-//                        val downloadUri = fileReference.downloadUrl
-//                        // TODO: add media url to listing (in database for reference)
-//                        db.collection("Listings")
-//                            .document(saveListing.listingID)
-//                            .update("img", FieldValue.arrayUnion(downloadUri.toString()))
-//                            .addOnSuccessListener {
-//                                Log.d(TAG, "Media File added: ${downloadUri.toString()}")
-//                                // redirect back to search page, once all files uploaded
-//                                if(awaitUpload==listingUriList.size) {
-//                                    binding.uploadProgressBar.isVisible = false
-//                                    findNavController().navigate(LandlordAddListingFragmentDirections.navigateBackToSearchFragment())
-//                                } else {
-//                                    awaitUpload += 1
-//                                }
-//                            }
-//                            .addOnFailureListener { e ->
-//                                Log.d(TAG, "Error adding in media uri: ${e.message}")
-//                                // redirect back to search page, once all files uploaded
-//                                if(awaitUpload==listingUriList.size) {
-//                                    binding.uploadProgressBar.isVisible = false
-//                                    findNavController().navigate(LandlordAddListingFragmentDirections.navigateBackToSearchFragment())
-//                                } else {
-//                                    awaitUpload += 1
-//                                }
-//                            }
-////                        storageMediaList.add(downloadUri.toString())
-//                    }
                     .addOnFailureListener { exception ->
                         exception.printStackTrace()
                         Log.e(TAG, "Storage upload error: " + exception.message.toString())
                     }
             }
-
-
         }
 
         // format rent price as currency
@@ -540,11 +530,8 @@ class LandlordAddListingFragment : Fragment() {
             // photo picker.
             if (uris.isNotEmpty()) {
                 Log.d(TAG, "Number of items selected: ${uris.size}")
-                // set first selected image as the thumbnail for photos selected
-//                binding.addListingPhotoGallery.setImageURI(uris[0])
                 // add selected image to media view pager
                 updateMediaGallery(uris)
-//                Toast.makeText(requireContext(), uris.size.toString(), Toast.LENGTH_SHORT).show()
             } else {
                 Log.d(TAG, "No media selected")
             }
@@ -559,13 +546,15 @@ class LandlordAddListingFragment : Fragment() {
         if (uris != null) {
             for (uri in uris) {
                 // save selected photos (to add in database when listing finally added)
-                listingUriList.add(uri);
+//                listingUriMap.add(uri);
 
                 // add media to media gallery (based on media type)
                 val mediaType = getMediaType(uri)
                 if (mediaType.startsWith("image")) {
+                    listingUriMap[uri] = "image"
                     addImageToMediaGallery(uri)
                 } else if (mediaType.startsWith("video")) {
+                    listingUriMap[uri] = "video"
                     addVideoToMediaGallery(uri)
                 }
             }
@@ -601,7 +590,8 @@ class LandlordAddListingFragment : Fragment() {
                 // TODO: add view pager (with horizontal scroll) and add all images to this list (taken from camera + selected from storage)
                 addImageToMediaGallery(imageUri)
                 // save media uri (to be uploaded to database)
-                listingUriList.add(imageUri)
+//                listingUriMap.add(imageUri)
+                listingUriMap[imageUri] = "image"
             } else {
                 Log.d(TAG, "No media selected")
             }
@@ -615,7 +605,8 @@ class LandlordAddListingFragment : Fragment() {
                 // TODO: add view pager (with horizontal scroll) and add all images to this list (taken from camera + selected from storage)
                 addVideoToMediaGallery(videoUri)
                 // save media uri (to be uploaded to database)
-                listingUriList.add(videoUri)
+//                listingUriMap.add(videoUri)
+                listingUriMap[videoUri] = "video"
             } else {
                 Log.d(TAG, "No media selected")
             }

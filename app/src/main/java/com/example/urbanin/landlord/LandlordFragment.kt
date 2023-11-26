@@ -56,50 +56,6 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
             findNavController().navigate(action)
         }
 
-        // TODO: test
-        /*
-        db.collection("Users")
-            .document(auth.currentUser!!.uid)
-            .get()
-            .addOnSuccessListener {user ->
-//                db.collection("Listings")
-//                    .document(it.id.toString())
-//                    .get()
-//                    .addOnSuccessListener { document ->
-//                        Toast.makeText(requireContext(), "id: ${document.id}  data: ${document.data}", Toast.LENGTH_SHORT).show()
-//                        Toast.makeText(requireContext(), "sample data: ${document.data!!["userID"]}", Toast.LENGTH_SHORT).show()
-//                    }
-//                    .addOnFailureListener {
-//                        Toast.makeText(requireContext(), "ERROR", Toast.LENGTH_SHORT).show()
-//                    }
-
-//                Toast.makeText(requireContext(), "user id: ${user.id}; data: ${user.data}", Toast.LENGTH_SHORT).show()
-                Log.d(TAG,"user id: ${user.id}; data: ${user.data}")
-                db.collection("Listings")
-                    .document("IvkTM1LYTbGnTFaLyERM_")
-                    .get()
-                    .addOnCompleteListener { task ->
-                        if(task.isSuccessful) {
-                            val document = task.result
-                            Toast.makeText(
-                                requireContext(),
-                                "id: ${document.id}  data: ${document.data}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            Toast.makeText(
-                                requireContext(),
-                                "sample data: ${document.data!!["userID"]}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(requireContext(), "ERROR", Toast.LENGTH_SHORT).show()
-                    }
-            }.addOnFailureListener {
-                Toast.makeText(requireContext(), "couldn't find user", Toast.LENGTH_SHORT).show()
-            }
-*/
     }
 
     private fun showOptForBiometricDialog() {
@@ -130,7 +86,7 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        // TODO: Load your listings data into the 'listings' list
+        // Load your listings data into the 'listings' list
         loadData()
 
         // show bottom nav bar
@@ -139,10 +95,6 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
     }
 
     private fun setupRecyclerView() {
-//        val recyclerList: ArrayList<LandlordListingData> = arrayListOf()
-//        for (listing in userListingCollection) {
-//            recyclerList.add(listing)
-//        }
         binding.landlordListingRecyclerView.setHasFixedSize(true)
         binding.landlordListingRecyclerView.layoutManager = LinearLayoutManager(context)
         adapter = LandlordListingAdapter(userListingCollection, context,this)
@@ -150,18 +102,8 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
     }
 
     private fun loadData() {
-        // Mock data for demonstration
-//        listings.add(
-//            ListingCard(
-//                imgResource = "",
-//                title = "Apartment",
-//                description = "4 bds | 1.5 ba | 1,500 sqft",
-//                location = "XX ABC St, New Haven, CT"
-//            )
-//        )
-        // TODO: Load your actual data here
+        // Load in data from Firestore
         getListingsFromDatabase()
-//        adapter.notifyDataSetChanged()
     }
 
     private fun getListingsFromDatabase() {
@@ -171,7 +113,6 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
             .get()
             .addOnSuccessListener { document ->
                 Log.d(TAG, "data fetched for user: ${auth.currentUser!!.uid}__")
-//                userListings = document.data!!["Listings"] as ArrayList<ListingData>
 
                 userListings = document.data!!["Listings"] as ArrayList<String>
                 for (listingId in userListings) {
@@ -193,7 +134,7 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
                                 Log.d(TAG, "doc data: $doc")
                                 if (doc != null) {
                                     // check if this listing already exists in the recycler list (for listings)
-                                    Toast.makeText(requireContext(), doc.data!!["userID"].toString(), Toast.LENGTH_SHORT).show()
+//                                    Toast.makeText(requireContext(), doc.data!!["userID"].toString(), Toast.LENGTH_SHORT).show()
                                     userListingCollection.add(
                                         LandlordListingData(
                                             listingId,
@@ -207,6 +148,7 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
                                             doc.data!!["address"] as String,
                                             doc.data!!["price"] as String,
                                             doc.data!!["img"] as MutableList<String>,
+                                            doc.data!!["vid"] as MutableList<String>,
                                             doc.data!!["datePosted"] as String,
                                             doc.data!!["availableFrom"] as String,
                                             doc.data!!["numRooms"] as String,
@@ -231,10 +173,6 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
                 Log.d(TAG, "data fetch FAILED: $it")
             }
     }
-
-//    private fun getUserListings(userListings: ArrayList<String>) {
-//
-//    }
 
 //    override fun onDestroyView() {
 //        super.onDestroyView()

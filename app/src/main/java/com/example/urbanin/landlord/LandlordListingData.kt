@@ -15,6 +15,7 @@ data class LandlordListingData(
     var address: String = "",
     var price: String = "",
     var img: MutableList<String> = mutableListOf(),
+    var vid: MutableList<String> = mutableListOf(),
     var datePosted: String = "",
     var availableFrom: String = "",
     var numRooms: String = "",

@@ -189,6 +189,7 @@ class SearchFragment : Fragment() {
 //                                doc.data["price"] as Long,
                                 doc.data["price"] as String,
                                 doc.data["img"] as MutableList<String>,
+                                doc.data["vid"] as MutableList<String>,
                                 doc.data["datePosted"] as String,
                                 doc.data["availableFrom"] as String,
                                 doc.data["numRooms"] as String,

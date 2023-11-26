@@ -21,6 +21,7 @@ data class ListingData(
 //    var price: Long = 0,
     var price: String = "",
     var img: MutableList<String> = mutableListOf(),       // TODO: change to image type
+    var vid: MutableList<String> = mutableListOf(),       // TODO: change to video type
     var datePosted: String = "",
     var availableFrom: String = "",
     var numRooms: String = "",

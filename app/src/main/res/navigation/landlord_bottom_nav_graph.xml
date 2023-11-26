@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/landlordDetailedListingFragment"
-        android:name="com.example.urbanin.landlord.LandlordDetailedListingFragment"
+        android:name="com.example.urbanin.landlord.DetailedListing.LandlordDetailedListingFragment"
         android:label="LandlordDetailedListingFragment" >
         <argument
             android:name="landlordListing"
