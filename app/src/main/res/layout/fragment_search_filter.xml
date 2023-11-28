@@ -68,19 +68,476 @@
                 app:layout_constraintTop_toBottomOf="@id/filterRentHeader"
                 app:layout_constraintWidth_percent="0.8" />
 
-            <TextView
-                android:id="@+id/filterBedroomHeader"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/filterAvailableLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="16dp"
-                android:fontFamily="@font/gotham_medium"
-                android:paddingHorizontal="12dp"
-                android:paddingTop="16dp"
-                android:paddingBottom="12dp"
-                android:text="Bedrooms"
-                android:textSize="16sp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/filterRentSeekBar" />
+                app:layout_constraintTop_toBottomOf="@id/filterRentSeekBar">
+
+                <TextView
+                    android:id="@+id/availableHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="@font/gotham_medium"
+                    android:padding="12dp"
+                    android:text="Available From"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/availableHeader" >
+
+                    <ImageView
+                        android:id="@+id/availableIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/baseline_calendar_month_24"
+                        android:contentDescription="calender icon" />
+
+                    <TextView
+                        android:id="@+id/availableDisplayText"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:hint="Select a date"
+                        android:fontFamily="@font/gotham_book"
+                        android:textSize="14sp"
+                        android:padding="12dp"
+                        android:layout_toEndOf="@id/availableIcon"
+                        />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/filterBedroomLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/filterAvailableLayout">
+
+                <TextView
+                    android:id="@+id/filterBedroomHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_medium"
+                    android:padding="12dp"
+                    android:text="Bedrooms"
+                    android:textSize="16sp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                     />
+
+                <TextView
+                    android:id="@+id/minBedHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_medium"
+                    android:layout_below="@id/filterBedroomHeader"
+                    android:textSize="13dp"
+                    android:padding="12dp"
+                    android:text="Min: "
+                    android:layout_marginStart="36dp" />
+
+                <Spinner
+                    android:id="@+id/filterBedroomMin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingVertical="12dp"
+                    android:layout_toEndOf="@id/minBedHeader"
+                    android:layout_alignParentBottom="true"
+                    tools:listitem="@layout/spinner_text_item_layout" />
+
+                <TextView
+                    android:id="@+id/maxBedHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="48dp"
+                    android:layout_toEndOf="@id/filterBedroomMin"
+                    android:fontFamily="@font/gotham_medium"
+                    android:padding="12dp"
+                    android:text="Max: "
+                    android:textSize="13dp" />
+
+                <Spinner
+                    android:id="@+id/filterBedroomMax"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/spinner_text_item_layout"
+                    android:layout_toEndOf="@id/maxBedHeader"
+                    android:paddingVertical="12dp"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/filterBathroomLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/filterBedroomLayout">
+
+                <TextView
+                    android:id="@+id/filterBathroomHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_medium"
+                    android:padding="12dp"
+                    android:text="Bathrooms"
+                    android:textSize="16sp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    />
+
+                <Spinner
+                    android:id="@+id/filterBathroom"
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:paddingVertical="12dp"
+                    android:paddingStart="16dp"
+                    android:layout_below="@id/filterBathroomHeader"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    tools:listitem="@layout/spinner_text_item_layout" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/filterTypeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/filterBathroomLayout">
+
+                <TextView
+                    android:id="@+id/typeHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_medium"
+                    android:text="Property Type"
+                    android:layout_alignParentTop="true"
+                    android:padding="12dp"
+                    android:textSize="16sp" />
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/typeListTop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/typeHeader"
+                    android:layout_marginTop="12dp"
+                    android:layout_centerHorizontal="true"
+                    app:singleSelection="true">
+
+                    <Button
+                        android:id="@+id/type1"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="Apartment"
+                        app:cornerRadius="0dp" />
+
+                    <Button
+                        android:id="@+id/type2"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="House" />
+
+                    <Button
+                        android:id="@+id/type3"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="Dormitory"
+                        app:cornerRadius="0dp" />
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/typeListBottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/typeListTop"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignStart="@id/typeListTop"
+                    app:singleSelection="true">
+
+                    <Button
+                        android:id="@+id/type4"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="TownHouse"
+                        app:cornerRadius="0dp" />
+
+                    <Button
+                        android:id="@+id/type5"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="Duplex"
+                        app:cornerRadius="0dp" />
+
+                    <Button
+                        android:id="@+id/type6"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="Condo"
+                        app:cornerRadius="0dp" />
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/filterAmenitiesLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/filterTypeLayout">
+
+                <TextView
+                    android:id="@+id/amenitiesHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:padding="12dp"
+                    android:fontFamily="@font/gotham_medium"
+                    android:text="Rental Amenities"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:id="@+id/amenitiesList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/amenitiesHeader">
+
+                    <include
+                        android:id="@+id/amen1"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        android:id="@+id/amen2"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/amen1" />
+
+                    <include
+                        android:id="@+id/amen3"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/amen2" />
+
+                    <include
+                        android:id="@+id/amen4"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/amen3" />
+
+                    <include
+                        android:id="@+id/amen5"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/amen4" />
+
+                    <include
+                        android:id="@+id/amen6"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/amen5" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/filterUtilitiesLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/filterAmenitiesLayout">
+
+                <TextView
+                    android:id="@+id/utilitiesHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:fontFamily="@font/gotham_medium"
+                    android:text="Utilities"
+                    android:padding="12dp"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:id="@+id/utilitiesList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/utilitiesHeader"
+                    android:layout_marginTop="12dp">
+
+                    <include
+                        android:id="@+id/util1"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <include
+                        android:id="@+id/util2"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/util1" />
+
+                    <include
+                        android:id="@+id/util3"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/util2" />
+
+                    <include
+                        android:id="@+id/util4"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/util3" />
+
+                    <include
+                        android:id="@+id/util5"
+                        layout="@layout/checkbox_item_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/util4" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/filterFurnishedLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/filterUtilitiesLayout">
+
+                <TextView
+                    android:id="@+id/furnishedHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="@font/gotham_medium"
+                    android:text="Furnished"
+                    android:textSize="16sp" />
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/furnishedList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/furnishedHeader"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="12dp"
+                    app:singleSelection="true">
+
+                    <Button
+                        android:id="@+id/furnished1"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:text="Full"
+                        android:paddingHorizontal="12dp"
+                        app:cornerRadius="0dp" />
+
+                    <Button
+                        android:id="@+id/furnished2"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:text="Semi"
+                        app:cornerRadius="0dp" />
+
+                    <Button
+                        android:id="@+id/furnished3"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:text="None"
+                        app:cornerRadius="0dp" />
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/filterResultsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@color/default_contrast_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/filterFurnishedLayout">
+
+                <Button
+                    android:id="@+id/btnFilterResults"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="12dp"
+                    android:backgroundTint="@color/primary_background"
+                    android:fontFamily="@font/gotham_regular"
+                    android:paddingVertical="12dp"
+                    android:text="See Results"
+                    android:textColor="@color/white"
+                    android:textSize="22sp" />
+
+            </RelativeLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
