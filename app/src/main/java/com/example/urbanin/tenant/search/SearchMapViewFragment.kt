@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
 import com.example.urbanin.databinding.FragmentSearchMapViewBinding
+import com.example.urbanin.tenant.search.SearchFragment.Companion.isMapInit
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -28,7 +29,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 
 class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
-    private var canAccessLocation: Boolean = true
     private lateinit var binding: FragmentSearchMapViewBinding
 
     // Firestore database instance
@@ -125,8 +125,6 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
             }
             // check if can fetch current location
             getCurrentLocation()
-
-
         }
     }
 
@@ -207,7 +205,10 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
                         )
                     )
                     // Zoom out to zoom level 10, animating with a duration of 3 seconds.
-                    googleMap.animateCamera(CameraUpdateFactory.zoomTo(10F), 3000, null)
+                    if (!isMapInit) {
+                        googleMap.animateCamera(CameraUpdateFactory.zoomTo(10F), 3000, null)
+                        isMapInit = true
+                    }
                 }
             }
         }
@@ -221,17 +222,23 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
             .addOnSuccessListener { location ->
                 if (location != null) {
                     Log.d(TAG, "Current location fetch: SUCCESS")
-                    canAccessLocation = true
-                    // zoom to current location
-                    zoomToLocation(
-                        googleMap,
-                        LatLng(location.latitude, location.longitude)
+                    val markerPosition = LatLng(
+                        location.latitude,
+                        location.longitude
                     )
+                    // zoom to current location
+                    if (!isMapInit) {
+                        Toast.makeText(requireContext(), "first time", Toast.LENGTH_SHORT).show()
+                        zoomToLocation(googleMap, markerPosition)
+                        isMapInit = true
+                    } else {
+                        // if already initialized, move camera (without zoom)
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerPosition, 10F))
+                    }
                 }
             }
             .addOnFailureListener { exception ->
                 Log.e(TAG, "Failed to retrieve current location: ${exception.message}")
-                canAccessLocation = false
             }
     }
 

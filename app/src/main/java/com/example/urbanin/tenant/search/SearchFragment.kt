@@ -39,6 +39,9 @@ class SearchFragment : Fragment() {
 
     // google map object (for callback)
     private lateinit var googleMap: GoogleMap
+    companion object {
+        var isMapInit: Boolean = false
+    }
 
     // FireStore object
     private var db = FirebaseFirestore.getInstance()
