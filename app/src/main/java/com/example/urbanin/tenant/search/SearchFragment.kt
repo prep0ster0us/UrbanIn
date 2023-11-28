@@ -1,13 +1,18 @@
 package com.example.urbanin.tenant.search
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -16,6 +21,7 @@ import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
 import com.example.urbanin.databinding.FragmentSearchBinding
 import com.google.android.gms.common.api.Status
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -27,7 +33,6 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.GeoPoint
 
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
@@ -49,8 +54,10 @@ class SearchFragment : Fragment() {
         }
 
         FirebaseApp.initializeApp(requireContext())
-        getListingFromFirebase()
+
     }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -87,14 +94,17 @@ class SearchFragment : Fragment() {
                 if (selectedPlaceLatLng != null) {
                     if (selectedPlaceName != null) {
 //                        googleMap.clear()
-                        Log.d(TAG, "Place Selected: ${selectedPlaceName}\n Place Location: ${selectedPlaceLatLng}")
-                        // TODO: add marker for the place selected
-//                        googleMap.addMarker(MarkerOptions().position(selectedPlaceLatLng).title(selectedPlaceName))
-                        zoomToLocation(googleMap, selectedPlaceLatLng, selectedPlaceName)
+                        Log.d(
+                            TAG,
+                            "Place Selected: ${selectedPlaceName}\n Place Location: ${selectedPlaceLatLng}"
+                        )
+                        // add marker for the place selected
+//                        googleMap.addMarker(
+//                            MarkerOptions().position(selectedPlaceLatLng).title(selectedPlaceName)
+//                        )
+//                        zoomToLocation(googleMap, selectedPlaceLatLng, selectedPlaceName)
                     }
                 }
-//                val latitude = latlng?.latitude
-//                val longitude = latlng?.longitude
             }
 
             override fun onError(status: Status) {
@@ -123,10 +133,6 @@ class SearchFragment : Fragment() {
                 actionChangeView
             )
         }
-//            OR
-//            childFragmentManager.findFragmentById(binding.listingView.id)?.findNavController()?.navigate(actionChangeView)
-        // ***** does not work, probably because confused between outer controller (for nav bar fragments) and inner controller (for list/map) *****
-        // findNavController().navigate(actionChangeView)
 
         binding.listingFilterText.setOnClickListener {
             // temporarily hide bottom nav bar, when inflating filter fragment (to show full screen)
@@ -142,69 +148,15 @@ class SearchFragment : Fragment() {
         parentNavBar.isVisible = flag
     }
 
-    private fun zoomToLocation(googleMap: GoogleMap, location: LatLng, markerTitle: String) {
-        // add marker at location, and add marker title
-        googleMap.addMarker(MarkerOptions().position(location).title(markerTitle))
-        // move camera to location
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15F))
-        // Zoom in, animating the camera.
-        googleMap.animateCamera(CameraUpdateFactory.zoomIn())
-        // Zoom out to zoom level 10, animating with a duration of 2 seconds.
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(15F), 2000, null)
-    }
-
-    private fun getListingFromFirebase() {
-        db.collection("Listings")
-            .get()
-            .addOnSuccessListener { documents ->
-                for (doc in documents) {
-                    Log.d(TAG, "Document ${doc.id} => ${doc.data}")
-
-                    var checkExisting = false
-                    for (listing in listingCollection) {
-                        if (listing.listingID == doc.id) {
-                            checkExisting = true
-                            break
-                        }
-                    }
-                    Log.d(TAG, "${doc.data["utilities"]}")
-                    Log.d(TAG, "${doc.data["amenities"]}")
-                    Log.d(TAG, "Location = ${doc.data["location"]}")
-//                    val location: GeoPoint = doc.data["location"] as GeoPoint
-//                    Log.d(TAG, location.latitude.toString())
-//                    Log.d(TAG, location.longitude.toString())
-                    if (!checkExisting) {
-                        listingCollection.add(
-                            ListingData(
-                                doc.id,
-                                doc.data["userID"] as String,
-                                doc.data["type"] as String,
-                                doc.data["title"] as String,
-                                doc.data["description"] as String,
-//                                (doc.data["location"] as GeoPoint).latitude,
-//                                (doc.data["location"] as GeoPoint).longitude,
-                                doc.data["latitude"] as String,
-                                doc.data["longitude"] as String,
-                                doc.data["address"] as String,
-//                                doc.data["price"] as Long,
-                                doc.data["price"] as String,
-                                doc.data["img"] as MutableList<String>,
-                                doc.data["vid"] as MutableList<String>,
-                                doc.data["datePosted"] as String,
-                                doc.data["availableFrom"] as String,
-                                doc.data["numRooms"] as String,
-                                doc.data["numBaths"] as String,
-                                doc.data["furnished"] as String,
-                                doc.data["utilities"] as Map<String, Boolean>,
-                                doc.data["amenities"] as Map<String, Boolean>
-                            )
-                        )
-                    }
-                }
-            }
-            .addOnFailureListener {
-                Log.w(TAG, "Error getting data!")
-            }
-    }
+//    private fun zoomToLocation(googleMap: GoogleMap, location: LatLng, markerTitle: String) {
+//        // add marker at location, and add marker title
+//        googleMap.addMarker(MarkerOptions().position(location).title(markerTitle))
+//        // move camera to location
+//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15F))
+//        // Zoom in, animating the camera.
+//        googleMap.animateCamera(CameraUpdateFactory.zoomIn())
+//        // Zoom out to zoom level 10, animating with a duration of 2 seconds.
+//        googleMap.animateCamera(CameraUpdateFactory.zoomTo(15F), 2000, null)
+//    }
 
 }
