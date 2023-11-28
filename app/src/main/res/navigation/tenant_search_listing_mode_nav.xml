@@ -12,7 +12,10 @@
         tools:layout="@layout/fragment_search_map_view" >
         <action
             android:id="@+id/action_searchMapViewFragment_to_searchListViewFragment"
-            app:destination="@id/searchListViewFragment" />
+            app:destination="@id/searchListViewFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/searchMapViewFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/searchListViewFragment"
@@ -21,7 +24,10 @@
         tools:layout="@layout/fragment_search_list_view" >
         <action
             android:id="@+id/action_searchListViewFragment_to_searchMapViewFragment"
-            app:destination="@id/searchMapViewFragment" />
+            app:destination="@id/searchMapViewFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/searchListViewFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/navigate_to_detailed_listing_fragment"
             app:destination="@id/searchDetailedListingFragment" />
