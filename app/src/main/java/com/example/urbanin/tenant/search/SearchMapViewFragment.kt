@@ -104,11 +104,6 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
                 }
                 // once all documents fetched, instantiate map view
                 // and add listing markers
-                Toast.makeText(
-                    requireContext(),
-                    listingCollection.size.toString(),
-                    Toast.LENGTH_SHORT
-                ).show()
                 val mapFragment =
                     childFragmentManager.findFragmentById(binding.searchListingMapView.id) as SupportMapFragment
                 mapFragment.getMapAsync(this)
@@ -119,69 +114,24 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun filterListings() {
-        var checkleft = mutableListOf<ListingData>()
         val iterator = listingCollection.iterator()
-
-        //test: print all filters
-//        with(filterParameters) {
-//            Log.d(TAG, "rentMin: $rentMin")
-//            Log.d(TAG, "rentMax: $rentMax")
-//            Log.d(TAG, "availableFrom: $availableFrom")
-//            Log.d(TAG, "minRooms: $minRooms")
-//            Log.d(TAG, "maxRooms: $maxRooms")
-//            Log.d(TAG, "numBaths: $numBaths")
-//            Log.d(TAG, "type: $type")
-//            Log.d(TAG, "furnished: $furnished")
-//        }
-
         while (iterator.hasNext()) {
             val listing = iterator.next()
             with(filterParameters) {
-                Toast.makeText(
-                    requireContext(),
-                    listing.price.toLong().toString(),
-                    Toast.LENGTH_SHORT
-                ).show()
-                // test
-                val priceCondition = (listing.price.toLong() !in rentMin..rentMax)
-                val dateCondition = compareDates(availableFrom, listing.availableFrom)
-                val roomCondition = checkFilterRooms(listing.numRooms, minRooms, maxRooms)
-                val bathCondition = checkFilterBath(listing.numBaths, numBaths)
-                val typeCondition = (type.isNotEmpty()) and (listing.type != type)
-                //check
-                val amenityCondition = if(checkFilterHashMap(listing.amenities, amenities)) amenities else "empty"
-                //check
-                val utilCondition = checkFilterHashMap(listing.utilities, utilities)
-                val furCondition = (furnished.isNotEmpty()) and (listing.furnished != furnished)
-
-                Log.d(TAG, listing.address)
-                Log.i(TAG, "price: $priceCondition")
-                Log.i(TAG, "availableFrom: $dateCondition")
-                Log.i(TAG, "room: $roomCondition")
-                Log.i(TAG, "baths: $bathCondition")
-                Log.i(TAG, "type: $typeCondition")
-                Log.i(TAG, "amenities: $amenityCondition")
-                Log.i(TAG, "utilities: $utilCondition")
-                Log.i(TAG, "furnished: $furCondition")
-
                 if (
                     (listing.price.toLong() !in rentMin..rentMax) or
                     (compareDates(availableFrom, listing.availableFrom)) or
                     checkFilterRooms(listing.numRooms, minRooms, maxRooms) or
                     checkFilterBath(listing.numBaths, numBaths) or
-                    (type.isNotEmpty() && listing.type != type) or
+                    ((type.isNotEmpty()) and (listing.type != type)) or
                     checkFilterHashMap(listing.amenities, amenities) or
                     checkFilterHashMap(listing.utilities, utilities) or
-                    (furnished.isNotEmpty() && listing.furnished != furnished)
+                    ((furnished.isNotEmpty()) and (listing.furnished != furnished))
                 ) {
-//                    listingCollection.remove(listing)
-//                    iterator.remove()
-                    checkleft.add(listing)
+                    // if listing does not match any of the filter parameters, remove listing from collection (to be displayed in search view)
+                    iterator.remove()
                 }
             }
-        }
-        for (listing in checkleft) {
-            Toast.makeText(requireContext(), listing.price, Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -239,18 +189,14 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
     ): Boolean {
         // if all false, not filter applicable
         if(!filter.values.contains(true)) {
-            Log.e(TAG, "no filter")
             return false
         } else {
-            Log.e(TAG, "atleast one true")
-            // if atleast one of the filter parameter values are set, then check if matches listing data
+            // if atleast one of the filter parameter values are set
+            // match key set for filter and listing
             for ((key, value) in filter) {
-                Log.d(TAG, "key= $key; filter: $value; listing: ${listing[key]}")
-                // if for any of the amenity, the value stored in filter parameter does not match listing value
-                if (listing[key] != value) {
-                    // true since no match, so corresponding match will be removed from collection (to apply filter)
-//                    Log.d(TAG, "key= $key; filter: $value; listing: ${listing[key]}")
-                    return true
+                if (value) {
+                    if(listing[key] == false)
+                        return true
                 }
             }
             return false
