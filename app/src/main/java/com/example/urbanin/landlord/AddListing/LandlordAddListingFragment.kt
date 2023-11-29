@@ -1,6 +1,7 @@
 package com.example.urbanin.landlord.AddListing
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -22,6 +23,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -35,6 +37,7 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -45,6 +48,7 @@ import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -66,7 +70,7 @@ class LandlordAddListingFragment : Fragment() {
 
     // save uploaded images
     private var listingUriMap: HashMap<Uri, String> = hashMapOf()
-    private var storageMediaList: MutableList<String> = mutableListOf()
+//    private var storageMediaList: MutableList<String> = mutableListOf()
 
     // for camera intent request
     private lateinit var currentMediaPath: String
@@ -103,6 +107,7 @@ class LandlordAddListingFragment : Fragment() {
 
         binding.btnSubmitAddListing.setOnClickListener {
             binding.uploadProgressBar.isVisible = true
+            binding.blurBackground.isVisible = true
             // TODO: check if any required fields haven't been entered
 
             // TODO: IF ALL REQUIRED FIELDS FILLED; PROCEED WITH UPLOADING TO DATABASE
@@ -124,8 +129,8 @@ class LandlordAddListingFragment : Fragment() {
                 mutableListOf(),
                 mutableListOf(),
                 LocalDate.now().toString(),
-                // TODO: add availableFrom date picker layout
-                LocalDate.now().toString(),
+                // TODO: add date picker for availableFrom
+                binding.availableDisplayText.text.toString(),
                 binding.root.findViewById<Button>(binding.numRoomList.checkedButtonId).text.toString(),
                 binding.root.findViewById<Button>(binding.numBathList.checkedButtonId).text.toString(),
                 binding.root.findViewById<Button>(binding.furnishedList.checkedButtonId).text.toString(),
@@ -158,12 +163,12 @@ class LandlordAddListingFragment : Fragment() {
             // TODO: save media files to firestore storage
             for ((file, type) in listingUriMap) {
                 // to check if all files have been uploaded
-                var awaitUpload = 0
-                Toast.makeText(requireContext(), listingUriMap.size.toString(), Toast.LENGTH_SHORT).show()
+                var awaitUpload = 1
 
                 val fileName = File(file.path!!).name
                 val fileReference = storageRef.child(
-                    "Listings/" + saveListing.listingID + "/media/" + fileName + "_" + System.currentTimeMillis().toString()+"/"
+                    "Listings/" + saveListing.listingID + "/media/" + fileName + "_" + System.currentTimeMillis()
+                        .toString() + "/"
                 )
                 fileReference.putFile(file)
                     .addOnCompleteListener { task ->
@@ -172,7 +177,7 @@ class LandlordAddListingFragment : Fragment() {
 
                             fileReference.downloadUrl.addOnSuccessListener { uri ->
                                 // TODO: add media url to listing (in database for reference)
-                                if(type == "image") {
+                                if (type == "image") {
                                     // IMAGES
                                     db.collection("Listings")
                                         .document(saveListing.listingID)
@@ -180,9 +185,18 @@ class LandlordAddListingFragment : Fragment() {
                                         .addOnSuccessListener {
                                             Log.d(TAG, "Image File added: ${uri.toString()}")
                                             // redirect back to search page, once all files uploaded
-                                            if (awaitUpload == listingUriMap.size) {
+                                            if (awaitUpload == listingUriMap.size - 1) {
                                                 Log.d(TAG, awaitUpload.toString())
+                                                // remove progress bar once last media file has been uploaded
                                                 binding.uploadProgressBar.isVisible = false
+                                                // remove background blur
+                                                binding.blurBackground.isVisible = false
+                                                Toast.makeText(
+                                                    requireContext(),
+                                                    awaitUpload.toString(),
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                                // navigate back to search page, all details have been successfully added
                                                 findNavController().navigate(
                                                     LandlordAddListingFragmentDirections.navigateBackToSearchFragment()
                                                 )
@@ -193,8 +207,14 @@ class LandlordAddListingFragment : Fragment() {
                                         .addOnFailureListener { e ->
                                             Log.d(TAG, "Error adding in image uri: ${e.message}")
                                             // redirect back to search page, once all files uploaded
-                                            if (awaitUpload == listingUriMap.size) {
+                                            if (awaitUpload == listingUriMap.size - 1) {
                                                 binding.uploadProgressBar.isVisible = false
+                                                binding.blurBackground.isVisible = false
+                                                Toast.makeText(
+                                                    requireContext(),
+                                                    awaitUpload.toString(),
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
                                                 findNavController().navigate(
                                                     LandlordAddListingFragmentDirections.navigateBackToSearchFragment()
                                                 )
@@ -210,9 +230,15 @@ class LandlordAddListingFragment : Fragment() {
                                         .addOnSuccessListener {
                                             Log.d(TAG, "Video File added: ${uri.toString()}")
                                             // redirect back to search page, once all files uploaded
-                                            if (awaitUpload == listingUriMap.size) {
+                                            if (awaitUpload == listingUriMap.size - 1) {
                                                 Log.d(TAG, awaitUpload.toString())
                                                 binding.uploadProgressBar.isVisible = false
+                                                binding.blurBackground.isVisible = false
+                                                Toast.makeText(
+                                                    requireContext(),
+                                                    awaitUpload.toString(),
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
                                                 findNavController().navigate(
                                                     LandlordAddListingFragmentDirections.navigateBackToSearchFragment()
                                                 )
@@ -223,8 +249,14 @@ class LandlordAddListingFragment : Fragment() {
                                         .addOnFailureListener { e ->
                                             Log.d(TAG, "Error adding in video uri: ${e.message}")
                                             // redirect back to search page, once all files uploaded
-                                            if (awaitUpload == listingUriMap.size) {
+                                            if (awaitUpload == listingUriMap.size - 1) {
                                                 binding.uploadProgressBar.isVisible = false
+                                                binding.blurBackground.isVisible = false
+                                                Toast.makeText(
+                                                    requireContext(),
+                                                    awaitUpload.toString(),
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
                                                 findNavController().navigate(
                                                     LandlordAddListingFragmentDirections.navigateBackToSearchFragment()
                                                 )
@@ -259,6 +291,19 @@ class LandlordAddListingFragment : Fragment() {
                 }
             }
         }
+
+        // date picker dialog for availableFrom
+        binding.availableDisplayText.setOnClickListener {
+            showDatePickerDialog()
+        }
+
+        // show confirmation dialog when user tries to exit
+        binding.btnBackAddListing.setOnClickListener {
+            showConfirmExitDialog()
+        }
+        binding.btnCloseAddListing.setOnClickListener {
+            showConfirmExitDialog()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -292,9 +337,10 @@ class LandlordAddListingFragment : Fragment() {
     private fun getPropertyType(bindingView: View): String {
         return if (binding.typeListTop.checkedButtonId != View.NO_ID) {
             bindingView.findViewById<Button>(binding.typeListTop.checkedButtonId).text.toString()
-        } else {
+        } else if (binding.typeListBottom.checkedButtonId != View.NO_ID) {
             bindingView.findViewById<Button>(binding.typeListBottom.checkedButtonId).text.toString()
-//            binding.typeListBottom[binding.typeListBottom.checkedButtonId].toString()
+        } else {
+            ""
         }
     }
 
@@ -544,6 +590,8 @@ class LandlordAddListingFragment : Fragment() {
 
     private fun updateMediaGallery(uris: List<Uri>?) {
         if (uris != null) {
+            binding.mediaDotsIndicator.isVisible = true
+            binding.addListingTemplatePhoto.isVisible = false
             for (uri in uris) {
                 // save selected photos (to add in database when listing finally added)
 //                listingUriMap.add(uri);
@@ -590,8 +638,9 @@ class LandlordAddListingFragment : Fragment() {
                 // TODO: add view pager (with horizontal scroll) and add all images to this list (taken from camera + selected from storage)
                 addImageToMediaGallery(imageUri)
                 // save media uri (to be uploaded to database)
-//                listingUriMap.add(imageUri)
                 listingUriMap[imageUri] = "image"
+                binding.mediaDotsIndicator.isVisible = true
+                binding.addListingTemplatePhoto.isVisible = false
             } else {
                 Log.d(TAG, "No media selected")
             }
@@ -605,11 +654,51 @@ class LandlordAddListingFragment : Fragment() {
                 // TODO: add view pager (with horizontal scroll) and add all images to this list (taken from camera + selected from storage)
                 addVideoToMediaGallery(videoUri)
                 // save media uri (to be uploaded to database)
-//                listingUriMap.add(videoUri)
                 listingUriMap[videoUri] = "video"
+                binding.mediaDotsIndicator.isVisible = true
+                binding.addListingTemplatePhoto.isVisible = false
             } else {
                 Log.d(TAG, "No media selected")
             }
         }
+
+    private fun showDatePickerDialog() {
+        val calendar = Calendar.getInstance()
+
+        val datePickerDialog = DatePickerDialog(
+            // on below line we are passing context.
+            requireContext(),
+            { _, selectedYear, monthOfYear, dayOfMonth ->
+                // save selected date from picker in the display text field
+                binding.availableDisplayText.text =
+                    (dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + selectedYear)
+            },
+            // default selected value in date picker dialog = current date
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+        datePickerDialog.show()
+    }
+
+    private fun showConfirmExitDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Confirm Action")
+            .setMessage("You will lose any changes you've made. Continue?")
+            .setIcon(android.R.drawable.stat_sys_warning)
+            .setPositiveButton(
+                "Confirm"
+            ) { _, _ ->
+                findNavController().navigate(
+                    LandlordAddListingFragmentDirections.navigateBackToSearchFragment()
+                )
+            }
+            .setNegativeButton(
+                "Cancel"
+            ) { _, _ ->
+
+            }
+            .show()
+    }
 
 }

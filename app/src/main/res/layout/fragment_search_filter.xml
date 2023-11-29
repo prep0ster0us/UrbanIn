@@ -341,7 +341,7 @@
                         android:fontFamily="@font/gotham_book"
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
-                        android:text="TownHouse"
+                        android:text="Condo"
                         app:cornerRadius="0dp" />
 
                     <Button
@@ -363,7 +363,7 @@
                         android:fontFamily="@font/gotham_book"
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
-                        android:text="Condo"
+                        android:text="Shared"
                         app:cornerRadius="0dp" />
 
                 </com.google.android.material.button.MaterialButtonToggleGroup>

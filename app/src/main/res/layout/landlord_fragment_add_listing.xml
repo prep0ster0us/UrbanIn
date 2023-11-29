@@ -6,64 +6,64 @@
     android:layout_height="match_parent"
     tools:context=".landlord.AddListing.LandlordAddListingFragment">
 
+    <RelativeLayout
+        android:id="@+id/addListingTopLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="8dp">
+
+        <ImageButton
+            android:id="@+id/btnBackAddListing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="Back button"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            android:src="@drawable/arrow_back_24" />
+
+        <TextView
+            android:id="@+id/addListingHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/btnBackAddListing"
+            android:fontFamily="@font/gotham_medium"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:text="Add Listing"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <!-- TODO: show confirmation dialog box and redirect back to landlord search page (if ok); do nothing (if cancel)-->
+        <ImageButton
+            android:id="@+id/btnCloseAddListing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="Back button"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            android:src="@drawable/baseline_close_24" />
+
+    </RelativeLayout>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_below="@id/addListingTopLayout"
+        android:fillViewport="true"
+        android:paddingTop="12dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <RelativeLayout
-                android:id="@+id/addListingTopLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@id/addListingPhotoLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageButton
-                    android:id="@+id/btnBackAddListing"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="Back button"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="12dp"
-                    android:src="@drawable/arrow_back_24" />
-
-                <TextView
-                    android:id="@+id/addListingHeader"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginStart="8dp"
-                    android:layout_toEndOf="@id/btnBackAddListing"
-                    android:fontFamily="@font/gotham_medium"
-                    android:gravity="center_vertical"
-                    android:padding="8dp"
-                    android:text="Add Listing"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-                <!-- TODO: show confirmation dialog box and redirect back to landlord search page (if ok); do nothing (if cancel)-->
-                <ImageButton
-                    android:id="@+id/btnCloseAddListing"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="Back button"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="12dp"
-                    android:src="@drawable/baseline_close_24" />
-
-            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/addListingPhotoLayout"
@@ -73,7 +73,7 @@
                 app:layout_constraintBottom_toTopOf="@id/addListingNameLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/addListingTopLayout">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/addListingMediaLayout"
@@ -85,6 +85,39 @@
                     android:layout_centerInParent="true"
                     android:layout_marginBottom="8dp" />
 
+                <RelativeLayout
+                    android:id="@+id/addListingTemplatePhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/templateImage"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginBottom="8dp"
+                        android:contentDescription="template photo"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/baseline_photo_camera_24" />
+
+                    <Button
+                        android:id="@+id/templateBorder"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="false"
+                        app:cornerRadius="0dp"
+                        app:strokeColor="@color/default_text" />
+
+                </RelativeLayout>
+
+
                 <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
                     android:id="@+id/mediaDotsIndicator"
                     android:layout_width="wrap_content"
@@ -93,13 +126,14 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="15dp"
                     android:foregroundGravity="center"
-                    app:dotsColor="@color/default_contrast_background"
+                    android:visibility="invisible"
+                    app:dotsColor="@color/default_icon"
                     app:dotsCornerRadius="8dp"
-                    app:dotsSize="8dp"
+                    app:dotsSize="10dp"
                     app:dotsSpacing="2dp"
                     app:dotsWidthFactor="2.5"
                     app:progressMode="true"
-                    app:selectedDotColor="@color/default_icon" />
+                    app:selectedDotColor="@color/default_contrast_background" />
 
                 <Button
                     android:id="@+id/addListingFromCamera"
@@ -201,7 +235,6 @@
                     android:fontFamily="@font/gotham_medium"
                     android:gravity="top"
                     android:inputType="text|textLongMessage|textMultiLine"
-                    android:maxLength="200"
                     android:textColor="@color/default_text" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -400,7 +433,7 @@
                     <Button
                         android:id="@+id/type1"
                         style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="130dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/gotham_book"
                         android:insetTop="0dp"
@@ -411,7 +444,7 @@
                     <Button
                         android:id="@+id/type2"
                         style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/gotham_book"
                         android:insetTop="0dp"
@@ -421,7 +454,7 @@
                     <Button
                         android:id="@+id/type3"
                         style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="122dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/gotham_book"
                         android:insetTop="0dp"
@@ -441,18 +474,18 @@
                     <Button
                         android:id="@+id/type4"
                         style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="130dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/gotham_book"
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
-                        android:text="TownHouse"
+                        android:text="Condo"
                         app:cornerRadius="0dp" />
 
                     <Button
                         android:id="@+id/type5"
                         style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/gotham_book"
                         android:insetTop="0dp"
@@ -463,12 +496,12 @@
                     <Button
                         android:id="@+id/type6"
                         style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="122dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/gotham_book"
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
-                        android:text="Condo"
+                        android:text="Shared"
                         app:cornerRadius="0dp" />
 
                 </com.google.android.material.button.MaterialButtonToggleGroup>
@@ -636,6 +669,7 @@
                 android:layout_width="350dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                app:layout_constraintBottom_toTopOf="@id/addListingAvailableLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/addListingUtilitiesLayout">
@@ -690,6 +724,53 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/addListingAvailableLayout"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:layout_constraintBottom_toTopOf="@id/addListingSubmitLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addListingFurnishedLayout">
+
+                <TextView
+                    android:id="@+id/availableHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="@font/gotham_regular"
+                    android:text="Available From"
+                    android:textSize="18sp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/availableHeader"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="12dp">
+
+                    <ImageView
+                        android:id="@+id/availableIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="calender icon"
+                        android:src="@drawable/baseline_calendar_month_24" />
+
+                    <TextView
+                        android:id="@+id/availableDisplayText"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/availableIcon"
+                        android:fontFamily="@font/gotham_book"
+                        android:hint="Select a date"
+                        android:padding="12dp"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/addListingSubmitLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -698,7 +779,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/addListingFurnishedLayout">
+                app:layout_constraintTop_toBottomOf="@id/addListingAvailableLayout">
 
                 <Button
                     android:id="@+id/btnSubmitAddListing"
@@ -717,12 +798,22 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <ProgressBar
-        android:id="@+id/uploadProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="invisible"/>
+    <!--    <ProgressBar-->
+    <!--        android:id="@+id/uploadProgressBar"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_centerInParent="true"-->
+    <!--        android:visibility="invisible" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/blurBackground"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:alpha="0.25"-->
+    <!--        android:backgroundTint="@color/black"-->
+    <!--        android:clickable="false"-->
+    <!--        android:visibility="invisible"-->
+    <!--        app:cornerRadius="0dp" />-->
 
 </RelativeLayout>
 
