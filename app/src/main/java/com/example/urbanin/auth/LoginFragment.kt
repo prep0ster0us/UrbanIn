@@ -48,10 +48,13 @@ class LoginFragment : Fragment() {
         db = FirebaseFirestore.getInstance()
 
         prefManager = LoginPreferenceManager(requireContext())
+        // check if user logged in previously, then stay logged in
+        if(prefManager.isLoggedIn()) {
+            navigateToNext()
+        }
 
 //        isLoggedIn = (auth.currentUser != null)
 
-        binding.loginBiometricButton.isVisible = prefManager.isBiometricEnabled()
         binding.loginBiometricButton.setOnClickListener {
             checkDeviceHasBiometrics()
         }
@@ -59,6 +62,10 @@ class LoginFragment : Fragment() {
         binding.loginViewUsnField.doOnTextChanged { _, _, _, _ ->
             binding.loginUsnLayout.error = null
         }
+    }
+
+    private fun navigateToNext() {
+
     }
 
     private fun checkDeviceHasBiometrics() {
@@ -150,11 +157,6 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // show biometric prompt straight away if biometric enabled by user
-        if(prefManager.isBiometricEnabled()) {
-            checkDeviceHasBiometrics()
-        }
-
         binding.loginViewSubmitBtn.setOnClickListener {
             // check if credentials match
             checkIfExists()
@@ -220,7 +222,7 @@ class LoginFragment : Fragment() {
                         binding.loginViewUsnField.text.toString(),
                         binding.loginViewPwdField.text.toString()
                     )
-                    // TODO: show dialog to ask to enroll in biometric --> done in LandlordSearchFragment
+                    // TODO: show dialog to ask to enroll in biometric --> *done in LandlordSearchFragment
                 }
                 // navigate successfully to next page
                 // TODO: decide next page based on context of fragment trigger

@@ -77,11 +77,11 @@ class SearchDetailedListingFragment : Fragment() {
 
         // drawable resource id map for icons for each amenity
         val utilGridIcons = hashMapOf(
-            "electricity" to R.drawable.utilities_electricity_24,
-            "gas" to R.drawable.utilities_gas_24,
-            "water" to R.drawable.utilities_water_24,
-            "trash Removal" to R.drawable.utilities_trash_24,
-            "snow Removal" to R.drawable.utilities_snow_removal_24
+            "Electricity" to R.drawable.utilities_electricity_24,
+            "Gas" to R.drawable.utilities_gas_24,
+            "Water" to R.drawable.utilities_water_24,
+            "Trash Removal" to R.drawable.utilities_trash_24,
+            "Snow Removal" to R.drawable.utilities_snow_removal_24
         )
 
 //        val utilList = args.listing.utilities
@@ -110,11 +110,12 @@ class SearchDetailedListingFragment : Fragment() {
         // drawable resource id map for icons for each amenity
         val amenitiesGridIcons = hashMapOf(
             "Pets Allowed" to R.drawable.amenities_pets_24,
-            "In-Unit Laundry" to R.drawable.amenities_laundry_24,
+            //TODO : fix null error
+            "In-Unit laundry" to R.drawable.amenities_laundry_24,
             "HVAC System" to R.drawable.amenities_hvac_24,
             "24/7 Security" to R.drawable.amenities_security_24,
-            "gym" to R.drawable.amenities_gym_24,
-            "pool" to R.drawable.amenities_gym_24
+            "Gym" to R.drawable.amenities_gym_24,
+            "Pool" to R.drawable.amenities_gym_24
         )
 
         val amenitiesList = args.listing.amenities

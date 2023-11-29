@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.graphics.scale
 import androidx.fragment.app.Fragment
@@ -27,6 +26,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentSearchMapViewBinding
@@ -97,8 +98,17 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
                         )
                     }
                 }
+                // after getting all listings, filter out based on parameters (if any filters set)
+                if (ifFiltered) {
+                    filterListings()
+                }
                 // once all documents fetched, instantiate map view
                 // and add listing markers
+                Toast.makeText(
+                    requireContext(),
+                    listingCollection.size.toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
                 val mapFragment =
                     childFragmentManager.findFragmentById(binding.searchListingMapView.id) as SupportMapFragment
                 mapFragment.getMapAsync(this)
@@ -106,6 +116,145 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
             .addOnFailureListener {
                 Log.w(TAG, "Error getting data!")
             }
+    }
+
+    private fun filterListings() {
+        var checkleft = mutableListOf<ListingData>()
+        val iterator = listingCollection.iterator()
+
+        //test: print all filters
+//        with(filterParameters) {
+//            Log.d(TAG, "rentMin: $rentMin")
+//            Log.d(TAG, "rentMax: $rentMax")
+//            Log.d(TAG, "availableFrom: $availableFrom")
+//            Log.d(TAG, "minRooms: $minRooms")
+//            Log.d(TAG, "maxRooms: $maxRooms")
+//            Log.d(TAG, "numBaths: $numBaths")
+//            Log.d(TAG, "type: $type")
+//            Log.d(TAG, "furnished: $furnished")
+//        }
+
+        while (iterator.hasNext()) {
+            val listing = iterator.next()
+            with(filterParameters) {
+                Toast.makeText(
+                    requireContext(),
+                    listing.price.toLong().toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
+                // test
+                val priceCondition = (listing.price.toLong() !in rentMin..rentMax)
+                val dateCondition = compareDates(availableFrom, listing.availableFrom)
+                val roomCondition = checkFilterRooms(listing.numRooms, minRooms, maxRooms)
+                val bathCondition = checkFilterBath(listing.numBaths, numBaths)
+                val typeCondition = (type.isNotEmpty()) and (listing.type != type)
+                //check
+                val amenityCondition = if(checkFilterHashMap(listing.amenities, amenities)) amenities else "empty"
+                //check
+                val utilCondition = checkFilterHashMap(listing.utilities, utilities)
+                val furCondition = (furnished.isNotEmpty()) and (listing.furnished != furnished)
+
+                Log.d(TAG, listing.address)
+                Log.i(TAG, "price: $priceCondition")
+                Log.i(TAG, "availableFrom: $dateCondition")
+                Log.i(TAG, "room: $roomCondition")
+                Log.i(TAG, "baths: $bathCondition")
+                Log.i(TAG, "type: $typeCondition")
+                Log.i(TAG, "amenities: $amenityCondition")
+                Log.i(TAG, "utilities: $utilCondition")
+                Log.i(TAG, "furnished: $furCondition")
+
+                if (
+                    (listing.price.toLong() !in rentMin..rentMax) or
+                    (compareDates(availableFrom, listing.availableFrom)) or
+                    checkFilterRooms(listing.numRooms, minRooms, maxRooms) or
+                    checkFilterBath(listing.numBaths, numBaths) or
+                    (type.isNotEmpty() && listing.type != type) or
+                    checkFilterHashMap(listing.amenities, amenities) or
+                    checkFilterHashMap(listing.utilities, utilities) or
+                    (furnished.isNotEmpty() && listing.furnished != furnished)
+                ) {
+//                    listingCollection.remove(listing)
+//                    iterator.remove()
+                    checkleft.add(listing)
+                }
+            }
+        }
+        for (listing in checkleft) {
+            Toast.makeText(requireContext(), listing.price, Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    private fun checkFilterBath(listing: String, filter: String): Boolean {
+        return if (filter == "Any") {
+            false
+        } else {
+            val bathList = linkedMapOf(
+                // TODO: adjust these filters later ('Any' and '1' are the same)
+                "1+" to listOf("1", "1.5", "2", "3", "4"),
+                "1.5+" to listOf("1.5", "2", "3", "4"),
+                "2+" to listOf("2", "3", "4"),
+                "3+" to listOf("3", "4"),
+                "4+" to listOf("4")
+            )
+            listing !in bathList[filter]!!
+        }
+//
+    }
+
+    private fun checkFilterRooms(numRooms: String, minRooms: String, maxRooms: String): Boolean {
+        val roomList = listOf("Studio", "1", "2", "3", "4")
+        return if (minRooms == "Any") {
+            if (maxRooms == "Any") {
+                // no filter, no listings to be removed
+                false
+            } else {
+                // listing should have numRooms > maxRooms, to be removed
+                roomList.indexOf(numRooms) > roomList.indexOf(maxRooms)
+            }
+        } else {
+            if (maxRooms == "Any") {
+                // listing should have numRooms < minRooms, to be removed
+                roomList.indexOf(numRooms) < roomList.indexOf(minRooms)
+            } else {
+                // listing should NOT have minRooms <= numRooms <= maxRooms, to be removed
+                (roomList.indexOf(numRooms) < roomList.indexOf(minRooms)) or
+                        (roomList.indexOf(numRooms) > roomList.indexOf(maxRooms))
+            }
+        }
+    }
+
+    private fun compareDates(filterDate: String, listingDate: String): Boolean {
+        if (filterDate.isBlank()) {
+            return false
+        }
+        val dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.MEDIUM, Locale.US)
+        return dateFormat.parse(listingDate) > dateFormat.parse(filterDate)
+    }
+
+    private fun checkFilterHashMap(
+        listing: Map<String, Boolean>,
+        filter: LinkedHashMap<String, Boolean>
+    ): Boolean {
+        // if all false, not filter applicable
+        if(!filter.values.contains(true)) {
+            Log.e(TAG, "no filter")
+            return false
+        } else {
+            Log.e(TAG, "atleast one true")
+            // if atleast one of the filter parameter values are set, then check if matches listing data
+            for ((key, value) in filter) {
+                Log.d(TAG, "key= $key; filter: $value; listing: ${listing[key]}")
+                // if for any of the amenity, the value stored in filter parameter does not match listing value
+                if (listing[key] != value) {
+                    // true since no match, so corresponding match will be removed from collection (to apply filter)
+//                    Log.d(TAG, "key= $key; filter: $value; listing: ${listing[key]}")
+                    return true
+                }
+            }
+            return false
+        }
     }
 
     // set map callback for google maps (i.e. set position and initial manifest properties
