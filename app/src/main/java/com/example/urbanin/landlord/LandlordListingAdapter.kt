@@ -12,6 +12,10 @@ import com.example.urbanin.R
 import com.example.urbanin.landlord.LandlordListingData
 import com.example.urbanin.tenant.search.ListingData
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.Date
+import java.util.Locale
 
 
 class LandlordListingAdapter(
@@ -38,10 +42,10 @@ class LandlordListingAdapter(
     override fun onBindViewHolder(holder: listingViewHolder, position: Int) {
         val imgResource = listingList[position].img
         val title = listingList[position].title
-        val description = listingList[position].description
+//        val description = listingList[position].description
+        val description = formatSubTitle(listingList[position].numRooms,listingList[position].numBaths, listingList[position].availableFrom)
         val location = listingList[position].address
         // TODO: pass ImageView in "imgResource" var, which can be set for each card view (or each listing)
-        Toast.makeText(context, imgResource[0], Toast.LENGTH_SHORT).show()
         Picasso.get().load(imgResource[0]).into(holder.listingImageView)
         holder.listingTitleView.text = title
         holder.listingDescriptionView.text = description
@@ -59,6 +63,33 @@ class LandlordListingAdapter(
 //            Navigation.createNavigateOnClickListener(R.id.navigate_to_detailed_listing_fragment).onClick(holder.listingImageView)
             handler.handleListingData(listingList[position])
         }
+    }
+
+    private fun formatSubTitle(bed: String, bath: String, from: String): String {
+        val numBed = if(bed != "Studio") {
+            "$bed bed"
+        } else {
+            bed
+        }
+
+        val availableFrom = if(compareDate(from)) {
+            "Available Now"
+        } else {
+            "Available from $from"
+        }
+
+        return "$numBed | $bath bath | $availableFrom"
+    }
+
+    private fun compareDate(date: String): Boolean {
+        // get listing availableFrom date
+        val dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.MEDIUM, Locale.US)
+        val availableDate = dateFormat.parse(date)
+        // get current date
+        val currentDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val currentDate = currentDateFormat.parse(LocalDate.now().toString())
+
+        return currentDate!! > availableDate
     }
 
     class listingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

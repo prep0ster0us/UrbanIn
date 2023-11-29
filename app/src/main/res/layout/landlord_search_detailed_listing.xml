@@ -1,137 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/searchDetailedMainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/searchDetailedBottomLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/searchDetailedBottomLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/detailedImageGallery"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
+                android:id="@+id/imageGalleryDots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:foregroundGravity="center"
+                app:dotsColor="@color/default_icon"
+                app:dotsCornerRadius="8dp"
+                app:dotsSize="10dp"
+                app:dotsSpacing="4dp"
+                app:dotsWidthFactor="2.5"
+                app:layout_constraintBottom_toBottomOf="@id/detailedImageGallery"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:progressMode="true"
+                app:selectedDotColor="@color/default_icon" />
+
+            <TextView
+                android:id="@+id/detailedListingTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/gotham_regular"
+                android:hint="Listing title"
+                android:paddingHorizontal="12dp"
+                android:paddingTop="16dp"
+                android:textSize="32sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailedImageGallery" />
+
+            <TextView
+                android:id="@+id/detailedListingType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/gotham_book"
+                android:hint="Listing Type"
+                android:paddingTop="12sp"
+                android:paddingEnd="12dp"
+                android:textAlignment="viewEnd"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailedImageGallery" />
+
+            <TextView
+                android:id="@+id/detailedListingSubTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_medium"
+                android:hint="Listing Sub Title"
+                android:paddingHorizontal="12dp"
+                android:paddingBottom="12dp"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailedListingTitle" />
+
+            <TextView
+                android:id="@+id/detailedListingDescriptionHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_regular"
+                android:hint="About Listing Title"
+                android:padding="12dp"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailedListingSubTitle" />
+
+            <TextView
+                android:id="@+id/detailedListingDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_book"
+                android:hint="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor leo a diam sollicitudin tempor id eu nisl nunc. Tellus integer feugiat scelerisque varius morbi."
+                android:justificationMode="inter_word"
+                android:paddingHorizontal="18dp"
+                android:paddingBottom="24dp"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/detailedListingAmenities"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailedListingDescriptionHeader" />
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/detailedListing"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+
+            <TextView
+                android:id="@+id/detailedListingAmenitiesTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_regular"
+                android:hint="Amenities"
+                android:paddingHorizontal="12dp"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailedListingDescription" />
+
+            <GridView
+                android:id="@+id/detailedListingAmenities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:horizontalSpacing="0dp"
+                android:numColumns="2"
+                android:padding="12dp"
+                android:verticalSpacing="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailedListingAmenitiesTitle"
+                tools:listitem="@layout/amenities_card" />
+
+            <TextView
+                android:id="@+id/detailedListingUtilitiesTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/gotham_regular"
+                android:hint="Utilities"
+                android:paddingHorizontal="12dp"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailedListingAmenities" />
+
+            <GridView
+                android:id="@+id/detailedListingUtilities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:horizontalSpacing="0dp"
+                android:numColumns="2"
+                android:padding="12dp"
+                android:verticalSpacing="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailedListingUtilitiesTitle"
+                tools:listitem="@layout/amenities_card" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/searchDetailedBottomLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="wrap_content"
+        android:background="@color/default_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchDetailedMainLayout">
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/detailedImageGallery"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
-            android:id="@+id/imageGalleryDots"
+        <Button
+            android:id="@+id/detailedListingMessageBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="12dp"
-            android:foregroundGravity="center"
-            app:dotsColor="@color/default_icon"
-            app:dotsCornerRadius="8dp"
-            app:dotsSize="8dp"
-            app:dotsSpacing="4dp"
-            app:dotsWidthFactor="2.5"
-            app:layout_constraintBottom_toBottomOf="@id/detailedImageGallery"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:progressMode="true"
-            app:selectedDotColor="@color/default_contrast_background" />
-
-        <TextView
-            android:id="@+id/detailedListingTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:fontFamily="@font/gotham_regular"
-            android:hint="Listing title"
-            android:paddingHorizontal="12dp"
-            android:paddingTop="16dp"
-            android:textSize="32sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detailedImageGallery" />
+            android:text="Message"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
-            android:id="@+id/detailedListingSubTitle"
+            android:id="@+id/detailedListingRent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/gotham_medium"
-            android:hint="Listing Sub Title"
-            android:paddingHorizontal="12dp"
-            android:paddingBottom="12dp"
+            android:hint="Rent amount"
+            android:padding="24dp"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detailedListingTitle" />
-
-        <TextView
-            android:id="@+id/detailedListingDescriptionHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/gotham_regular"
-            android:hint="About Listing Title"
-            android:padding="12dp"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detailedListingSubTitle" />
-
-        <TextView
-            android:id="@+id/detailedListingDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/gotham_book"
-            android:hint="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor leo a diam sollicitudin tempor id eu nisl nunc. Tellus integer feugiat scelerisque varius morbi."
-            android:justificationMode="inter_word"
-            android:paddingHorizontal="18dp"
-            android:paddingBottom="24dp"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@id/detailedListingAmenities"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detailedListingDescriptionHeader" />
-
-        <TextView
-            android:id="@+id/detailedListingAmenitiesTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/gotham_regular"
-            android:hint="Amenities"
-            android:paddingHorizontal="12dp"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detailedListingDescription" />
-
-        <GridView
-            android:id="@+id/detailedListingAmenities"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:horizontalSpacing="0dp"
-            android:numColumns="2"
-            android:padding="12dp"
-            android:verticalSpacing="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detailedListingAmenitiesTitle"
-            tools:listitem="@layout/amenities_card" />
-
-        <TextView
-            android:id="@+id/detailedListingUtilitiesTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:fontFamily="@font/gotham_regular"
-            android:hint="Utilities"
-            android:paddingHorizontal="12dp"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detailedListingAmenities" />
-
-        <GridView
-            android:id="@+id/detailedListingUtilities"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:horizontalSpacing="0dp"
-            android:numColumns="2"
-            android:padding="12dp"
-            android:verticalSpacing="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/detailedListingUtilitiesTitle"
-            tools:listitem="@layout/amenities_card" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

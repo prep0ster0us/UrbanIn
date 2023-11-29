@@ -106,8 +106,8 @@ class LandlordAddListingFragment : Fragment() {
         setupTypeGrid()
 
         binding.btnSubmitAddListing.setOnClickListener {
-            binding.uploadProgressBar.isVisible = true
-            binding.blurBackground.isVisible = true
+//            binding.uploadProgressBar.isVisible = true
+            binding.addListingProgressLayout.isVisible = true
             // TODO: check if any required fields haven't been entered
 
             // TODO: IF ALL REQUIRED FIELDS FILLED; PROCEED WITH UPLOADING TO DATABASE
@@ -161,9 +161,9 @@ class LandlordAddListingFragment : Fragment() {
                 }
 
             // TODO: save media files to firestore storage
+            var awaitUpload = 1
             for ((file, type) in listingUriMap) {
                 // to check if all files have been uploaded
-                var awaitUpload = 1
 
                 val fileName = File(file.path!!).name
                 val fileReference = storageRef.child(
@@ -185,17 +185,11 @@ class LandlordAddListingFragment : Fragment() {
                                         .addOnSuccessListener {
                                             Log.d(TAG, "Image File added: ${uri.toString()}")
                                             // redirect back to search page, once all files uploaded
-                                            if (awaitUpload == listingUriMap.size - 1) {
+                                            if (awaitUpload == listingUriMap.size) {
                                                 Log.d(TAG, awaitUpload.toString())
-                                                // remove progress bar once last media file has been uploaded
-                                                binding.uploadProgressBar.isVisible = false
-                                                // remove background blur
-                                                binding.blurBackground.isVisible = false
-                                                Toast.makeText(
-                                                    requireContext(),
-                                                    awaitUpload.toString(),
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
+                                                // remove progress bar layout once last media file has been uploaded
+                                                binding.addListingProgressLayout.visibility =
+                                                    View.GONE
                                                 // navigate back to search page, all details have been successfully added
                                                 findNavController().navigate(
                                                     LandlordAddListingFragmentDirections.navigateBackToSearchFragment()
@@ -207,14 +201,10 @@ class LandlordAddListingFragment : Fragment() {
                                         .addOnFailureListener { e ->
                                             Log.d(TAG, "Error adding in image uri: ${e.message}")
                                             // redirect back to search page, once all files uploaded
-                                            if (awaitUpload == listingUriMap.size - 1) {
-                                                binding.uploadProgressBar.isVisible = false
-                                                binding.blurBackground.isVisible = false
-                                                Toast.makeText(
-                                                    requireContext(),
-                                                    awaitUpload.toString(),
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
+                                            if (awaitUpload == listingUriMap.size) {
+                                                // remove progress bar layout once last media file has been uploaded
+                                                binding.addListingProgressLayout.visibility =
+                                                    View.GONE
                                                 findNavController().navigate(
                                                     LandlordAddListingFragmentDirections.navigateBackToSearchFragment()
                                                 )
@@ -230,15 +220,11 @@ class LandlordAddListingFragment : Fragment() {
                                         .addOnSuccessListener {
                                             Log.d(TAG, "Video File added: ${uri.toString()}")
                                             // redirect back to search page, once all files uploaded
-                                            if (awaitUpload == listingUriMap.size - 1) {
+                                            if (awaitUpload == listingUriMap.size) {
                                                 Log.d(TAG, awaitUpload.toString())
-                                                binding.uploadProgressBar.isVisible = false
-                                                binding.blurBackground.isVisible = false
-                                                Toast.makeText(
-                                                    requireContext(),
-                                                    awaitUpload.toString(),
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
+                                                // remove progress bar layout once last media file has been uploaded
+                                                binding.addListingProgressLayout.visibility =
+                                                    View.GONE
                                                 findNavController().navigate(
                                                     LandlordAddListingFragmentDirections.navigateBackToSearchFragment()
                                                 )
@@ -249,14 +235,10 @@ class LandlordAddListingFragment : Fragment() {
                                         .addOnFailureListener { e ->
                                             Log.d(TAG, "Error adding in video uri: ${e.message}")
                                             // redirect back to search page, once all files uploaded
-                                            if (awaitUpload == listingUriMap.size - 1) {
-                                                binding.uploadProgressBar.isVisible = false
-                                                binding.blurBackground.isVisible = false
-                                                Toast.makeText(
-                                                    requireContext(),
-                                                    awaitUpload.toString(),
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
+                                            if (awaitUpload == listingUriMap.size) {
+                                                // remove progress bar layout once last media file has been uploaded
+                                                binding.addListingProgressLayout.visibility =
+                                                    View.GONE
                                                 findNavController().navigate(
                                                     LandlordAddListingFragmentDirections.navigateBackToSearchFragment()
                                                 )
@@ -669,9 +651,16 @@ class LandlordAddListingFragment : Fragment() {
             // on below line we are passing context.
             requireContext(),
             { _, selectedYear, monthOfYear, dayOfMonth ->
+                // Set the selected date using the values received from the DatePicker dialog
+                val inputFormat = SimpleDateFormat("MM-dd-yyyy", Locale.US)
+                val selectedDate: Date? =
+                    inputFormat.parse("${monthOfYear + 1}-$dayOfMonth-$selectedYear")
+                // Format the selected date into a string
+                val dateFormat =
+                    SimpleDateFormat.getDateInstance(SimpleDateFormat.MEDIUM, Locale.US)
+                val formattedDate = selectedDate?.let { dateFormat.format(it) }
                 // save selected date from picker in the display text field
-                binding.availableDisplayText.text =
-                    (dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + selectedYear)
+                binding.availableDisplayText.text = formattedDate
             },
             // default selected value in date picker dialog = current date
             calendar.get(Calendar.YEAR),
@@ -701,4 +690,14 @@ class LandlordAddListingFragment : Fragment() {
             .show()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // hide main bottom nav bar
+        setNavBarVisibility(false)
+    }
+
+    private fun setNavBarVisibility(flag: Boolean) {
+        val parentNavBar: View = requireActivity().findViewById(R.id.bottomNavigationView)
+        parentNavBar.isVisible = flag
+    }
 }

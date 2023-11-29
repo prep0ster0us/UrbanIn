@@ -762,11 +762,12 @@
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_marginStart="12dp"
                         android:layout_toEndOf="@id/availableIcon"
                         android:fontFamily="@font/gotham_book"
                         android:hint="Select a date"
                         android:padding="12dp"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
                 </RelativeLayout>
             </RelativeLayout>
 
@@ -798,22 +799,19 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!--    <ProgressBar-->
-    <!--        android:id="@+id/uploadProgressBar"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_centerInParent="true"-->
-    <!--        android:visibility="invisible" />-->
+    <RelativeLayout
+        android:id="@+id/addListingProgressLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#AA000000"
+        android:visibility="invisible">
 
-    <!--    <Button-->
-    <!--        android:id="@+id/blurBackground"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:alpha="0.25"-->
-    <!--        android:backgroundTint="@color/black"-->
-    <!--        android:clickable="false"-->
-    <!--        android:visibility="invisible"-->
-    <!--        app:cornerRadius="0dp" />-->
+        <ProgressBar
+            android:id="@+id/uploadProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
 
 </RelativeLayout>
 
