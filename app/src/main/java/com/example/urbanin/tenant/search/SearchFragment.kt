@@ -1,16 +1,11 @@
 package com.example.urbanin.tenant.search
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
@@ -21,12 +16,8 @@ import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
 import com.example.urbanin.databinding.FragmentSearchBinding
 import com.google.android.gms.common.api.Status
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
@@ -38,7 +29,7 @@ class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
 
     // google map object (for callback)
-    private lateinit var googleMap: GoogleMap
+//    private lateinit var googleMap: GoogleMap
     companion object {
         var isMapInit: Boolean = false
     }
@@ -57,6 +48,13 @@ class SearchFragment : Fragment() {
         }
 
         FirebaseApp.initializeApp(requireContext())
+
+        if(filterCount == 0) {
+            binding.listingFilterCount.isVisible = false
+        } else {
+            binding.listingFilterCount.isVisible = true
+            binding.listingFilterCount.text = filterCount.toString()
+        }
 
     }
 

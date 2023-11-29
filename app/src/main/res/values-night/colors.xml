@@ -6,7 +6,7 @@
     <color name="default_text">#FFFFFFFF</color>
     <color name="default_icon">#FFFFFFFF</color>
     <color name="default_background">#99000000</color>
-    <color name="default_contrast_background">#F1FFFFFF</color>
+    <color name="default_contrast_background">#19FFFFFF</color>
     <!--    for dots indicator-->
     <color name="material_white">#FFFFFFFF</color>
     <color name="material_blue">#FF90CAF9</color>

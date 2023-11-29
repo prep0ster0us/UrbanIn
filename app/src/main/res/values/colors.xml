@@ -12,7 +12,7 @@
     <color name="default_text">#FF000000</color>
     <color name="default_icon">#FF000000</color>
     <color name="default_background">#FFFFFFFF</color>
-    <color name="default_contrast_background">#28000000</color>
+    <color name="default_contrast_background">#4D000000</color>
 <!--    background colors for splash screens-->
     <color name="splash_screen_background_dark">#EE7B1FB2</color>
     <color name="splash_screen_background_light">#EEE1BEE7</color>

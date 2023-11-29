@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:fontFamily="@font/gotham_book"
     android:hint="Item"
-    android:paddingStart="4dp"
-    android:textSize="13sp">
+    android:textColor="@color/default_text"
+    android:padding="12dp"
+    android:textSize="14sp">
 
 </TextView>
