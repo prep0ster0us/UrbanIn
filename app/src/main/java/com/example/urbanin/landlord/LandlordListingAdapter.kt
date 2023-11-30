@@ -19,7 +19,7 @@ import java.util.Locale
 
 
 class LandlordListingAdapter(
-    private val listingList: ArrayList<LandlordListingData>,
+    private val listingList: MutableList<LandlordListingData>,
     private val context: Context?,
     private val handler: Callbacks
 ) : RecyclerView.Adapter<LandlordListingAdapter.listingViewHolder>() {

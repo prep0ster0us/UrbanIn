@@ -26,8 +26,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.FirebaseFirestore
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentSearchMapViewBinding
@@ -136,86 +134,18 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
             with(filterParameters) {
                 if (
                     (listing.price.toLong() !in rentMin..rentMax) or
-                    (compareDates(availableFrom, listing.availableFrom)) or
-                    checkFilterRooms(listing.numRooms, minRooms, maxRooms) or
-                    checkFilterBath(listing.numBaths, numBaths) or
+                    FilterListingUtil.compareDates(availableFrom, listing.availableFrom) or
+                    FilterListingUtil.checkFilterRooms(listing.numRooms, minRooms, maxRooms) or
+                    FilterListingUtil.checkFilterBath(listing.numBaths, numBaths) or
                     ((type.isNotEmpty()) and (listing.type != type)) or
-                    checkFilterHashMap(listing.amenities, amenities) or
-                    checkFilterHashMap(listing.utilities, utilities) or
+                    FilterListingUtil.checkFilterHashMap(listing.amenities, amenities) or
+                    FilterListingUtil.checkFilterHashMap(listing.utilities, utilities) or
                     ((furnished.isNotEmpty()) and (listing.furnished != furnished))
                 ) {
                     // if listing does not match any of the filter parameters, remove listing from collection (to be displayed in search view)
                     iterator.remove()
                 }
             }
-        }
-
-    }
-
-    private fun checkFilterBath(listing: String, filter: String): Boolean {
-        return if (filter == "Any") {
-            false
-        } else {
-            val bathList = linkedMapOf(
-                // TODO: adjust these filters later ('Any' and '1' are the same)
-                "1+" to listOf("1", "1.5", "2", "3", "4"),
-                "1.5+" to listOf("1.5", "2", "3", "4"),
-                "2+" to listOf("2", "3", "4"),
-                "3+" to listOf("3", "4"),
-                "4+" to listOf("4")
-            )
-            listing !in bathList[filter]!!
-        }
-//
-    }
-
-    private fun checkFilterRooms(numRooms: String, minRooms: String, maxRooms: String): Boolean {
-        val roomList = listOf("Studio", "1", "2", "3", "4")
-        return if (minRooms == "Any") {
-            if (maxRooms == "Any") {
-                // no filter, no listings to be removed
-                false
-            } else {
-                // listing should have numRooms > maxRooms, to be removed
-                roomList.indexOf(numRooms) > roomList.indexOf(maxRooms)
-            }
-        } else {
-            if (maxRooms == "Any") {
-                // listing should have numRooms < minRooms, to be removed
-                roomList.indexOf(numRooms) < roomList.indexOf(minRooms)
-            } else {
-                // listing should NOT have minRooms <= numRooms <= maxRooms, to be removed
-                (roomList.indexOf(numRooms) < roomList.indexOf(minRooms)) or
-                        (roomList.indexOf(numRooms) > roomList.indexOf(maxRooms))
-            }
-        }
-    }
-
-    private fun compareDates(filterDate: String, listingDate: String): Boolean {
-        if (filterDate.isBlank()) {
-            return false
-        }
-        val dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.MEDIUM, Locale.US)
-        return dateFormat.parse(listingDate) > dateFormat.parse(filterDate)
-    }
-
-    private fun checkFilterHashMap(
-        listing: Map<String, Boolean>,
-        filter: LinkedHashMap<String, Boolean>
-    ): Boolean {
-        // if all false, not filter applicable
-        if(!filter.values.contains(true)) {
-            return false
-        } else {
-            // if atleast one of the filter parameter values are set
-            // match key set for filter and listing
-            for ((key, value) in filter) {
-                if (value) {
-                    if(listing[key] == false)
-                        return true
-                }
-            }
-            return false
         }
     }
 

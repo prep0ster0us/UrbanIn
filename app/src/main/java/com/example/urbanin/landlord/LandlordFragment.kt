@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -15,6 +14,7 @@ import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
 import com.example.urbanin.auth.LoginPreferenceManager
 import com.example.urbanin.databinding.FragmentLandlordBinding
+import com.example.urbanin.tenant.search.FilterListingUtil
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -35,7 +35,6 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
 
     //    private var userListings: ArrayList<ListingData> = arrayListOf()
     private var userListings: ArrayList<String> = arrayListOf()
-    private var recyclerList = ArrayList<LandlordListingData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +88,29 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
         // Load your listings data into the 'listings' list
         loadData()
 
+        binding.landlordSearchSort.setOnClickListener {
+            // sort listings
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Sort By")
+                .setSingleChoiceItems(
+                    sortOptions,
+                    selectedOptionLandlord
+                ) { _, which ->
+                    selectedOptionLandlord = which
+                }
+                .setPositiveButton("Sort") { _, _ ->
+                    sortByLandlord = sortOptions[selectedOptionLandlord]
+                    sortListings()
+                    setupRecyclerView()
+                }
+                .setNeutralButton("Cancel"){ _, _ ->
+                    selectedOptionLandlord = sortOptions.indexOf(sortByLandlord)
+                }
+                .show()
+            sortListings()
+            setupRecyclerView()
+        }
+
         // show bottom nav bar
         val parentNavBar: View = requireActivity().findViewById(R.id.bottomNavigationView)
         parentNavBar.isVisible = true
@@ -99,6 +121,20 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
         binding.landlordListingRecyclerView.layoutManager = LinearLayoutManager(context)
         adapter = LandlordListingAdapter(userListingCollection, context,this)
         binding.landlordListingRecyclerView.adapter = adapter
+    }
+
+    private fun sortListings() {
+        val roomComparator = mutableListOf("Studio", "1", "2", "3", "4", "5")
+        val bathComparator = mutableListOf("1", "1.5", "2", "3", "4")
+
+        userListingCollection = when(sortByLandlord) {
+            "Latest" -> userListingCollection.sortedWith(compareBy { it.datePosted }) as MutableList<LandlordListingData>
+            "Rent: Low to High" -> userListingCollection.sortedWith(compareBy { it.price.toLong() }) as MutableList<LandlordListingData>
+            "Rent: High to Low" -> userListingCollection.sortedWith(compareByDescending { it.price.toLong() }) as MutableList<LandlordListingData>
+            "Number of Rooms" -> userListingCollection.sortedWith(compareBy { roomComparator.indexOf(it.numRooms) }) as MutableList<LandlordListingData>
+            "Number of Baths" -> userListingCollection.sortedWith(compareBy { bathComparator.indexOf(it.numBaths) }) as MutableList<LandlordListingData>
+            else -> userListingCollection
+        }
     }
 
     private fun loadData() {
@@ -134,7 +170,6 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
                                 Log.d(TAG, "doc data: $doc")
                                 if (doc != null) {
                                     // check if this listing already exists in the recycler list (for listings)
-//                                    Toast.makeText(requireContext(), doc.data!!["userID"].toString(), Toast.LENGTH_SHORT).show()
                                     userListingCollection.add(
                                         LandlordListingData(
                                             listingId,
@@ -174,10 +209,27 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
             }
     }
 
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        _binding = null
-//    }
+    private fun filterUserListings() {
+        val iterator = userListingCollection.iterator()
+        while (iterator.hasNext()) {
+            val listing = iterator.next()
+            with(filterParameters) {
+                if (
+                    (listing.price.toLong() !in rentMin..rentMax) or
+                    FilterListingUtil.compareDates(availableFrom, listing.availableFrom) or
+                    FilterListingUtil.checkFilterRooms(listing.numRooms, minRooms, maxRooms) or
+                    FilterListingUtil.checkFilterBath(listing.numBaths, numBaths) or
+                    ((type.isNotEmpty()) and (listing.type != type)) or
+                    FilterListingUtil.checkFilterHashMap(listing.amenities, amenities) or
+                    FilterListingUtil.checkFilterHashMap(listing.utilities, utilities) or
+                    ((furnished.isNotEmpty()) and (listing.furnished != furnished))
+                ) {
+                    // if listing does not match any of the filter parameters, remove listing from collection (to be displayed in search view)
+                    iterator.remove()
+                }
+            }
+        }
+    }
 
     override fun handleListingData(data: LandlordListingData) {
         val action = LandlordFragmentDirections.navigateToLandlordDetailedListingFragment(data)

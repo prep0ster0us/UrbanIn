@@ -43,7 +43,6 @@ class SearchListViewFragment : Fragment(), ListingAdapter.Callbacks {
                 }
                 .setPositiveButton("Sort") { _, _ ->
                     sortBy = sortOptions[selectedOption]
-                    Toast.makeText(requireContext(), sortBy, Toast.LENGTH_SHORT).show()
                     sortListings()
                     setupRecyclerView()
                 }
