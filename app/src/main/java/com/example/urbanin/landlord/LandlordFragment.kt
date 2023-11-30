@@ -60,7 +60,7 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
             binding.landlordSearchFilterCount.text = landlordFilterCount.toString()
         }
 
-        binding.addListingFAB.setOnClickListener {
+        binding.landlordListingFAB.setOnClickListener {
             val action = LandlordFragmentDirections.navigateToLandlordAddListing()
             findNavController().navigate(action)
         }
@@ -213,6 +213,8 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
                                             doc.data!!["amenities"] as Map<String, Boolean>
                                         )
                                     )
+                                    // refresh recycler view, and load in listings (as and when fetched from firestore)
+                                    adapter.notifyDataSetChanged()
                                 } else {
                                     Log.d(TAG, "Listing fetch: NO-DATA - No such document")
                                 }
@@ -226,7 +228,7 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
                 if (landlordIfFiltered) {
                     filterUserListings()
                 }
-                adapter.notifyDataSetChanged()
+                binding.landlordListingProgressLayout.visibility = View.GONE
             }
             .addOnFailureListener {
                 Log.d(TAG, "data fetch FAILED: $it")

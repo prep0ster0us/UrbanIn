@@ -5,16 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.urbanin.MainActivity
 import com.example.urbanin.R
 import com.example.urbanin.landlord.LandlordListingData
-import com.example.urbanin.tenant.search.ListingData
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.util.Date
 import java.util.Locale
 
 
@@ -45,7 +42,6 @@ class LandlordListingAdapter(
 //        val description = listingList[position].description
         val description = formatSubTitle(listingList[position].numRooms,listingList[position].numBaths, listingList[position].availableFrom)
         val location = listingList[position].address
-        // TODO: pass ImageView in "imgResource" var, which can be set for each card view (or each listing)
         Picasso.get().load(imgResource[0]).into(holder.listingImageView)
         holder.listingTitleView.text = title
         holder.listingDescriptionView.text = description
@@ -53,11 +49,6 @@ class LandlordListingAdapter(
 
         // on click listener for each item in the recycler view
         holder.itemView.setOnClickListener {
-            Toast.makeText(
-                contextViewGroup.context,
-                "Clicked on item num-$position",
-                Toast.LENGTH_SHORT
-            ).show()
             Log.d(MainActivity.TAG, "Position: $position -> ${listingList[position]}")
             // navigate (without passing arguments)
 //            Navigation.createNavigateOnClickListener(R.id.navigate_to_detailed_listing_fragment).onClick(holder.listingImageView)
