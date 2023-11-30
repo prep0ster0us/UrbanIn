@@ -108,7 +108,7 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
                 ) { _, which ->
                     selectedOptionLandlord = which
                 }
-                .setPositiveButton("Sort") { _, _ ->
+                .setPositiveButton("Show Results") { _, _ ->
                     sortByLandlord = sortOptions[selectedOptionLandlord]
                     sortListings()
                     setupRecyclerView()

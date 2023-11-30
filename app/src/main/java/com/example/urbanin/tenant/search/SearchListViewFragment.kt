@@ -41,7 +41,7 @@ class SearchListViewFragment : Fragment(), ListingAdapter.Callbacks {
                 .setSingleChoiceItems(sortOptions, selectedOption) { _, which ->
                     selectedOption = which
                 }
-                .setPositiveButton("Sort") { _, _ ->
+                .setPositiveButton("Show Results") { _, _ ->
                     sortBy = sortOptions[selectedOption]
                     sortListings()
                     setupRecyclerView()

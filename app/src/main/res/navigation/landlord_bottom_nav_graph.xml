@@ -60,6 +60,9 @@
         <argument
             android:name="landlordListing"
             app:argType="com.example.urbanin.landlord.LandlordListingData" />
+        <action
+            android:id="@+id/navigate_from_detailed_listing_to_search"
+            app:destination="@id/landlordSearchFragment" />
     </fragment>
     <fragment
         android:id="@+id/landlordFilterFragment"
