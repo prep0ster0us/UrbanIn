@@ -13,10 +13,19 @@
         android:layout_height="wrap_content"
         android:contentDescription="appLogo"
         android:src="@drawable/baseline_listing_search_24"
-        app:layout_constraintBottom_toTopOf="@id/loginUsnLayout"
+        app:layout_constraintBottom_toTopOf="@id/signUpViewGoogle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/signUpViewGoogle"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/loginUsnLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/loginViewAppLogo" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/loginUsnLayout"
@@ -29,7 +38,7 @@
         app:layout_constraintBottom_toTopOf="@id/loginPwdLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginViewAppLogo">
+        app:layout_constraintTop_toBottomOf="@id/signUpViewGoogle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/loginViewUsnField"
@@ -61,7 +70,6 @@
             android:textColor="@color/default_text" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/loginViewSubmitBtn"
         android:layout_width="200dp"
@@ -81,16 +89,19 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginVertical="15dp"
+        android:layout_marginBottom="50dp"
+        android:contentDescription="Use Biomteric to login"
         android:src="@drawable/baseline_fingerprint_24"
+        app:layout_constraintBottom_toTopOf="@id/loginViewForgotPwd"
         app:layout_constraintEnd_toEndOf="@id/loginViewSubmitBtn"
         app:layout_constraintStart_toStartOf="@id/loginViewSubmitBtn"
-        app:layout_constraintTop_toBottomOf="@id/loginViewSubmitBtn"
-        android:contentDescription="Use Biomteric to login" />
+        app:layout_constraintTop_toBottomOf="@id/loginViewSubmitBtn" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/loginViewForgotPwd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
         android:fontFamily="@font/gotham_medium"
         android:padding="16dp"
         android:paddingHorizontal="24dp"
@@ -106,6 +117,7 @@
         android:id="@+id/loginViewSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop=""
         android:fontFamily="@font/gotham_regular"
         android:text="Don't have an account? Sign up"
         android:textSize="16sp"

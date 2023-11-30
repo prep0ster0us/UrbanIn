@@ -20,7 +20,24 @@
             app:destination="@id/landlordSearchFragment" />
     </fragment>
 
-
+    <fragment
+        android:id="@+id/forgotPwdFragment"
+        android:name="com.example.urbanin.auth.ForgotPwdFragment"
+        android:label="ForgotPasswordFragment">
+        <action
+            android:id="@+id/navigate_forgot_pwd_to_login"
+            app:destination="@id/loginFragment"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.urbanin.auth.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/navigate_sign_up_to_landlord_login"
+            app:destination="@id/loginFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/landlordSearchFragment"

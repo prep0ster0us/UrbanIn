@@ -46,17 +46,20 @@ class LoginFragment : Fragment() {
     // save for future login
     private lateinit var prefManager: LoginPreferenceManager
 
+    // for google sign-in
+    private lateinit var googleSignInClient: GoogleSignInClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentLoginBinding.inflate(layoutInflater)
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
         configureGoogleSignIn()
-    }
+
 
         prefManager = LoginPreferenceManager(requireContext())
         // check if user logged in previously, then stay logged in
-        if(prefManager.isLoggedIn()) {
+        if (prefManager.isLoggedIn()) {
             navigateToNext()
         }
 
@@ -71,8 +74,15 @@ class LoginFragment : Fragment() {
         }
     }
 
+    private fun configureGoogleSignIn() {
+        val gso =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
+        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+        prefManager.isLoggedIn()
+    }
+
     private fun navigateToNext() {
-        when(prefManager.getRedirectContext()) {
+        when (prefManager.getRedirectContext()) {
             "Mode selection" -> LoginFragmentDirections.navigateLandlordLoginSuccessToSearch()
 //            "Favorite" -> ""
 //            "Message" ->
@@ -121,8 +131,7 @@ class LoginFragment : Fragment() {
 
     private fun createAuthBiometricPrompt() {
         executor = ContextCompat.getMainExecutor(requireContext())
-        biometricPrompt = BiometricPrompt(
-            requireActivity(),
+        biometricPrompt = BiometricPrompt(requireActivity(),
             executor,
             object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
@@ -152,16 +161,12 @@ class LoginFragment : Fragment() {
     }
 
     private fun createAuthPromptInfo() {
-        promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Use Biometric")
-            .setSubtitle("Login using biometric")
-            .setNegativeButtonText("Cancel")
-            .build()
+        promptInfo = BiometricPrompt.PromptInfo.Builder().setTitle("Use Biometric")
+            .setSubtitle("Login using biometric").setNegativeButtonText("Cancel").build()
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         return binding.root
     }
@@ -172,24 +177,14 @@ class LoginFragment : Fragment() {
         binding.loginViewSubmitBtn.setOnClickListener {
             // check if credentials match
             checkIfExists()
-//            if (existingUser) {
-//                matchCredentials()
-//            }
-//                val isValid = checkCredentials();
-//                if(isValid) {
-//                    // navigate successfully to next page
-//                    // TODO: decide next page based on context of fragment trigger
-//                    findNavController().navigate(LoginFragmentDirections.navigateLandlordLoginSuccessToSearch())
-//                } else {
-//                    // TODO: show dialog that user not registered yet, and ask if want to register
-//                    // TODO: based on response, dismiss dialog (if no) or redirect to sign up (if yes)
-//                    findNavController().navigate(LoginFragmentDirections.navigateLandlordLoginToSignUp())
-//                }
-//
-//            } else {
-//                // navigate to sign up page
-//                findNavController().navigate(LoginFragmentDirections.navigateLandlordLoginToSignUp())
-//            }
+        }
+
+        binding.signUpViewGoogle.setOnClickListener {
+            googleSignIn()
+        }
+
+        binding.loginViewForgotPwd.setOnClickListener {
+            findNavController().navigate(LoginFragmentDirections.navigateLandlordLoginToForgotPwd())
         }
 
         binding.loginViewSignUp.setOnClickListener {
@@ -198,26 +193,23 @@ class LoginFragment : Fragment() {
     }
 
     private fun checkIfExists() {
-        db.collection("Users")
-            .whereEqualTo("Email", binding.loginViewUsnField.text.toString())
-            .get()
-            .addOnSuccessListener { documents ->
+        db.collection("Users").whereEqualTo("Email", binding.loginViewUsnField.text.toString())
+            .get().addOnSuccessListener { documents ->
                 for (document in documents) {
                     Log.d(TAG, "User found! Document id: ${document.id}")
                     matchCredentials()
                 }
-            }
-            .addOnFailureListener { e ->
+            }.addOnFailureListener { e ->
                 Log.w(TAG, "No User! Error: ${e.message}")
-                Toast.makeText(requireContext(), "No associated account found!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "No associated account found!", Toast.LENGTH_SHORT)
+                    .show()
                 binding.loginViewPwdField.setText("")
             }
     }
 
     private fun matchCredentials() {
         auth.signInWithEmailAndPassword(
-            binding.loginViewUsnField.text.toString(),
-            binding.loginViewPwdField.text.toString()
+            binding.loginViewUsnField.text.toString(), binding.loginViewPwdField.text.toString()
         ).addOnCompleteListener() { task ->
             if (task.isSuccessful) {
                 // Sign in success, update UI with the signed-in user's information
@@ -228,7 +220,7 @@ class LoginFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
                 // check if any saved login credentials prior to login (based on which biometric prompt will be enabled)
-                if(prefManager.isFirstLogin()) {
+                if (prefManager.isFirstLogin()) {
                     // save in shared preferences (for future login + biometric)
                     prefManager.writeLoginCreds(
                         binding.loginViewUsnField.text.toString(),
@@ -245,15 +237,48 @@ class LoginFragment : Fragment() {
                 // clear password field
                 binding.loginViewPwdField.setText("")
                 Toast.makeText(
-                    requireContext(),
-                    "Wrong Credentials! Try again..",
-                    Toast.LENGTH_SHORT
+                    requireContext(), "Wrong Credentials! Try again..", Toast.LENGTH_SHORT
                 ).show()
                 // TODO: show dialog that user not registered yet, and ask if want to register
 
                 // TODO: based on response, dismiss dialog (if no) or redirect to sign up (if yes)
 //                    findNavController().navigate(LoginFragmentDirections.navigateLandlordLoginToSignUp())
             }
+        }
+    }
+
+    private fun googleSignIn() {
+        val signInIntent = googleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(task)
+        }
+    }
+
+    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account = completedTask.getResult(ApiException::class.java)
+            firebaseAuthWithGoogle(account.idToken!!)
+        } catch (e: ApiException) {
+            Log.w(TAG, "Google sign in failed", e)
+        }
+    }
+
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        auth.signInWithCredential(credential).addOnCompleteListener(requireActivity()) { task ->
+            if (task.isSuccessful) {
+                findNavController().navigate(LoginFragmentDirections.navigateLandlordLoginSuccessToSearch())
+            } else {
+                Log.w(TAG, "signInWithCredential:failure", task.exception)
+                Toast.makeText(context, "Authentication Failed.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     companion object {

@@ -94,6 +94,13 @@ dependencies {
     /// Biometric Authentication
     implementation("androidx.biometric:biometric:1.2.0-alpha05")
 
+    // Google Sign-In
+    implementation("com.google.gms:google-services:4.3.10")
+
+    // Glide
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+
 
 
 }
