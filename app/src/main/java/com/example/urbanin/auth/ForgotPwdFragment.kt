@@ -31,7 +31,7 @@ class ForgotPwdFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_forgot_password, container, false)
 
         // Initialization
-        btnBack = view.findViewById(R.id.btnForgotPasswordBack)
+        btnBack = view.findViewById(R.id.backToLoginButton)
         btnReset = view.findViewById(R.id.btnReset)
         edtEmail = view.findViewById(R.id.edtForgotPasswordEmail)
         progressBar = view.findViewById(R.id.forgetPasswordProgressbar)

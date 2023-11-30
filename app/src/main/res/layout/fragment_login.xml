@@ -9,10 +9,10 @@
 
     <ImageView
         android:id="@+id/loginViewAppLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:contentDescription="appLogo"
-        android:src="@drawable/baseline_listing_search_24"
+        android:src="@drawable/app_logo"
         app:layout_constraintBottom_toTopOf="@id/signUpViewGoogle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -117,7 +117,6 @@
         android:id="@+id/loginViewSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop=""
         android:fontFamily="@font/gotham_regular"
         android:text="Don't have an account? Sign up"
         android:textSize="16sp"

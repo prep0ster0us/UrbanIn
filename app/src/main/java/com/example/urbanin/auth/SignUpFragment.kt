@@ -163,7 +163,7 @@ class SignUpFragment : Fragment() {
             setTitle("Sign In Failed")
             setMessage("User already exists")
             setPositiveButton("OK", null)
-            setIcon(R.drawable.failure)
+            setIcon(R.drawable.ic_error_outline)
             show()
         }
     }

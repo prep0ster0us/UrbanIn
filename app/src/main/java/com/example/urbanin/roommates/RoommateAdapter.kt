@@ -19,7 +19,7 @@ class RoommateAdapter(private val listings: List<RoommateListings.RoommateListin
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_roommate_listing, parent, false)
+            .inflate(R.layout.roommate_listing_card, parent, false)
         return ViewHolder(view)
     }
 
