@@ -32,6 +32,8 @@ class SearchFragment : Fragment() {
 //    private lateinit var googleMap: GoogleMap
     companion object {
         var isMapInit: Boolean = false
+        // TODO: used to show layouts in "message" pane, ONLY FOR TESTING
+        var showSaved: Boolean = false
     }
 
     // FireStore object

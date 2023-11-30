@@ -15,8 +15,8 @@
             android:id="@+id/listingItemImage"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:scaleType="centerCrop"
             android:contentDescription="Listing Image"
+            android:scaleType="centerCrop"
             android:src="@drawable/baseline_listing_search_24" />
 
         <TextView
@@ -61,8 +61,9 @@
         android:layout_above="@id/listingItemImage"
         android:layout_gravity="right"
         android:backgroundTint="@android:color/transparent"
+        android:clickable="true"
         android:contentDescription="Save Listing Button"
         android:padding="16dp"
-        android:src="@drawable/listing_favorite_outline_24" />
+        android:src="@drawable/favorite_icon_selector" />
 
 </androidx.cardview.widget.CardView>

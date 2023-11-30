@@ -56,18 +56,27 @@ class LoginPreferenceManager(context: Context) {
     }
 
     // keep track of which mode the user uses
+    fun getUserMode() = preferences.getString(USER_MODE, "tenant")
     fun setUserMode(mode: String) {
         // mode = ["tenant", "landlord", "roommate"] <- possible values
         editor.putString(USER_MODE, mode).apply()
         editor.apply()
     }
 
-    fun getUserMode() = preferences.getString(USER_MODE, "tenant")
+    // keep track of where the "LoginFragment" was invoked/redirected to
+    // possible context = "Mode selection", "Account", "Favorite", "Message"
+    fun getRedirectContext() = preferences.getString(REDIRECT_FROM, "Mode selection")
+    fun setRedirectContext(context: String) {
+        editor.putString(REDIRECT_FROM, context).apply()
+        editor.apply()
+    }
+
     companion object {
         private const val PREFERENCE_NAME = "loginData"
         private const val FIRST_LOGIN = "isFirstLogin"
         private const val BIOMETRIC_ENABLED = "biometricEnabled"
         private const val LOGGED_IN = "isLoggedIn"
         private const val USER_MODE = "userMode"
+        private const val REDIRECT_FROM = "redirectContext"
     }
 }

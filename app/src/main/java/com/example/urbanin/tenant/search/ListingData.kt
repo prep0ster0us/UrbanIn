@@ -32,6 +32,7 @@ data class ListingData(
 ) : Parcelable
 
 var listingCollection: MutableList<ListingData> = mutableListOf()
+var savedCollection: MutableList<ListingData> = mutableListOf()
 //    arrayListOf(      // TODO: Only for debugging, need to populate using data stored in firestore
 //        ListingData(
 //            "listingID",

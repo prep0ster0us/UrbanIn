@@ -13,7 +13,6 @@ import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
 import androidx.biometric.BiometricPrompt.PromptInfo
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -65,7 +64,12 @@ class LoginFragment : Fragment() {
     }
 
     private fun navigateToNext() {
-
+        when(prefManager.getRedirectContext()) {
+            "Mode selection" -> LoginFragmentDirections.navigateLandlordLoginSuccessToSearch()
+//            "Favorite" -> ""
+//            "Message" ->
+//            "Account" ->
+        }
     }
 
     private fun checkDeviceHasBiometrics() {

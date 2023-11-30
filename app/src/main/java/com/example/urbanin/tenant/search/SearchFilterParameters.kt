@@ -17,7 +17,11 @@ var filterParameters = SearchFilterParameters()
 var ifFiltered: Boolean = false
 var filterCount = 0
 
-// for sort
+// for sort - search page
 var selectedOption = 0
 var sortBy: String = "Latest"
 var sortOptions = arrayOf("Latest", "Rent: Low to High", "Rent: High to Low", "Number of Rooms", "Number of Baths")
+
+// for sort - saved listing page
+var savedSelectedOption = 0
+var savedSortBy: String = "Latest"

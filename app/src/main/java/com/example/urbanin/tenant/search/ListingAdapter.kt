@@ -5,10 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
@@ -50,15 +49,22 @@ class ListingAdapter(
 
         // on click listener for each item in the recycler view
         holder.itemView.setOnClickListener {
-            Toast.makeText(
-                contextViewGroup.context,
-                "Clicked on item num-$position",
-                Toast.LENGTH_SHORT
-            ).show()
             Log.d(TAG, "Position: $position -> ${listingList[position]}")
             // navigate (without passing arguments)
 //            Navigation.createNavigateOnClickListener(R.id.navigate_to_detailed_listing_fragment).onClick(holder.listingImageView)
             handler.handleListingData(listingList[position])
+        }
+
+        // save a listing
+        val favButton = holder.itemView.findViewById<ImageButton>(R.id.listingItemSave)
+        favButton.setOnClickListener {
+            if(listingList[position] in savedCollection) {
+                savedCollection.remove(listingList[position])
+                favButton.setImageResource(R.drawable.listing_favorite_outline_24)
+            } else {
+                savedCollection.add(listingList[position])
+                favButton.setImageResource(R.drawable.listing_favorite_24)
+            }
         }
     }
 

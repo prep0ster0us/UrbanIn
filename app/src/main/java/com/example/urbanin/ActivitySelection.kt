@@ -3,7 +3,6 @@ package com.example.urbanin
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.urbanin.auth.LoginFragment
 import com.example.urbanin.auth.LoginPreferenceManager
 import com.example.urbanin.databinding.ActivitySelectionBinding
 
@@ -16,6 +15,8 @@ class ActivitySelection : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivitySelectionBinding.inflate(layoutInflater)
+
+        prefManager = LoginPreferenceManager(this)
         setContentView(binding.root)
 
         with(binding) {
@@ -28,6 +29,7 @@ class ActivitySelection : AppCompatActivity() {
                 navigateToTenantActivity()
             }
             rentOutLayout.setOnClickListener {
+                prefManager.setRedirectContext("Mode selection")
                 navigateToLogin()
                 prefManager.setUserMode("landlord")
             }
