@@ -102,6 +102,8 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
                 if (ifFiltered) {
                     filterListings()
                 }
+                // sort listings, based on sort value
+                sortListings()
                 // once all documents fetched, instantiate map view
                 // and add listing markers
                 val mapFragment =
@@ -111,6 +113,20 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
             .addOnFailureListener {
                 Log.w(TAG, "Error getting data!")
             }
+    }
+
+    private fun sortListings() {
+        val roomComparator = mutableListOf("Studio", "1", "2", "3", "4", "5")
+        val bathComparator = mutableListOf("1", "1.5", "2", "3", "4")
+
+        listingCollection = when(sortBy) {
+            "Latest" -> listingCollection.sortedWith(compareBy { it.datePosted }) as MutableList<ListingData>
+            "Rent: Low to High" -> listingCollection.sortedWith(compareBy { it.price.toLong() }) as MutableList<ListingData>
+            "Rent: High to Low" -> listingCollection.sortedWith(compareByDescending { it.price.toLong() }) as MutableList<ListingData>
+            "Number of Rooms" -> listingCollection.sortedWith(compareBy { roomComparator.indexOf(it.numRooms) }) as MutableList<ListingData>
+            "Number of Baths" -> listingCollection.sortedWith(compareBy { bathComparator.indexOf(it.numBaths) }) as MutableList<ListingData>
+            else -> listingCollection
+        }
     }
 
     private fun filterListings() {

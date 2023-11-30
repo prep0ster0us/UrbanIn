@@ -16,3 +16,8 @@ data class SearchFilterParameters(
 var filterParameters = SearchFilterParameters()
 var ifFiltered: Boolean = false
 var filterCount = 0
+
+// for sort
+var selectedOption = 0
+var sortBy: String = "Latest"
+var sortOptions = arrayOf("Latest", "Rent: Low to High", "Rent: High to Low", "Number of Rooms", "Number of Baths")

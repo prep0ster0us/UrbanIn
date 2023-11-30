@@ -15,7 +15,7 @@ import com.example.urbanin.R
 import com.squareup.picasso.Picasso
 
 class ListingAdapter(
-    private val listingList: ArrayList<ListingData>,
+    private val listingList: MutableList<ListingData>,
     private val context: Context?,
     private val handler: Callbacks
 ) : RecyclerView.Adapter<ListingAdapter.listingViewHolder>() {
