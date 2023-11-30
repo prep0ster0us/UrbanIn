@@ -3,8 +3,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.urbanin.MainActivity
 import com.example.urbanin.R
@@ -52,7 +55,12 @@ class LandlordListingAdapter(
             Log.d(MainActivity.TAG, "Position: $position -> ${listingList[position]}")
             // navigate (without passing arguments)
 //            Navigation.createNavigateOnClickListener(R.id.navigate_to_detailed_listing_fragment).onClick(holder.listingImageView)
-            handler.handleListingData(listingList[position])
+            handler.handleListingData(listingList[position], "load")
+        }
+
+        // edit listing
+        holder.itemView.findViewById<ImageButton>(R.id.editListingButton).setOnClickListener {
+            handler.handleListingData(listingList[position], "edit")
         }
     }
 
@@ -91,7 +99,7 @@ class LandlordListingAdapter(
     }
 
     interface  Callbacks {
-        fun handleListingData(data: LandlordListingData) {
+        fun handleListingData(data: LandlordListingData, flag: String) {
 
         }
     }

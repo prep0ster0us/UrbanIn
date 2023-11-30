@@ -257,8 +257,16 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
         }
     }
 
-    override fun handleListingData(data: LandlordListingData) {
-        val action = LandlordFragmentDirections.navigateToLandlordDetailedListingFragment(data)
-        findNavController().navigate(action)
+    override fun handleListingData(data: LandlordListingData, flag: String) {
+        when(flag) {
+            "load" -> {
+                val action = LandlordFragmentDirections.navigateToLandlordDetailedListingFragment(data)
+                findNavController().navigate(action)
+            }
+            "edit" -> {
+                val action = LandlordFragmentDirections.navigateToLandlordEditListing(data)
+                findNavController().navigate(action)
+            }
+        }
     }
 }
