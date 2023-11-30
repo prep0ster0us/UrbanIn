@@ -13,9 +13,9 @@ data class LandlordSearchFilterParameters(
     var furnished: String = ""
 )
 // populate this variable to filter listings
-var filterParameters = LandlordSearchFilterParameters()
-var ifFiltered: Boolean = false
-var filterCount = 0
+var landlordFilterParameters = LandlordSearchFilterParameters()
+var landlordIfFiltered: Boolean = false
+var landlordFilterCount = 0
 
 // for sort
 var selectedOptionLandlord = 0

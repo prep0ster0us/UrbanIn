@@ -32,6 +32,9 @@
         <action
             android:id="@+id/navigate_to_landlord_detailed_listing_fragment"
             app:destination="@id/landlordDetailedListingFragment" />
+        <action
+            android:id="@+id/navigate_to_landlord_filter_fragment"
+            app:destination="@id/landlordFilterFragment" />
     </fragment>
     <fragment
         android:id="@+id/landlordMessageFragment"
@@ -57,6 +60,17 @@
         <argument
             android:name="landlordListing"
             app:argType="com.example.urbanin.landlord.LandlordListingData" />
+    </fragment>
+    <fragment
+        android:id="@+id/landlordFilterFragment"
+        android:name="com.example.urbanin.landlord.LandlordFilterFragment"
+        android:label="LandlordFilterFragment" >
+        <action
+            android:id="@+id/navigate_back_to_landlord_search_fragment"
+            app:destination="@id/landlordSearchFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/landlordFilterFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <!-- add this argument to pass data from "LandlordFragment" to "DetailedListingLandlordFragment"

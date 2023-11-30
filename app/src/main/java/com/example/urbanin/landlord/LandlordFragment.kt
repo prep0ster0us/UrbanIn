@@ -15,6 +15,8 @@ import com.example.urbanin.R
 import com.example.urbanin.auth.LoginPreferenceManager
 import com.example.urbanin.databinding.FragmentLandlordBinding
 import com.example.urbanin.tenant.search.FilterListingUtil
+import com.example.urbanin.tenant.search.filterCount
+import com.example.urbanin.tenant.search.ifFiltered
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -48,6 +50,14 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
         if (prefManager.isFirstLogin()) {
             prefManager.setFirstLogin()
             showOptForBiometricDialog()
+        }
+
+        // set filter count
+        if(landlordFilterCount == 0) {
+            binding.landlordSearchFilterCount.isVisible = false
+        } else {
+            binding.landlordSearchFilterCount.isVisible = true
+            binding.landlordSearchFilterCount.text = landlordFilterCount.toString()
         }
 
         binding.addListingFAB.setOnClickListener {
@@ -111,9 +121,19 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
             setupRecyclerView()
         }
 
+        binding.landlordSearchFilter.setOnClickListener {
+            // temporarily hide bottom nav bar, when inflating filter fragment (to show full screen)
+            setNavBarVisibility(false)
+            findNavController().navigate(LandlordFragmentDirections.navigateToLandlordFilterFragment())
+        }
+
         // show bottom nav bar
+        setNavBarVisibility(true)
+    }
+
+    private fun setNavBarVisibility(flag: Boolean) {
         val parentNavBar: View = requireActivity().findViewById(R.id.bottomNavigationView)
-        parentNavBar.isVisible = true
+        parentNavBar.isVisible = flag
     }
 
     private fun setupRecyclerView() {
@@ -202,6 +222,10 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
                             }
                     }
                 }
+                // after getting all listings, filter out based on parameters (if any filters set)
+                if (landlordIfFiltered) {
+                    filterUserListings()
+                }
                 adapter.notifyDataSetChanged()
             }
             .addOnFailureListener {
@@ -213,7 +237,7 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
         val iterator = userListingCollection.iterator()
         while (iterator.hasNext()) {
             val listing = iterator.next()
-            with(filterParameters) {
+            with(landlordFilterParameters) {
                 if (
                     (listing.price.toLong() !in rentMin..rentMax) or
                     FilterListingUtil.compareDates(availableFrom, listing.availableFrom) or
