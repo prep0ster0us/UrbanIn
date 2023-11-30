@@ -1,5 +1,7 @@
 package com.example.urbanin.auth
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,7 +20,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.databinding.FragmentLoginBinding
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.concurrent.Executor
 
@@ -26,7 +35,6 @@ import java.util.concurrent.Executor
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
-
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
 
@@ -40,11 +48,11 @@ class LoginFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = FragmentLoginBinding.inflate(layoutInflater)
-
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
+        configureGoogleSignIn()
+    }
 
         prefManager = LoginPreferenceManager(requireContext())
         // check if user logged in previously, then stay logged in
@@ -246,6 +254,9 @@ class LoginFragment : Fragment() {
                 // TODO: based on response, dismiss dialog (if no) or redirect to sign up (if yes)
 //                    findNavController().navigate(LoginFragmentDirections.navigateLandlordLoginToSignUp())
             }
-        }
+    }
+
+    companion object {
+        private const val RC_SIGN_IN = 1001
     }
 }
