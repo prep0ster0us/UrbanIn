@@ -17,7 +17,10 @@
             app:destination="@id/signUpFragment" />
         <action
             android:id="@+id/navigate_landlord_login_success_to_search"
-            app:destination="@id/landlordSearchFragment" />
+            app:destination="@id/landlordSearchFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment

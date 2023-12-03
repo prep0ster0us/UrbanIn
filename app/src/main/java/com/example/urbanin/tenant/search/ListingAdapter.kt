@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.Locale
 
 class ListingAdapter(
     private val listingList: MutableList<ListingData>,
@@ -39,7 +42,8 @@ class ListingAdapter(
 //        val (imgResource, title, description, location) = listOf(listingList[position].img, listingList[position].title, listingList[position].description, listingList[position].address)
         val imgResource = listingList[position].img
         val title = listingList[position].title
-        val description = listingList[position].description
+//        val description = listingList[position].description
+        val description = formatSubTitle(listingList[position].numRooms,listingList[position].numBaths, listingList[position].availableFrom)
         val location = listingList[position].address
         // TODO: pass ImageView in "imgResource" var, which can be set for each card view (or each listing)
         Picasso.get().load(imgResource[0]).into(holder.listingImageView)
@@ -74,7 +78,33 @@ class ListingAdapter(
         val listingDescriptionView: TextView = itemView.findViewById(R.id.listingItemDescription)
         val listingAddressView: TextView = itemView.findViewById(R.id.listingItemAddress)
     }
-    
+
+    private fun formatSubTitle(bed: String, bath: String, from: String): String {
+        val numBed = if(bed != "Studio") {
+            "$bed bed"
+        } else {
+            bed
+        }
+
+        val availableFrom = if(compareDate(from)) {
+            "Available Now"
+        } else {
+            "Available from $from"
+        }
+
+        return "$numBed | $bath bath | $availableFrom"
+    }
+
+    private fun compareDate(date: String): Boolean {
+        // get listing availableFrom date
+        val dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.MEDIUM, Locale.US)
+        val availableDate = dateFormat.parse(date)
+        // get current date
+        val currentDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val currentDate = currentDateFormat.parse(LocalDate.now().toString())
+
+        return currentDate!! > availableDate
+    }
     interface  Callbacks {
         fun handleListingData(data: ListingData) {
 

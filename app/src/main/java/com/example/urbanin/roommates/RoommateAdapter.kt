@@ -12,8 +12,8 @@ import com.example.urbanin.R
 class RoommateAdapter(private val listings: List<RoommateListings.RoommateListing>) : RecyclerView.Adapter<RoommateAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val imageView: ImageView = view.findViewById(R.id.image_roommate)
-        val textViewLocation: TextView = view.findViewById(R.id.text_location)
+//        val imageView: ImageView = view.findViewById(R.id.image_roommate)
+//        val textViewLocation: TextView = view.findViewById(R.id.text_location)
         // Add other UI components as needed
     }
 
@@ -25,10 +25,10 @@ class RoommateAdapter(private val listings: List<RoommateListings.RoommateListin
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val listing = listings[position]
-        holder.textViewLocation.text = listing.location
+//        holder.textViewLocation.text = listing.location
 
         if (listing.images.isNotEmpty()) {
-            Glide.with(holder.imageView.context).load(listing.images[0]).into(holder.imageView)
+//            Glide.with(holder.imageView.context).load(listing.images[0]).into(holder.imageView)
         }
 
         // Bind other details as needed

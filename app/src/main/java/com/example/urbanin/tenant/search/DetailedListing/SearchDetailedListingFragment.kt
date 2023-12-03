@@ -121,7 +121,6 @@ class SearchDetailedListingFragment : Fragment() {
         val amenitiesList = args.listing.amenities
         for (amenity in amenitiesList) {
             if (amenity.value) {
-                Toast.makeText(requireContext(), amenity.key, Toast.LENGTH_SHORT).show()
                 amenitiesGrid.add(
                     AmenitiesCard(
                         amenitiesGridIcons[amenity.key]!!,

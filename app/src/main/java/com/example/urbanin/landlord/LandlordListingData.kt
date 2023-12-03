@@ -25,4 +25,4 @@ data class LandlordListingData(
     var amenities: Map<String, Boolean> = hashMapOf()
 ) : Parcelable
 
-var userListingCollection: MutableList<LandlordListingData> = mutableListOf()
+var userListingCollection: MutableList<LandlordListingData> = arrayListOf()

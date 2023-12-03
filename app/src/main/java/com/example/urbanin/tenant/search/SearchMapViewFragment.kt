@@ -269,7 +269,6 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
                     )
                     // zoom to current location
                     if (!isMapInit) {
-                        Toast.makeText(requireContext(), "first time", Toast.LENGTH_SHORT).show()
                         zoomToLocation(googleMap, markerPosition)
                         isMapInit = true
                     } else {

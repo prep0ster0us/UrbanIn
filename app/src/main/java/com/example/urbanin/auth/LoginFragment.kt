@@ -64,6 +64,9 @@ class LoginFragment : Fragment() {
         }
 
 //        isLoggedIn = (auth.currentUser != null)
+        if(prefManager.isFirstLogin()) {
+            binding.loginBiometricButton.visibility = View.GONE
+        }
 
         binding.loginBiometricButton.setOnClickListener {
             checkDeviceHasBiometrics()
@@ -78,7 +81,6 @@ class LoginFragment : Fragment() {
         val gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
         googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
-        prefManager.isLoggedIn()
     }
 
     private fun navigateToNext() {
@@ -176,7 +178,8 @@ class LoginFragment : Fragment() {
 
         binding.loginViewSubmitBtn.setOnClickListener {
             // check if credentials match
-            checkIfExists()
+//            checkIfExists()
+            matchCredentials()
         }
 
         binding.signUpViewGoogle.setOnClickListener {
@@ -214,11 +217,11 @@ class LoginFragment : Fragment() {
             if (task.isSuccessful) {
                 // Sign in success, update UI with the signed-in user's information
                 Log.d(TAG, "signInWithEmail:success")
-                Toast.makeText(
-                    requireContext(),
-                    "Welcome, ${auth.currentUser!!.displayName}",
-                    Toast.LENGTH_SHORT
-                ).show()
+//                Toast.makeText(
+//                    requireContext(),
+//                    "Welcome, ${auth.currentUser!!.displayName}",
+//                    Toast.LENGTH_SHORT
+//                ).show()
                 // check if any saved login credentials prior to login (based on which biometric prompt will be enabled)
                 if (prefManager.isFirstLogin()) {
                     // save in shared preferences (for future login + biometric)

@@ -16,8 +16,11 @@ import com.example.urbanin.R
 import com.example.urbanin.databinding.FragmentLandlordFilterBinding
 import java.text.DecimalFormat
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Currency
+import java.util.Date
+import java.util.Locale
 
 class LandlordFilterFragment : Fragment() {
 
@@ -232,9 +235,16 @@ class LandlordFilterFragment : Fragment() {
             // on below line we are passing context.
             requireContext(),
             { _, selectedYear, monthOfYear, dayOfMonth ->
+                // Set the selected date using the values received from the DatePicker dialog
+                val inputFormat = SimpleDateFormat("MM-dd-yyyy", Locale.US)
+                val selectedDate: Date? =
+                    inputFormat.parse("${monthOfYear + 1}-$dayOfMonth-$selectedYear")
+                // Format the selected date into a string
+                val dateFormat =
+                    SimpleDateFormat.getDateInstance(SimpleDateFormat.MEDIUM, Locale.US)
+                val formattedDate = selectedDate?.let { dateFormat.format(it) }
                 // save selected date from picker in the display text field
-                binding.availableDisplayText.text =
-                    (dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + selectedYear)
+                binding.availableDisplayText.text = formattedDate
             },
             // default selected value in date picker dialog = current date
             calendar.get(Calendar.YEAR),
@@ -349,6 +359,8 @@ class LandlordFilterFragment : Fragment() {
             utilities = linkedMapOf()
             furnished = ""
         }
+        landlordIfFiltered = false
+        landlordFilterCount = 0
     }
 
     private fun setAmenities(status: List<Boolean>) {

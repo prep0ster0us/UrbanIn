@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -227,6 +228,7 @@ class LandlordFragment : Fragment(), LandlordListingAdapter.Callbacks {
                 // after getting all listings, filter out based on parameters (if any filters set)
                 if (landlordIfFiltered) {
                     filterUserListings()
+                    adapter.notifyDataSetChanged()
                 }
                 binding.landlordListingProgressLayout.visibility = View.GONE
             }

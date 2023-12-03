@@ -31,8 +31,8 @@ data class ListingData(
     var amenities: Map<String, Boolean> = hashMapOf()
 ) : Parcelable
 
-var listingCollection: MutableList<ListingData> = mutableListOf()
-var savedCollection: MutableList<ListingData> = mutableListOf()
+var listingCollection: MutableList<ListingData> = arrayListOf()
+var savedCollection: MutableList<ListingData> = arrayListOf()
 //    arrayListOf(      // TODO: Only for debugging, need to populate using data stored in firestore
 //        ListingData(
 //            "listingID",
