@@ -1,10 +1,10 @@
-package com.example.urbanin.landlord
+package com.example.urbanin.data
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class LandlordListingData(
+data class ListingData(
     var listingID: String = "",
     var userID: String = "",
     var type: String = "",
@@ -14,8 +14,8 @@ data class LandlordListingData(
     var longitude: String = "",
     var address: String = "",
     var price: String = "",
-    var img: MutableList<String> = mutableListOf(),
-    var vid: MutableList<String> = mutableListOf(),
+    var img: MutableList<String> = mutableListOf(),       // TODO: change to image type
+    var vid: MutableList<String> = mutableListOf(),       // TODO: change to video type
     var datePosted: String = "",
     var availableFrom: String = "",
     var numRooms: String = "",
@@ -25,4 +25,9 @@ data class LandlordListingData(
     var amenities: Map<String, Boolean> = hashMapOf()
 ) : Parcelable
 
-var userListingCollection: MutableList<LandlordListingData> = arrayListOf()
+// TENANT
+var listingCollection: MutableList<ListingData> = arrayListOf()
+var savedCollection: MutableList<ListingData> = arrayListOf()
+
+// LANDLORD
+var userListingCollection: MutableList<ListingData> = arrayListOf()

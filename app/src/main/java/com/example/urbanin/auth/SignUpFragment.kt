@@ -12,7 +12,6 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.databinding.FragmentSignUpBinding
-import com.example.urbanin.tenant.search.ListingData
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -26,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
 import com.example.urbanin.R
+import com.example.urbanin.data.ListingData
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 
 class SignUpFragment : Fragment() {

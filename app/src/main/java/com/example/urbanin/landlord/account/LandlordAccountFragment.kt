@@ -1,4 +1,4 @@
-package com.example.urbanin.landlord
+package com.example.urbanin.landlord.account
 
 import android.os.Bundle
 import android.view.LayoutInflater

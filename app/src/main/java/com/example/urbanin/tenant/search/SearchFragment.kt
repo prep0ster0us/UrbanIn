@@ -11,9 +11,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.urbanin.BuildConfig
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
+import com.example.urbanin.data.filterCount
 import com.example.urbanin.databinding.FragmentSearchBinding
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.GoogleMap
@@ -32,8 +34,6 @@ class SearchFragment : Fragment() {
 //    private lateinit var googleMap: GoogleMap
     companion object {
         var isMapInit: Boolean = false
-        // TODO: used to show layouts in "message" pane, ONLY FOR TESTING
-        var showSaved: Boolean = false
     }
 
     // FireStore object
@@ -57,6 +57,7 @@ class SearchFragment : Fragment() {
             binding.listingFilterCount.isVisible = true
             binding.listingFilterCount.text = filterCount.toString()
         }
+        binding.listingSearchBarLayout.visibility = View.VISIBLE
 
     }
 
@@ -97,7 +98,7 @@ class SearchFragment : Fragment() {
 //                        googleMap.clear()
                         Log.d(
                             TAG,
-                            "Place Selected: ${selectedPlaceName}\n Place Location: ${selectedPlaceLatLng}"
+                            "Place Selected: ${selectedPlaceName}\n Place Location: $selectedPlaceLatLng"
                         )
                         // add marker for the place selected
 //                        googleMap.addMarker(
@@ -148,16 +149,5 @@ class SearchFragment : Fragment() {
         val parentNavBar: View = requireActivity().findViewById(R.id.bottom_navbar)
         parentNavBar.isVisible = flag
     }
-
-//    private fun zoomToLocation(googleMap: GoogleMap, location: LatLng, markerTitle: String) {
-//        // add marker at location, and add marker title
-//        googleMap.addMarker(MarkerOptions().position(location).title(markerTitle))
-//        // move camera to location
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15F))
-//        // Zoom in, animating the camera.
-//        googleMap.animateCamera(CameraUpdateFactory.zoomIn())
-//        // Zoom out to zoom level 10, animating with a duration of 2 seconds.
-//        googleMap.animateCamera(CameraUpdateFactory.zoomTo(15F), 2000, null)
-//    }
 
 }

@@ -1,4 +1,4 @@
-package com.example.urbanin.tenant.search
+package com.example.urbanin.data
 
 data class ListingCard(
     val imgResource: MutableList<String>,

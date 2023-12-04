@@ -9,12 +9,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.graphics.scale
 import androidx.fragment.app.Fragment
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
+import com.example.urbanin.data.FilterListingUtil
+import com.example.urbanin.data.ListingData
+import com.example.urbanin.data.SortParameters
+import com.example.urbanin.data.filterParameters
+import com.example.urbanin.data.ifFiltered
+import com.example.urbanin.data.listingCollection
 import com.example.urbanin.databinding.FragmentSearchMapViewBinding
 import com.example.urbanin.tenant.search.SearchFragment.Companion.isMapInit
 import com.google.android.gms.location.LocationServices
@@ -36,6 +41,9 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
     // google map object (for callback)
     private lateinit var googleMap: GoogleMap
     private lateinit var currentLocation: LatLng
+
+    // for sorting
+    private var sortParams = SortParameters()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,12 +125,12 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
         val roomComparator = mutableListOf("Studio", "1", "2", "3", "4", "5")
         val bathComparator = mutableListOf("1", "1.5", "2", "3", "4")
 
-        listingCollection = when(sortBy) {
-            "Latest" -> listingCollection.sortedWith(compareBy { it.datePosted }) as MutableList<ListingData>
-            "Rent: Low to High" -> listingCollection.sortedWith(compareBy { it.price.toLong() }) as MutableList<ListingData>
-            "Rent: High to Low" -> listingCollection.sortedWith(compareByDescending { it.price.toLong() }) as MutableList<ListingData>
-            "Number of Rooms" -> listingCollection.sortedWith(compareBy { roomComparator.indexOf(it.numRooms) }) as MutableList<ListingData>
-            "Number of Baths" -> listingCollection.sortedWith(compareBy { bathComparator.indexOf(it.numBaths) }) as MutableList<ListingData>
+        when(sortParams.sortBy) {
+            "Latest" -> listingCollection.sortBy { it.datePosted }
+            "Rent: Low to High" -> listingCollection.sortBy { it.price.toLong() }
+            "Rent: High to Low" -> listingCollection.sortByDescending { it.price.toLong() }
+            "Number of Rooms" -> listingCollection.sortBy { roomComparator.indexOf(it.numRooms) }
+            "Number of Baths" -> listingCollection.sortBy { bathComparator.indexOf(it.numBaths) }
             else -> listingCollection
         }
     }
@@ -131,20 +139,9 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
         val iterator = listingCollection.iterator()
         while (iterator.hasNext()) {
             val listing = iterator.next()
-            with(filterParameters) {
-                if (
-                    (listing.price.toLong() !in rentMin..rentMax) or
-                    FilterListingUtil.compareDates(availableFrom, listing.availableFrom) or
-                    FilterListingUtil.checkFilterRooms(listing.numRooms, minRooms, maxRooms) or
-                    FilterListingUtil.checkFilterBath(listing.numBaths, numBaths) or
-                    ((type.isNotEmpty()) and (listing.type != type)) or
-                    FilterListingUtil.checkFilterHashMap(listing.amenities, amenities) or
-                    FilterListingUtil.checkFilterHashMap(listing.utilities, utilities) or
-                    ((furnished.isNotEmpty()) and (listing.furnished != furnished))
-                ) {
-                    // if listing does not match any of the filter parameters, remove listing from collection (to be displayed in search view)
-                    iterator.remove()
-                }
+            if (FilterListingUtil.checkIfMatches(listing, filterParameters)) {
+                // if listing does not match any of the filter parameters, remove listing from collection (to be displayed in search view)
+                iterator.remove()
             }
         }
     }

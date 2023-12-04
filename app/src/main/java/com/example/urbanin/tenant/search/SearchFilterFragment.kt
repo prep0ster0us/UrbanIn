@@ -9,14 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
+import com.example.urbanin.data.SearchListingUtil
+import com.example.urbanin.data.filterCount
+import com.example.urbanin.data.filterParameters
+import com.example.urbanin.data.ifFiltered
 import com.example.urbanin.databinding.FragmentSearchFilterBinding
-import com.google.android.material.button.MaterialButtonToggleGroup
+import com.example.urbanin.tenant.search.DetailedListing.SearchDetailedListingFragmentArgs
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -44,8 +48,6 @@ class SearchFilterFragment : Fragment() {
         setupBedList()
         setupBathList()
         setupTypeGrid()
-        setupAmenitiesGrid()
-        setupUtilitiesGrid()
 
         with(binding.btnFilterReset) {
             paintFlags = paintFlags or Paint.UNDERLINE_TEXT_FLAG
@@ -218,23 +220,6 @@ class SearchFilterFragment : Fragment() {
         }
     }
 
-    private fun setupUtilitiesGrid() {
-        binding.util1.itemText.text = "Electricity"
-        binding.util2.itemText.text = "Gas"
-        binding.util3.itemText.text = "Water"
-        binding.util4.itemText.text = "Trash Removal"
-        binding.util5.itemText.text = "Snow Removal"
-    }
-
-    private fun setupAmenitiesGrid() {
-        binding.amen1.itemText.text = "Pets Allowed"
-        binding.amen2.itemText.text = "In-Unit laundry"
-        binding.amen3.itemText.text = "HVAC System"
-        binding.amen4.itemText.text = "24/7 Security"
-        binding.amen5.itemText.text = "Gym"
-        binding.amen6.itemText.text = "Pool"
-    }
-
     private fun showDatePickerDialog() {
         val calendar = Calendar.getInstance()
 
@@ -273,22 +258,22 @@ class SearchFilterFragment : Fragment() {
 
     private fun getUtilitiesMap(): LinkedHashMap<String, Boolean> {
         return linkedMapOf(
-            binding.util1.itemText.text.toString() to binding.util1.itemCheckbox.isChecked,
-            binding.util2.itemText.text.toString() to binding.util2.itemCheckbox.isChecked,
-            binding.util3.itemText.text.toString() to binding.util3.itemCheckbox.isChecked,
-            binding.util4.itemText.text.toString() to binding.util4.itemCheckbox.isChecked,
-            binding.util5.itemText.text.toString() to binding.util5.itemCheckbox.isChecked,
+            binding.util1.text.toString() to binding.util1.isChecked,
+            binding.util2.text.toString() to binding.util2.isChecked,
+            binding.util3.text.toString() to binding.util3.isChecked,
+            binding.util4.text.toString() to binding.util4.isChecked,
+            binding.util5.text.toString() to binding.util5.isChecked,
         )
     }
 
     private fun getAmenitiesMap(): LinkedHashMap<String, Boolean> {
         return linkedMapOf(
-            binding.amen1.itemText.text.toString() to binding.amen1.itemCheckbox.isChecked,
-            binding.amen2.itemText.text.toString() to binding.amen2.itemCheckbox.isChecked,
-            binding.amen3.itemText.text.toString() to binding.amen3.itemCheckbox.isChecked,
-            binding.amen4.itemText.text.toString() to binding.amen4.itemCheckbox.isChecked,
-            binding.amen5.itemText.text.toString() to binding.amen5.itemCheckbox.isChecked,
-            binding.amen6.itemText.text.toString() to binding.amen6.itemCheckbox.isChecked
+            binding.amen1.text.toString() to binding.amen1.isChecked,
+            binding.amen2.text.toString() to binding.amen2.isChecked,
+            binding.amen3.text.toString() to binding.amen3.isChecked,
+            binding.amen4.text.toString() to binding.amen4.isChecked,
+            binding.amen5.text.toString() to binding.amen5.isChecked,
+            binding.amen6.text.toString() to binding.amen6.isChecked
         )
     }
 
@@ -369,20 +354,20 @@ class SearchFilterFragment : Fragment() {
     }
 
     private fun setAmenities(status: List<Boolean>) {
-        binding.amen1.itemCheckbox.isChecked = status[0]
-        binding.amen2.itemCheckbox.isChecked = status[1]
-        binding.amen3.itemCheckbox.isChecked = status[2]
-        binding.amen4.itemCheckbox.isChecked = status[3]
-        binding.amen5.itemCheckbox.isChecked = status[4]
-        binding.amen6.itemCheckbox.isChecked = status[5]
+        binding.amen1.isChecked = status[0]
+        binding.amen2.isChecked = status[1]
+        binding.amen3.isChecked = status[2]
+        binding.amen4.isChecked = status[3]
+        binding.amen5.isChecked = status[4]
+        binding.amen6.isChecked = status[5]
     }
 
     private fun setUtilities(status: List<Boolean>) {
-        binding.util1.itemCheckbox.isChecked = status[0]
-        binding.util2.itemCheckbox.isChecked = status[1]
-        binding.util3.itemCheckbox.isChecked = status[2]
-        binding.util4.itemCheckbox.isChecked = status[3]
-        binding.util5.itemCheckbox.isChecked = status[4]
+        binding.util1.isChecked = status[0]
+        binding.util2.isChecked = status[1]
+        binding.util3.isChecked = status[2]
+        binding.util4.isChecked = status[3]
+        binding.util5.isChecked = status[4]
     }
 
     private fun formatAsCurrency(value: Float): String {
@@ -408,12 +393,9 @@ class SearchFilterFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        // hide main bottom nav bar
-        setNavBarVisibility(false)
-    }
-
-    private fun setNavBarVisibility(flag: Boolean) {
-        val parentNavBar: View = requireActivity().findViewById(R.id.bottom_navbar)
-        parentNavBar.isVisible = flag
+        with(SearchListingUtil) {
+            // hide main bottom nav bar
+            setTenantNavBarVisibility(requireActivity(), false)
+        }
     }
 }

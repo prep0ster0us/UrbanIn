@@ -1,4 +1,4 @@
-package com.example.urbanin.landlord.EditListing
+package com.example.urbanin.landlord.search.EditListing
 
 import android.app.Dialog
 import android.content.pm.PackageManager
@@ -25,21 +25,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.urbanin.MainActivity
 import com.example.urbanin.R
+import com.example.urbanin.data.ListingData
+import com.example.urbanin.data.MediaAdapter
+import com.example.urbanin.data.MediaItem
 import com.example.urbanin.databinding.FragmentLandlordEditListingBinding
-import com.example.urbanin.landlord.AddListing.LandlordAddListingFragmentDirections
-import com.example.urbanin.landlord.AddListing.MediaPagerAdapter
-import com.example.urbanin.landlord.AddListing.MediaPagerItem
-import com.example.urbanin.landlord.DetailedListing.LandlordDetailedListingFragmentArgs
-import com.example.urbanin.landlord.DetailedListing.LandlordListingMediaAdapter
-import com.example.urbanin.landlord.DetailedListing.LandlordListingMediaItem
-import com.example.urbanin.landlord.LandlordListingData
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import java.io.File
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -57,11 +48,11 @@ class LandlordEditListingFragment : Fragment() {
 //    private lateinit var storage: FirebaseStorage
 //    private lateinit var storageRef: StorageReference
 
-    private lateinit var saveListing: LandlordListingData
+    private lateinit var saveListing: ListingData
 
     // to display selected images
-    private lateinit var mediaAdapter: MediaPagerAdapter
-    private var mediaList: MutableList<MediaPagerItem> = arrayListOf()
+    private lateinit var mediaAdapter: MediaAdapter
+    private var mediaList: MutableList<MediaItem> = arrayListOf()
 
     // save uploaded images
     private var listingUriMap: HashMap<Uri, String> = hashMapOf()
@@ -83,8 +74,6 @@ class LandlordEditListingFragment : Fragment() {
 //        storageRef = storage.reference
 
         setupMediaGallery()
-        setupAmenitiesGrid()
-        setupUtilitiesGrid()
         setupTypeGrid()
 
         populateListingInformation()
@@ -95,7 +84,7 @@ class LandlordEditListingFragment : Fragment() {
             // TODO: PROCEED WITH UPDATING LISTING IN DATABASE
             with(binding) {
                 with(args.landlordEditListing) {
-                    saveListing = LandlordListingData(
+                    saveListing = ListingData(
                         listingID,
                         auth.currentUser!!.uid.toString(),
                         getPropertyType(root),
@@ -139,21 +128,6 @@ class LandlordEditListingFragment : Fragment() {
         parentNavBar.isVisible = flag
     }
 
-    private fun setupUtilitiesGrid() {
-        binding.util1.itemText.text = "Electricity"
-        binding.util2.itemText.text = "Gas"
-        binding.util3.itemText.text = "Water"
-        binding.util4.itemText.text = "Trash Removal"
-        binding.util5.itemText.text = "Snow Removal"
-    }
-    private fun setupAmenitiesGrid() {
-        binding.amen1.itemText.text = "Pets Allowed"
-        binding.amen2.itemText.text = "In-Unit laundry"
-        binding.amen3.itemText.text = "HVAC System"
-        binding.amen4.itemText.text = "24/7 Security"
-        binding.amen5.itemText.text = "Gym"
-        binding.amen6.itemText.text = "Pool"
-    }
     private fun setupTypeGrid() {
         val topList = binding.typeListTop
         val bottomList = binding.typeListBottom
@@ -230,20 +204,20 @@ class LandlordEditListingFragment : Fragment() {
     }
 
     private fun setAmenities(status: Collection<Boolean>) {
-        binding.amen1.itemCheckbox.isChecked = status.elementAt(0)
-        binding.amen2.itemCheckbox.isChecked = status.elementAt(1)
-        binding.amen3.itemCheckbox.isChecked = status.elementAt(2)
-        binding.amen4.itemCheckbox.isChecked = status.elementAt(3)
-        binding.amen5.itemCheckbox.isChecked = status.elementAt(4)
-        binding.amen6.itemCheckbox.isChecked = status.elementAt(5)
+        binding.amen1.isChecked = status.elementAt(0)
+        binding.amen2.isChecked = status.elementAt(1)
+        binding.amen3.isChecked = status.elementAt(2)
+        binding.amen4.isChecked = status.elementAt(3)
+        binding.amen5.isChecked = status.elementAt(4)
+        binding.amen6.isChecked = status.elementAt(5)
     }
 
     private fun setUtilities(status: Collection<Boolean>) {
-        binding.util1.itemCheckbox.isChecked = status.elementAt(0)
-        binding.util2.itemCheckbox.isChecked = status.elementAt(1)
-        binding.util3.itemCheckbox.isChecked = status.elementAt(2)
-        binding.util4.itemCheckbox.isChecked = status.elementAt(3)
-        binding.util5.itemCheckbox.isChecked = status.elementAt(4)
+        binding.util1.isChecked = status.elementAt(0)
+        binding.util2.isChecked = status.elementAt(1)
+        binding.util3.isChecked = status.elementAt(2)
+        binding.util4.isChecked = status.elementAt(3)
+        binding.util5.isChecked = status.elementAt(4)
     }
 
     private fun setFilterType(type: String) {
@@ -274,21 +248,21 @@ class LandlordEditListingFragment : Fragment() {
 
     private fun getUtilitiesMap(): Map<String, Boolean> {
         return hashMapOf(
-            binding.util1.itemText.text.toString() to binding.util1.itemCheckbox.isChecked,
-            binding.util2.itemText.text.toString() to binding.util2.itemCheckbox.isChecked,
-            binding.util3.itemText.text.toString() to binding.util3.itemCheckbox.isChecked,
-            binding.util4.itemText.text.toString() to binding.util4.itemCheckbox.isChecked,
-            binding.util5.itemText.text.toString() to binding.util5.itemCheckbox.isChecked,
+            binding.util1.text.toString() to binding.util1.isChecked,
+            binding.util2.text.toString() to binding.util2.isChecked,
+            binding.util3.text.toString() to binding.util3.isChecked,
+            binding.util4.text.toString() to binding.util4.isChecked,
+            binding.util5.text.toString() to binding.util5.isChecked,
         )
     }
     private fun getAmenitiesMap(): Map<String, Boolean> {
         return hashMapOf(
-            binding.amen1.itemText.text.toString() to binding.amen1.itemCheckbox.isChecked,
-            binding.amen2.itemText.text.toString() to binding.amen2.itemCheckbox.isChecked,
-            binding.amen3.itemText.text.toString() to binding.amen3.itemCheckbox.isChecked,
-            binding.amen4.itemText.text.toString() to binding.amen4.itemCheckbox.isChecked,
-            binding.amen5.itemText.text.toString() to binding.amen5.itemCheckbox.isChecked,
-            binding.amen6.itemText.text.toString() to binding.amen6.itemCheckbox.isChecked
+            binding.amen1.text.toString() to binding.amen1.isChecked,
+            binding.amen2.text.toString() to binding.amen2.isChecked,
+            binding.amen3.text.toString() to binding.amen3.isChecked,
+            binding.amen4.text.toString() to binding.amen4.isChecked,
+            binding.amen5.text.toString() to binding.amen5.isChecked,
+            binding.amen6.text.toString() to binding.amen6.isChecked
         )
     }
     private fun getPropertyType(bindingView: View): String {
@@ -332,24 +306,24 @@ class LandlordEditListingFragment : Fragment() {
 
     private fun setupMediaGallery() {
 //        mediaAdapter = ListingMediaAdapter(args.listing.img, requireContext())
-        val mediaList: MutableList<MediaPagerItem> = mutableListOf()
+        val mediaList: MutableList<MediaItem> = mutableListOf()
         for (mediaFile in args.landlordEditListing.img) {
             mediaList.add(
-                MediaPagerItem(
-                    MediaPagerItem.ItemType.IMAGE,
+                MediaItem(
+                    MediaItem.ItemType.IMAGE,
                     Uri.parse(mediaFile)
                 )
             )
         }
         for (mediaFile in args.landlordEditListing.vid) {
             mediaList.add(
-                MediaPagerItem(
-                    MediaPagerItem.ItemType.VIDEO,
+                MediaItem(
+                    MediaItem.ItemType.VIDEO,
                     Uri.parse(mediaFile)
                 )
             )
         }
-        mediaAdapter = MediaPagerAdapter(mediaList, requireContext())
+        mediaAdapter = MediaAdapter(mediaList, requireContext(), false)
 
         binding.editListingMediaLayout.adapter = mediaAdapter
         binding.mediaDotsIndicator.attachTo(binding.editListingMediaLayout)
@@ -498,7 +472,7 @@ class LandlordEditListingFragment : Fragment() {
 
     private fun addImageToMediaGallery(uri: Uri) {
         mediaList.add(
-            MediaPagerItem(MediaPagerItem.ItemType.IMAGE, uri)
+            MediaItem(MediaItem.ItemType.IMAGE, uri)
         )
         // refresh view pager
         mediaAdapter.notifyDataSetChanged()
@@ -508,7 +482,7 @@ class LandlordEditListingFragment : Fragment() {
 
     private fun addVideoToMediaGallery(uri: Uri) {
         mediaList.add(
-            MediaPagerItem(MediaPagerItem.ItemType.VIDEO, uri)
+            MediaItem(MediaItem.ItemType.VIDEO, uri)
         )
         mediaList
         // refresh view pager

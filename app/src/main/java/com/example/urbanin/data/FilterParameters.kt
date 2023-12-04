@@ -1,6 +1,6 @@
-package com.example.urbanin.tenant.search
+package com.example.urbanin.data
 
-data class SearchFilterParameters(
+data class FilterParameters(
     var rentMin: Long = 0,
     var rentMax: Long = 0,
     var availableFrom: String = "",
@@ -13,15 +13,6 @@ data class SearchFilterParameters(
     var furnished: String = ""
 )
 // populate this variable to filter listings
-var filterParameters = SearchFilterParameters()
+var filterParameters = FilterParameters()
 var ifFiltered: Boolean = false
 var filterCount = 0
-
-// for sort - search page
-var selectedOption = 0
-var sortBy: String = "Latest"
-var sortOptions = arrayOf("Latest", "Rent: Low to High", "Rent: High to Low", "Number of Rooms", "Number of Baths")
-
-// for sort - saved listing page
-var savedSelectedOption = 0
-var savedSortBy: String = "Latest"

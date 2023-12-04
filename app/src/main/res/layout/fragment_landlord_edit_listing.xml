@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".landlord.EditListing.LandlordEditListingFragment">
+    tools:context=".landlord.search.EditListing.LandlordEditListingFragment">
 
     <RelativeLayout
         android:id="@+id/editListingTopLayout"
@@ -525,46 +525,70 @@
                     android:layout_below="@id/amenitiesHeader"
                     android:layout_marginTop="12dp">
 
-                    <include
+                    <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/amen1"
-                        layout="@layout/checkbox_item_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:paddingStart="8dp"
+                        android:text="Pets Allowed"
+                        android:textColor="@color/default_text"
+                        android:textSize="16sp" />
 
-                    <include
+                    <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/amen2"
-                        layout="@layout/checkbox_item_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/amen1" />
+                        android:layout_below="@id/amen1"
+                        android:fontFamily="@font/gotham_book"
+                        android:paddingStart="8dp"
+                        android:text="In-Unit laundry"
+                        android:textColor="@color/default_text"
+                        android:textSize="16sp" />
 
-                    <include
+                    <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/amen3"
-                        layout="@layout/checkbox_item_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/amen2" />
+                        android:layout_below="@id/amen2"
+                        android:fontFamily="@font/gotham_book"
+                        android:paddingStart="8dp"
+                        android:text="HVAC System"
+                        android:textColor="@color/default_text"
+                        android:textSize="16sp" />
 
-                    <include
+                    <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/amen4"
-                        layout="@layout/checkbox_item_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/amen3" />
+                        android:layout_below="@id/amen3"
+                        android:fontFamily="@font/gotham_book"
+                        android:paddingStart="8dp"
+                        android:text="24/7 Security"
+                        android:textColor="@color/default_text"
+                        android:textSize="16sp" />
 
-                    <include
+                    <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/amen5"
-                        layout="@layout/checkbox_item_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/amen4" />
+                        android:layout_below="@id/amen4"
+                        android:fontFamily="@font/gotham_book"
+                        android:paddingStart="8dp"
+                        android:text="Gym"
+                        android:textColor="@color/default_text"
+                        android:textSize="16sp" />
 
-                    <include
+                    <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/amen6"
-                        layout="@layout/checkbox_item_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/amen5" />
+                        android:layout_below="@id/amen5"
+                        android:fontFamily="@font/gotham_book"
+                        android:paddingStart="8dp"
+                        android:text="Pool"
+                        android:textColor="@color/default_text"
+                        android:textSize="16sp" />
 
                 </RelativeLayout>
 
@@ -595,39 +619,59 @@
                     android:layout_below="@id/utilitiesHeader"
                     android:layout_marginTop="12dp">
 
-                    <include
+                    <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/util1"
-                        layout="@layout/checkbox_item_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_book"
+                        android:paddingStart="8dp"
+                        android:text="Electricity"
+                        android:textColor="@color/default_text"
+                        android:textSize="16sp" />
 
-                    <include
+                    <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/util2"
-                        layout="@layout/checkbox_item_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/util1" />
+                        android:layout_below="@id/util1"
+                        android:fontFamily="@font/gotham_book"
+                        android:paddingStart="8dp"
+                        android:text="Gas"
+                        android:textColor="@color/default_text"
+                        android:textSize="16sp" />
 
-                    <include
+                    <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/util3"
-                        layout="@layout/checkbox_item_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/util2" />
+                        android:layout_below="@id/util2"
+                        android:fontFamily="@font/gotham_book"
+                        android:paddingStart="8dp"
+                        android:text="Water"
+                        android:textColor="@color/default_text"
+                        android:textSize="16sp" />
 
-                    <include
+                    <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/util4"
-                        layout="@layout/checkbox_item_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/util3" />
+                        android:layout_below="@id/util3"
+                        android:fontFamily="@font/gotham_book"
+                        android:paddingStart="8dp"
+                        android:text="Trash Removal"
+                        android:textColor="@color/default_text"
+                        android:textSize="16sp" />
 
-                    <include
+                    <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/util5"
-                        layout="@layout/checkbox_item_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/util4" />
+                        android:layout_below="@id/util4"
+                        android:fontFamily="@font/gotham_book"
+                        android:paddingStart="8dp"
+                        android:text="Snow Removal"
+                        android:textColor="@color/default_text"
+                        android:textSize="16sp" />
 
                 </RelativeLayout>
 

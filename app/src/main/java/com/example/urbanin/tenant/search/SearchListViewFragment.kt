@@ -1,21 +1,24 @@
 package com.example.urbanin.tenant.search
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.navigation.NavArgs
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
+import com.example.urbanin.data.ListingAdapter
+import com.example.urbanin.data.ListingData
+import com.example.urbanin.data.SearchListingUtil
+import com.example.urbanin.data.SortParameters
+import com.example.urbanin.data.listingCollection
+import com.example.urbanin.data.sortOptions
 import com.example.urbanin.databinding.FragmentSearchListViewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 
 class SearchListViewFragment : Fragment(), ListingAdapter.Callbacks {
@@ -24,6 +27,9 @@ class SearchListViewFragment : Fragment(), ListingAdapter.Callbacks {
     private lateinit var listingRecyclerView: RecyclerView
 
     private var db = FirebaseFirestore.getInstance()
+
+    // for sorting
+    private var sortParams = SortParameters()
 
 //    private val args:
 
@@ -38,20 +44,23 @@ class SearchListViewFragment : Fragment(), ListingAdapter.Callbacks {
         binding.searchListViewSort.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Sort By")
-                .setSingleChoiceItems(sortOptions, selectedOption) { _, which ->
-                    selectedOption = which
+                .setSingleChoiceItems(sortOptions, sortParams.selectedOption) { _, which ->
+                    sortParams.selectedOption = which
                 }
                 .setPositiveButton("Show Results") { _, _ ->
-                    sortBy = sortOptions[selectedOption]
+                    sortParams.sortBy = sortOptions[sortParams.selectedOption]
                     sortListings()
                     setupRecyclerView()
                 }
                 .setNeutralButton("Cancel"){ _, _ ->
-                    selectedOption = sortOptions.indexOf(sortBy)
+                    sortParams.selectedOption = sortOptions.indexOf(sortParams.sortBy)
                 }
                 .show()
         }
-
+        with(SearchListingUtil) {
+            setTenantNavBarVisibility(requireActivity(), true)
+            setSearchBarVisibility(requireActivity(), true)
+        }
     }
 
     private fun setupRecyclerView() {
@@ -59,7 +68,7 @@ class SearchListViewFragment : Fragment(), ListingAdapter.Callbacks {
         listingRecyclerView = binding.searchListingListView
         listingRecyclerView.setHasFixedSize(true)
         listingRecyclerView.layoutManager = LinearLayoutManager(context)
-        listingRecyclerView.adapter = ListingAdapter(listingCollection, context,this)
+        listingRecyclerView.adapter = ListingAdapter(listingCollection, context, "tenant", this)
     }
 
 
@@ -67,12 +76,12 @@ class SearchListViewFragment : Fragment(), ListingAdapter.Callbacks {
         val roomComparator = mutableListOf("Studio", "1", "2", "3", "4", "5")
         val bathComparator = mutableListOf("1", "1.5", "2", "3", "4")
 
-        listingCollection = when(sortBy) {
-            "Latest" -> listingCollection.sortedWith(compareBy { it.datePosted }) as MutableList<ListingData>
-            "Rent: Low to High" -> listingCollection.sortedWith(compareBy { it.price.toLong() }) as MutableList<ListingData>
-            "Rent: High to Low" -> listingCollection.sortedWith(compareByDescending { it.price.toLong() }) as MutableList<ListingData>
-            "Number of Rooms" -> listingCollection.sortedWith(compareBy { roomComparator.indexOf(it.numRooms) }) as MutableList<ListingData>
-            "Number of Baths" -> listingCollection.sortedWith(compareBy { bathComparator.indexOf(it.numBaths) }) as MutableList<ListingData>
+        when(sortParams.sortBy) {
+            "Latest" -> listingCollection.sortBy { it.datePosted }
+            "Rent: Low to High" -> listingCollection.sortBy { it.price.toLong() }
+            "Rent: High to Low" -> listingCollection.sortByDescending { it.price.toLong() }
+            "Number of Rooms" -> listingCollection.sortBy { roomComparator.indexOf(it.numRooms) }
+            "Number of Baths" -> listingCollection.sortBy { bathComparator.indexOf(it.numBaths) }
             else -> listingCollection
         }
     }
@@ -85,8 +94,8 @@ class SearchListViewFragment : Fragment(), ListingAdapter.Callbacks {
         return binding.root
     }
 
-    override fun handleListingData(data: ListingData) {
-        val action = SearchListViewFragmentDirections.navigateToDetailedListingFragment(data)
+    override fun handleListingData(data: ListingData, flag: String) {
+        val action = SearchListViewFragmentDirections.navigateToDetailedListingFragmentFromList(data)
         findNavController().navigate(action)
     }
 }

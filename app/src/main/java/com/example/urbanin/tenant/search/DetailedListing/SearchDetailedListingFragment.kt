@@ -5,15 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.urbanin.R
+import com.example.urbanin.data.FacilityAdapter
+import com.example.urbanin.data.FacilityItem
+import com.example.urbanin.data.MediaAdapter
+import com.example.urbanin.data.MediaItem
+import com.example.urbanin.data.SearchListingUtil
 import com.example.urbanin.databinding.TenantSearchDetailedListingBinding
-import com.example.urbanin.tenant.search.Amenities.AmenitiesAdapter
-import com.example.urbanin.tenant.search.Amenities.AmenitiesCard
-import com.example.urbanin.tenant.search.DetailedListing.SearchDetailedListingFragmentArgs
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.DecimalFormat
+import java.text.NumberFormat
 
 class SearchDetailedListingFragment : Fragment() {
 
@@ -26,7 +31,7 @@ class SearchDetailedListingFragment : Fragment() {
     private val args: SearchDetailedListingFragmentArgs by navArgs<SearchDetailedListingFragmentArgs>()
 
     // for media gallery
-    private lateinit var mediaAdapter: ListingMediaAdapter
+    private lateinit var mediaAdapter: MediaAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,34 +42,38 @@ class SearchDetailedListingFragment : Fragment() {
 
         binding.detailedListingTitle.text = args.listing.title
         binding.detailedListingSubTitle.text = args.listing.address
+        binding.detailedListingRent.text = formatAsCurrency(args.listing.price.toFloat())
 
         setupMediaGallery()
-
         showAmenitiesGrid()
         showUtilitiesGrid()
+
+        binding.btnBackToSearch.setOnClickListener{
+            val action = SearchDetailedListingFragmentDirections.actionSearchDetailedListingFragmentToSearchListViewFragment()
+            findNavController().navigate(action)
+        }
     }
 
     private fun setupMediaGallery() {
 //        mediaAdapter = ListingMediaAdapter(args.listing.img, requireContext())
-        val mediaList: MutableList<ListingMediaItem> = mutableListOf()
+        val mediaList: MutableList<MediaItem> = mutableListOf()
         for (mediaFile in args.listing.img) {
             mediaList.add(
-                ListingMediaItem(
-                    ListingMediaItem.ItemType.IMAGE,
+                MediaItem(
+                    MediaItem.ItemType.IMAGE,
                     Uri.parse(mediaFile)
                 )
             )
         }
         for (mediaFile in args.listing.vid) {
             mediaList.add(
-                ListingMediaItem(
-                    ListingMediaItem.ItemType.VIDEO,
+                MediaItem(
+                    MediaItem.ItemType.VIDEO,
                     Uri.parse(mediaFile)
                 )
             )
         }
-        mediaAdapter = ListingMediaAdapter(mediaList, requireContext())
-
+        mediaAdapter = MediaAdapter(mediaList, requireContext(), false)
         binding.detailedImageGallery.adapter = mediaAdapter
         binding.imageGalleryDots.attachTo(binding.detailedImageGallery)
 
@@ -73,7 +82,7 @@ class SearchDetailedListingFragment : Fragment() {
 
     private fun showUtilitiesGrid() {
         // check which amenities are available and only include those in the card view
-        val utilGrid: ArrayList<AmenitiesCard> = ArrayList()
+        val utilGrid: ArrayList<FacilityItem> = ArrayList()
 
         // drawable resource id map for icons for each amenity
         val utilGridIcons = hashMapOf(
@@ -88,41 +97,40 @@ class SearchDetailedListingFragment : Fragment() {
         for (util in args.listing.utilities) {
             if (util.value) {
                 utilGrid.add(
-                    AmenitiesCard(
+                    FacilityItem(
                         utilGridIcons[util.key]!!,
-                        util.key.replaceFirstChar { it.uppercase() }
+                        util.key
                     )
                 )
             }
         }
 
-        val grid = binding.detailedListingUtilities
-        grid.adapter = AmenitiesAdapter(
-            requireContext(),
-            utilGrid
-        )
+        binding.detailedListingUtilities.apply {
+            setHasFixedSize(true)
+            layoutManager = GridLayoutManager(requireContext(), 2)
+            adapter = FacilityAdapter(requireContext(), utilGrid)
+        }
     }
 
     private fun showAmenitiesGrid() {
         // check which amenities are available and only include those in the card view
-        val amenitiesGrid: ArrayList<AmenitiesCard> = ArrayList()
+        val amenitiesGrid: ArrayList<FacilityItem> = ArrayList()
 
         // drawable resource id map for icons for each amenity
         val amenitiesGridIcons = hashMapOf(
             "Pets Allowed" to R.drawable.amenities_pets_24,
-            //TODO : fix null error
             "In-Unit laundry" to R.drawable.amenities_laundry_24,
             "HVAC System" to R.drawable.amenities_hvac_24,
             "24/7 Security" to R.drawable.amenities_security_24,
             "Gym" to R.drawable.amenities_gym_24,
-            "Pool" to R.drawable.amenities_gym_24
+            "Pool" to R.drawable.amenities_pool_24
         )
 
         val amenitiesList = args.listing.amenities
         for (amenity in amenitiesList) {
             if (amenity.value) {
                 amenitiesGrid.add(
-                    AmenitiesCard(
+                    FacilityItem(
                         amenitiesGridIcons[amenity.key]!!,
                         amenity.key
                     )
@@ -130,11 +138,16 @@ class SearchDetailedListingFragment : Fragment() {
             }
         }
 
-        val grid = binding.detailedListingAmenities
-        grid.adapter = AmenitiesAdapter(
-            requireContext(),
-            amenitiesGrid
-        )
+        binding.detailedListingAmenities.apply {
+            setHasFixedSize(true)
+            layoutManager = GridLayoutManager(requireContext(), 2)
+            adapter = FacilityAdapter(requireContext(), amenitiesGrid)
+        }
+    }
+
+    private fun formatAsCurrency(value: Float): String {
+        val formatter: NumberFormat = DecimalFormat("#,###")
+        return "$ " + formatter.format(value).toString()
     }
 
     override fun onCreateView(
@@ -152,5 +165,13 @@ class SearchDetailedListingFragment : Fragment() {
 //            binding.detailedImageGallery.resources = listingParcel.img
 //            binding.detailedListingAmenities = listingParel.amenities
         }.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        with(SearchListingUtil) {
+            setTenantNavBarVisibility(requireActivity(), false)
+            setSearchBarVisibility(requireActivity(), false)
+        }
     }
 }

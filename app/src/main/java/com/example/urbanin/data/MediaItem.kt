@@ -1,7 +1,7 @@
-package com.example.urbanin.landlord.DetailedListing
+package com.example.urbanin.data
 
 import android.net.Uri
-data class LandlordListingMediaItem(
+data class MediaItem(
     val type: ItemType,
     val data: Uri
 ) {

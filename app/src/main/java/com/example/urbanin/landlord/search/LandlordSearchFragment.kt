@@ -1,4 +1,4 @@
-package com.example.urbanin.landlord
+package com.example.urbanin.landlord.search
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

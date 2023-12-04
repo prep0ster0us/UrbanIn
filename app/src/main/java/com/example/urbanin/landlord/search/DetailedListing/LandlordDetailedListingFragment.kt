@@ -1,4 +1,4 @@
-package com.example.urbanin.landlord.DetailedListing
+package com.example.urbanin.landlord.search.DetailedListing
 
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -7,20 +7,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.scale
 import androidx.core.view.isVisible
-import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
+import com.example.urbanin.data.FacilityAdapter
+import com.example.urbanin.data.FacilityItem
+import com.example.urbanin.data.MediaAdapter
+import com.example.urbanin.data.MediaItem
 import com.example.urbanin.databinding.LandlordSearchDetailedListingBinding
-import com.example.urbanin.tenant.search.Amenities.AmenitiesAdapter
-import com.example.urbanin.tenant.search.Amenities.AmenitiesCard
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -28,11 +27,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.api.Distribution.BucketOptions.Linear
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.DecimalFormat
 import java.text.NumberFormat
-import kotlin.math.ceil
 
 class LandlordDetailedListingFragment : Fragment(), OnMapReadyCallback {
 
@@ -45,7 +42,7 @@ class LandlordDetailedListingFragment : Fragment(), OnMapReadyCallback {
     private val args: LandlordDetailedListingFragmentArgs by navArgs<LandlordDetailedListingFragmentArgs>()
 
     // for media gallery
-    private lateinit var mediaAdapter: LandlordListingMediaAdapter
+    private lateinit var mediaAdapter: MediaAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,24 +77,24 @@ class LandlordDetailedListingFragment : Fragment(), OnMapReadyCallback {
 
     private fun setupMediaGallery() {
 //        mediaAdapter = ListingMediaAdapter(args.listing.img, requireContext())
-        val mediaList: MutableList<LandlordListingMediaItem> = mutableListOf()
+        val mediaList: MutableList<MediaItem> = mutableListOf()
         for (mediaFile in args.landlordListing.img) {
             mediaList.add(
-                LandlordListingMediaItem(
-                    LandlordListingMediaItem.ItemType.IMAGE,
+                MediaItem(
+                    MediaItem.ItemType.IMAGE,
                     Uri.parse(mediaFile)
                 )
             )
         }
         for (mediaFile in args.landlordListing.vid) {
             mediaList.add(
-                LandlordListingMediaItem(
-                    LandlordListingMediaItem.ItemType.VIDEO,
+                MediaItem(
+                    MediaItem.ItemType.VIDEO,
                     Uri.parse(mediaFile)
                 )
             )
         }
-        mediaAdapter = LandlordListingMediaAdapter(mediaList, requireContext())
+        mediaAdapter = MediaAdapter(mediaList, requireContext(), false)
 
         binding.detailedImageGallery.adapter = mediaAdapter
         binding.imageGalleryDots.attachTo(binding.detailedImageGallery)
@@ -110,9 +107,6 @@ class LandlordDetailedListingFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun showUtilitiesGrid() {
-        // check which amenities are available and only include those in the card view
-        val utilGrid: ArrayList<AmenitiesCard> = ArrayList()
-
         // drawable resource id map for icons for each amenity
         val utilGridIcons = hashMapOf(
             "Electricity" to R.drawable.utilities_electricity_24,
@@ -122,11 +116,12 @@ class LandlordDetailedListingFragment : Fragment(), OnMapReadyCallback {
             "Snow Removal" to R.drawable.utilities_snow_removal_24
         )
 
-//        val utilList = args.listing.utilities
+        // check which amenities are available and only include those in the card view
+        val utilGrid: ArrayList<FacilityItem> = ArrayList()
         for (util in args.landlordListing.utilities) {
             if (util.value) {
                 utilGrid.add(
-                    AmenitiesCard(
+                    FacilityItem(
                         utilGridIcons[util.key]!!,
                         util.key
                     )
@@ -134,17 +129,14 @@ class LandlordDetailedListingFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-        val grid = binding.detailedListingUtilities
-        grid.adapter = AmenitiesAdapter(
-            requireContext(),
-            utilGrid
-        )
+        binding.detailedListingUtilities.apply {
+            setHasFixedSize(true)
+            layoutManager = GridLayoutManager(requireContext(), 2)
+            adapter = FacilityAdapter(requireContext(), utilGrid)
+        }
     }
 
     private fun showAmenitiesGrid() {
-        // check which amenities are available and only include those in the card view
-        val amenitiesGrid: ArrayList<AmenitiesCard> = ArrayList()
-
         // drawable resource id map for icons for each amenity
         val amenitiesGridIcons = hashMapOf(
             "Pets Allowed" to R.drawable.amenities_pets_24,
@@ -159,10 +151,12 @@ class LandlordDetailedListingFragment : Fragment(), OnMapReadyCallback {
         for (key in amenitiesList.keys) {
             Log.i(TAG, key + " ; in keyList=" + amenitiesList.containsKey(key))
         }
+        // check which amenities are available and only include those in the card view
+        val amenitiesGrid: ArrayList<FacilityItem> = ArrayList()
         for (amenity in amenitiesList) {
             if (amenity.value) {
                 amenitiesGrid.add(
-                    AmenitiesCard(
+                    FacilityItem(
                         amenitiesGridIcons[amenity.key]!!,
                         amenity.key
                     )
@@ -170,11 +164,11 @@ class LandlordDetailedListingFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-        val grid = binding.detailedListingAmenities
-        grid.adapter = AmenitiesAdapter(
-            requireContext(),
-            amenitiesGrid
-        )
+        binding.detailedListingAmenities.apply {
+            setHasFixedSize(true)
+            layoutManager = GridLayoutManager(requireContext(), 2)
+            adapter = FacilityAdapter(requireContext(), amenitiesGrid)
+        }
     }
 
     override fun onCreateView(

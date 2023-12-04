@@ -44,7 +44,7 @@
 
     <fragment
         android:id="@+id/landlordSearchFragment"
-        android:name="com.example.urbanin.landlord.LandlordFragment"
+        android:name="com.example.urbanin.landlord.search.LandlordFragment"
         android:label="fragment_landlord"
         tools:layout="@layout/fragment_landlord" >
         <action
@@ -62,15 +62,15 @@
     </fragment>
     <fragment
         android:id="@+id/landlordMessageFragment"
-        android:name="com.example.urbanin.landlord.LandlordMessageFragment"
+        android:name="com.example.urbanin.landlord.message.LandlordMessageFragment"
         android:label="LandlordMessageFragment" />
     <fragment
         android:id="@+id/landlordAccountFragment"
-        android:name="com.example.urbanin.landlord.LandlordAccountFragment"
+        android:name="com.example.urbanin.landlord.account.LandlordAccountFragment"
         android:label="LandlordAccountFragment" />
     <fragment
         android:id="@+id/landlordAddListingFragment"
-        android:name="com.example.urbanin.landlord.AddListing.LandlordAddListingFragment"
+        android:name="com.example.urbanin.landlord.search.AddListing.LandlordAddListingFragment"
         android:label="landlord_fragment_add_listing"
         tools:layout="@layout/landlord_fragment_add_listing" >
         <action
@@ -79,18 +79,18 @@
     </fragment>
     <fragment
         android:id="@+id/landlordDetailedListingFragment"
-        android:name="com.example.urbanin.landlord.DetailedListing.LandlordDetailedListingFragment"
+        android:name="com.example.urbanin.landlord.search.DetailedListing.LandlordDetailedListingFragment"
         android:label="LandlordDetailedListingFragment" >
         <argument
             android:name="landlordListing"
-            app:argType="com.example.urbanin.landlord.LandlordListingData" />
+            app:argType="com.example.urbanin.data.ListingData" />
         <action
             android:id="@+id/navigate_from_detailed_listing_to_search"
             app:destination="@id/landlordSearchFragment" />
     </fragment>
     <fragment
         android:id="@+id/landlordFilterFragment"
-        android:name="com.example.urbanin.landlord.LandlordFilterFragment"
+        android:name="com.example.urbanin.landlord.search.LandlordFilterFragment"
         android:label="LandlordFilterFragment" >
         <action
             android:id="@+id/navigate_back_to_landlord_search_fragment"
@@ -101,12 +101,12 @@
     </fragment>
     <fragment
         android:id="@+id/landlordEditListingFragment"
-        android:name="com.example.urbanin.landlord.EditListing.LandlordEditListingFragment"
+        android:name="com.example.urbanin.landlord.search.EditListing.LandlordEditListingFragment"
         android:label="fragment_landlord_edit_listing"
         tools:layout="@layout/fragment_landlord_edit_listing" >
         <argument
             android:name="landlordEditListing"
-            app:argType="com.example.urbanin.landlord.LandlordListingData" />
+            app:argType="com.example.urbanin.data.ListingData" />
         <action
             android:id="@+id/navigate_edit_listing_back_to_search_fragment"
             app:destination="@id/landlordSearchFragment" />

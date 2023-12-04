@@ -1,4 +1,4 @@
-package com.example.urbanin.landlord.AddListing
+package com.example.urbanin.landlord.search.AddListing
 
 import android.app.Activity
 import android.app.DatePickerDialog
@@ -17,21 +17,21 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.urbanin.BuildConfig
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
+import com.example.urbanin.data.ListingData
+import com.example.urbanin.data.MediaAdapter
+import com.example.urbanin.data.MediaItem
 import com.example.urbanin.databinding.LandlordFragmentAddListingBinding
-import com.example.urbanin.landlord.LandlordListingData
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -61,12 +61,12 @@ class LandlordAddListingFragment : Fragment() {
     private lateinit var storage: FirebaseStorage
     private lateinit var storageRef: StorageReference
 
-    private var saveListing: LandlordListingData = LandlordListingData()
+    private var saveListing: ListingData = ListingData()
     private lateinit var listingLocation: LatLng
 
     // to display selected images
-    private lateinit var mediaAdapter: MediaPagerAdapter
-    private var mediaList: MutableList<MediaPagerItem> = arrayListOf()
+    private lateinit var mediaAdapter: MediaAdapter
+    private var mediaList: MutableList<MediaItem> = arrayListOf()
 
     // save uploaded images
     private var listingUriMap: HashMap<Uri, String> = hashMapOf()
@@ -86,7 +86,7 @@ class LandlordAddListingFragment : Fragment() {
         val parentNavBar: View = requireActivity().findViewById(R.id.bottomNavigationView)
         parentNavBar.isVisible = false
 
-        mediaAdapter = MediaPagerAdapter(mediaList, requireContext())
+        mediaAdapter = MediaAdapter(mediaList, requireContext(), true)
 
         db = FirebaseFirestore.getInstance()
 
@@ -101,8 +101,6 @@ class LandlordAddListingFragment : Fragment() {
         }
 
         setupAddressAutocomplete()
-        setupAmenitiesGrid()
-        setupUtilitiesGrid()
         setupTypeGrid()
 
         binding.btnSubmitAddListing.setOnClickListener {
@@ -115,7 +113,7 @@ class LandlordAddListingFragment : Fragment() {
             val fetchLink = db.collection("Listings").document()
 
             // if all fields filled in properly, save as "ListingData" object
-            saveListing = LandlordListingData(
+            saveListing = ListingData(
                 fetchLink.id,
                 auth.currentUser!!.uid.toString(),
                 getPropertyType(binding.root),
@@ -129,7 +127,6 @@ class LandlordAddListingFragment : Fragment() {
                 mutableListOf(),
                 mutableListOf(),
                 LocalDate.now().toString(),
-                // TODO: add date picker for availableFrom
                 binding.availableDisplayText.text.toString(),
                 binding.root.findViewById<Button>(binding.numRoomList.checkedButtonId).text.toString(),
                 binding.root.findViewById<Button>(binding.numBathList.checkedButtonId).text.toString(),
@@ -297,22 +294,22 @@ class LandlordAddListingFragment : Fragment() {
 
     private fun getUtilitiesMap(): Map<String, Boolean> {
         return hashMapOf(
-            binding.util1.itemText.text.toString() to binding.util1.itemCheckbox.isChecked,
-            binding.util2.itemText.text.toString() to binding.util2.itemCheckbox.isChecked,
-            binding.util3.itemText.text.toString() to binding.util3.itemCheckbox.isChecked,
-            binding.util4.itemText.text.toString() to binding.util4.itemCheckbox.isChecked,
-            binding.util5.itemText.text.toString() to binding.util5.itemCheckbox.isChecked,
+            binding.util1.text.toString() to binding.util1.isChecked,
+            binding.util2.text.toString() to binding.util2.isChecked,
+            binding.util3.text.toString() to binding.util3.isChecked,
+            binding.util4.text.toString() to binding.util4.isChecked,
+            binding.util5.text.toString() to binding.util5.isChecked,
         )
     }
 
     private fun getAmenitiesMap(): Map<String, Boolean> {
         return hashMapOf(
-            binding.amen1.itemText.text.toString() to binding.amen1.itemCheckbox.isChecked,
-            binding.amen2.itemText.text.toString() to binding.amen2.itemCheckbox.isChecked,
-            binding.amen3.itemText.text.toString() to binding.amen3.itemCheckbox.isChecked,
-            binding.amen4.itemText.text.toString() to binding.amen4.itemCheckbox.isChecked,
-            binding.amen5.itemText.text.toString() to binding.amen5.itemCheckbox.isChecked,
-            binding.amen6.itemText.text.toString() to binding.amen6.itemCheckbox.isChecked
+            binding.amen1.text.toString() to binding.amen1.isChecked,
+            binding.amen2.text.toString() to binding.amen2.isChecked,
+            binding.amen3.text.toString() to binding.amen3.isChecked,
+            binding.amen4.text.toString() to binding.amen4.isChecked,
+            binding.amen5.text.toString() to binding.amen5.isChecked,
+            binding.amen6.text.toString() to binding.amen6.isChecked
         )
     }
 
@@ -405,23 +402,6 @@ class LandlordAddListingFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun setupUtilitiesGrid() {
-        binding.util1.itemText.text = "Electricity"
-        binding.util2.itemText.text = "Gas"
-        binding.util3.itemText.text = "Water"
-        binding.util4.itemText.text = "Trash Removal"
-        binding.util5.itemText.text = "Snow Removal"
-    }
-
-    private fun setupAmenitiesGrid() {
-        binding.amen1.itemText.text = "Pets Allowed"
-        binding.amen2.itemText.text = "In-Unit laundry"
-        binding.amen3.itemText.text = "HVAC System"
-        binding.amen4.itemText.text = "24/7 Security"
-        binding.amen5.itemText.text = "Gym"
-        binding.amen6.itemText.text = "Pool"
     }
 
     override fun onCreateView(
@@ -593,7 +573,7 @@ class LandlordAddListingFragment : Fragment() {
 
     private fun addImageToMediaGallery(uri: Uri) {
         mediaList.add(
-            MediaPagerItem(MediaPagerItem.ItemType.IMAGE, uri)
+            MediaItem(MediaItem.ItemType.IMAGE, uri)
         )
         // refresh view pager
         mediaAdapter.notifyDataSetChanged()
@@ -603,7 +583,7 @@ class LandlordAddListingFragment : Fragment() {
 
     private fun addVideoToMediaGallery(uri: Uri) {
         mediaList.add(
-            MediaPagerItem(MediaPagerItem.ItemType.VIDEO, uri)
+            MediaItem(MediaItem.ItemType.VIDEO, uri)
         )
         mediaList
         // refresh view pager

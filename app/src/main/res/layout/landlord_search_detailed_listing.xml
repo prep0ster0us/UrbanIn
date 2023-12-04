@@ -174,19 +174,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detailedListingBathTitle" />
 
-            <GridView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/detailedListingAmenities"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:horizontalSpacing="0dp"
-                android:numColumns="2"
                 android:padding="12dp"
-                android:verticalSpacing="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detailedListingAmenitiesTitle"
                 app:layout_constraintBottom_toTopOf="@id/detailedListingUtilitiesTitle"
-                tools:listitem="@layout/amenities_card"
+                tools:listitem="@layout/facility_card_layout"
                 tools:ignore="NestedScrolling" />
 
             <TextView
@@ -201,19 +198,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detailedListingAmenities" />
 
-            <GridView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/detailedListingUtilities"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:horizontalSpacing="0dp"
-                android:numColumns="2"
                 android:padding="12dp"
-                android:verticalSpacing="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detailedListingUtilitiesTitle"
                 app:layout_constraintBottom_toTopOf="@id/detailedListingLocationTitle"
-                tools:listitem="@layout/amenities_card" />
+                tools:listitem="@layout/facility_card_layout" />
 
             <TextView
                 android:id="@+id/detailedListingLocationTitle"

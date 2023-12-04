@@ -1,4 +1,4 @@
-package com.example.urbanin.landlord
+package com.example.urbanin.landlord.search
 
 import android.app.DatePickerDialog
 import android.graphics.Paint
@@ -13,6 +13,9 @@ import android.widget.Button
 import androidx.navigation.fragment.findNavController
 import com.example.urbanin.MainActivity
 import com.example.urbanin.R
+import com.example.urbanin.data.filterCount
+import com.example.urbanin.data.filterParameters
+import com.example.urbanin.data.ifFiltered
 import com.example.urbanin.databinding.FragmentLandlordFilterBinding
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -36,8 +39,6 @@ class LandlordFilterFragment : Fragment() {
         setupBedList()
         setupBathList()
         setupTypeGrid()
-        setupAmenitiesGrid()
-        setupUtilitiesGrid()
 
         with(binding.btnFilterReset) {
             paintFlags = paintFlags or Paint.UNDERLINE_TEXT_FLAG
@@ -65,7 +66,7 @@ class LandlordFilterFragment : Fragment() {
 
         binding.btnFilterResults.setOnClickListener {
             // set flag to indicate filter to be applied
-            landlordIfFiltered = true
+            ifFiltered = true
             saveFilterParameters()
             setParameterCount()
             // navigate back to search page (where listings will be filtered based on above stored parameters)
@@ -73,7 +74,7 @@ class LandlordFilterFragment : Fragment() {
         }
 
         // load in any existing filters
-        if (landlordIfFiltered) {
+        if (ifFiltered) {
             loadFilterParameters()
         }
     }
@@ -81,7 +82,7 @@ class LandlordFilterFragment : Fragment() {
 
     private fun loadFilterParameters() {
         with(binding) {
-            with(landlordFilterParameters) {
+            with(filterParameters) {
                 filterRentRangeSlider.setValues(rentMin.toFloat(), rentMax.toFloat())
                 availableDisplayText.text = availableFrom
                 if (minRooms != "Any")
@@ -106,7 +107,7 @@ class LandlordFilterFragment : Fragment() {
     }
 
     private fun saveFilterParameters() {
-        with(landlordFilterParameters) {
+        with(filterParameters) {
             rentMin = binding.filterRentMinHeader.text.toString().filter { it.isDigit() }.toLong()
             rentMax = binding.filterRentMaxHeader.text.toString().filter { it.isDigit() }.toLong()
             type = getPropertyType()
@@ -211,22 +212,6 @@ class LandlordFilterFragment : Fragment() {
         }
     }
 
-    private fun setupUtilitiesGrid() {
-        binding.util1.itemText.text = "Electricity"
-        binding.util2.itemText.text = "Gas"
-        binding.util3.itemText.text = "Water"
-        binding.util4.itemText.text = "Trash Removal"
-        binding.util5.itemText.text = "Snow Removal"
-    }
-
-    private fun setupAmenitiesGrid() {
-        binding.amen1.itemText.text = "Pets Allowed"
-        binding.amen2.itemText.text = "In-Unit laundry"
-        binding.amen3.itemText.text = "HVAC System"
-        binding.amen4.itemText.text = "24/7 Security"
-        binding.amen5.itemText.text = "Gym"
-        binding.amen6.itemText.text = "Pool"
-    }
 
     private fun showDatePickerDialog() {
         val calendar = Calendar.getInstance()
@@ -266,22 +251,22 @@ class LandlordFilterFragment : Fragment() {
 
     private fun getUtilitiesMap(): LinkedHashMap<String, Boolean> {
         return linkedMapOf(
-            binding.util1.itemText.text.toString() to binding.util1.itemCheckbox.isChecked,
-            binding.util2.itemText.text.toString() to binding.util2.itemCheckbox.isChecked,
-            binding.util3.itemText.text.toString() to binding.util3.itemCheckbox.isChecked,
-            binding.util4.itemText.text.toString() to binding.util4.itemCheckbox.isChecked,
-            binding.util5.itemText.text.toString() to binding.util5.itemCheckbox.isChecked,
+            binding.util1.text.toString() to binding.util1.isChecked,
+            binding.util2.text.toString() to binding.util2.isChecked,
+            binding.util3.text.toString() to binding.util3.isChecked,
+            binding.util4.text.toString() to binding.util4.isChecked,
+            binding.util5.text.toString() to binding.util5.isChecked,
         )
     }
 
     private fun getAmenitiesMap(): LinkedHashMap<String, Boolean> {
         return linkedMapOf(
-            binding.amen1.itemText.text.toString() to binding.amen1.itemCheckbox.isChecked,
-            binding.amen2.itemText.text.toString() to binding.amen2.itemCheckbox.isChecked,
-            binding.amen3.itemText.text.toString() to binding.amen3.itemCheckbox.isChecked,
-            binding.amen4.itemText.text.toString() to binding.amen4.itemCheckbox.isChecked,
-            binding.amen5.itemText.text.toString() to binding.amen5.itemCheckbox.isChecked,
-            binding.amen6.itemText.text.toString() to binding.amen6.itemCheckbox.isChecked
+            binding.amen1.text.toString() to binding.amen1.isChecked,
+            binding.amen2.text.toString() to binding.amen2.isChecked,
+            binding.amen3.text.toString() to binding.amen3.isChecked,
+            binding.amen4.text.toString() to binding.amen4.isChecked,
+            binding.amen5.text.toString() to binding.amen5.isChecked,
+            binding.amen6.text.toString() to binding.amen6.isChecked
         )
     }
 
@@ -294,45 +279,45 @@ class LandlordFilterFragment : Fragment() {
     }
 
     private fun setParameterCount() {
-        landlordFilterCount = 0
+        filterCount = 0
         with(binding) {
             if ((binding.filterRentMinHeader.text.toString() != "$ 0") or (binding.filterRentMaxHeader.text.toString() != "$ 8,000")) {
                 Log.d(MainActivity.TAG, "price filter")
-                landlordFilterCount++
+                filterCount++
             }
             if (availableDisplayText.text.toString().contains("/")) {
                 Log.d(MainActivity.TAG, "date filter")
-                landlordFilterCount++
+                filterCount++
             }
             if ((filterBedroomMin.selectedItem.toString() != "Any") or (filterBedroomMax.selectedItem.toString() != "Any")) {
                 Log.d(MainActivity.TAG, "bed filter")
-                landlordFilterCount++
+                filterCount++
             }
             if (filterBathroom.selectedItem.toString() != "Any") {
                 Log.d(MainActivity.TAG, "bath filter")
-                landlordFilterCount++
+                filterCount++
             }
             if ((typeListTop.checkedButtonId != View.NO_ID) or (typeListBottom.checkedButtonId != View.NO_ID)) {
                 Log.d(MainActivity.TAG, "type filter")
-                landlordFilterCount++
+                filterCount++
             }
             if (getAmenitiesMap().values.contains(true)) {
                 Log.d(MainActivity.TAG, "amenity filter")
-                landlordFilterCount++
+                filterCount++
             }
             if (getUtilitiesMap().values.contains(true)) {
                 Log.d(MainActivity.TAG, "utility filter")
-                landlordFilterCount++
+                filterCount++
             }
             if (getFurnished().isNotEmpty()) {
                 Log.d(MainActivity.TAG, "furnished filter")
-                landlordFilterCount++
+                filterCount++
             }
         }
     }
 
     private fun resetFilter() {
-        landlordIfFiltered = false
+        ifFiltered = false
         // clear layout views
         with(binding) {
             filterRentRangeSlider.setValues(0F, 8000F)
@@ -347,7 +332,7 @@ class LandlordFilterFragment : Fragment() {
             furnishedList.clearChecked()
         }
         // clear filter parameters
-        with(landlordFilterParameters) {
+        with(filterParameters) {
             rentMin = 0
             rentMax = 0
             availableFrom = ""
@@ -359,25 +344,25 @@ class LandlordFilterFragment : Fragment() {
             utilities = linkedMapOf()
             furnished = ""
         }
-        landlordIfFiltered = false
-        landlordFilterCount = 0
+        ifFiltered = false
+        filterCount = 0
     }
 
     private fun setAmenities(status: List<Boolean>) {
-        binding.amen1.itemCheckbox.isChecked = status[0]
-        binding.amen2.itemCheckbox.isChecked = status[1]
-        binding.amen3.itemCheckbox.isChecked = status[2]
-        binding.amen4.itemCheckbox.isChecked = status[3]
-        binding.amen5.itemCheckbox.isChecked = status[4]
-        binding.amen6.itemCheckbox.isChecked = status[5]
+        binding.amen1.isChecked = status[0]
+        binding.amen2.isChecked = status[1]
+        binding.amen3.isChecked = status[2]
+        binding.amen4.isChecked = status[3]
+        binding.amen5.isChecked = status[4]
+        binding.amen6.isChecked = status[5]
     }
 
     private fun setUtilities(status: List<Boolean>) {
-        binding.util1.itemCheckbox.isChecked = status[0]
-        binding.util2.itemCheckbox.isChecked = status[1]
-        binding.util3.itemCheckbox.isChecked = status[2]
-        binding.util4.itemCheckbox.isChecked = status[3]
-        binding.util5.itemCheckbox.isChecked = status[4]
+        binding.util1.isChecked = status[0]
+        binding.util2.isChecked = status[1]
+        binding.util3.isChecked = status[2]
+        binding.util4.isChecked = status[3]
+        binding.util5.isChecked = status[4]
     }
 
     private fun formatAsCurrency(value: Float): String {
