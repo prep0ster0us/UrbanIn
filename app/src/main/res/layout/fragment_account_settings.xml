@@ -24,6 +24,7 @@
         android:id="@+id/settingsHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:fontFamily="@font/gotham_medium"
         android:gravity="center_vertical"
         android:padding="12dp"
@@ -35,53 +36,32 @@
         app:layout_constraintStart_toEndOf="@id/btnBackToAccount"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/setting1"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="12dp"
         android:fontFamily="@font/gotham_book"
         android:padding="18dp"
-        android:text="text goes here"
+        android:text="Enable biometric login"
         android:textColor="@color/default_text"
         android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@id/setting1Btn"
-        app:layout_constraintStart_toStartOf="parent"
+        android:theme="@style/switchButton"
+        app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/settingsHeader" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/setting1Btn"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:padding="12dp"
-        app:layout_constraintBottom_toBottomOf="@id/setting1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/setting1"
-        app:layout_constraintTop_toTopOf="@id/setting1" />
-
-    <TextView
         android:id="@+id/setting2"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gotham_book"
         android:padding="18dp"
-        android:text="text goes here"
+        android:text="Use Dark Theme"
         android:textColor="@color/default_text"
         android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@id/setting2Btn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/setting1" />
-
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/setting2Btn"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:padding="12dp"
-        app:layout_constraintBottom_toBottomOf="@id/setting2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/setting2"
+        android:theme="@style/switchButton"
+        app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/setting1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

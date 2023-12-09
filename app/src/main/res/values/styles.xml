@@ -9,4 +9,8 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+    <!-- For switch buttons -->
+    <style name="switchButton" parent="Theme.AppCompat">
+        <item name="colorControlActivated">@color/primary_background</item>
+    </style>
 </resources>

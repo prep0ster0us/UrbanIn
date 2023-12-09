@@ -1,33 +1,44 @@
 package com.example.urbanin.tenant.account
 
+import android.content.res.Configuration
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.urbanin.R
+import com.example.urbanin.data.LoginPreferenceManager
 import com.example.urbanin.databinding.FragmentAccountSettingsBinding
 
 class AccountSettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentAccountSettingsBinding
+
+    private lateinit var prefManager: LoginPreferenceManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = FragmentAccountSettingsBinding.inflate(layoutInflater)
+
+        prefManager = LoginPreferenceManager(requireContext())
+
+        // check if biometric enabled for user
+        binding.setting1.isChecked = prefManager.isBiometricEnabled()
+        // check current theme of app, and set setting toggle
+        val isDarkTheme = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+        binding.setting2.isChecked = isDarkTheme
 
         binding.btnBackToAccount.setOnClickListener {
             val action = AccountSettingsFragmentDirections.navigateSettingsBackToAccountTenant()
             findNavController().navigate(action)
         }
 
-//        binding.setting1Btn.setOnClickListener{
-//            // handle setting toggle
-//        }
-//
-//        binding.setting2Btn.setOnClickListener {
-//            // handle setting toggle
-//        }
+        binding.setting1.setOnCheckedChangeListener { _, isChecked ->
+            prefManager.setBiometricEnabled(isChecked)
+        }
+
     }
 
     override fun onCreateView(
@@ -36,6 +47,18 @@ class AccountSettingsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_account_settings, container, false)
+        binding.setting2.setOnCheckedChangeListener { _, isChecked ->
+            // TODO: toggle between light and dark mode
+            if (isChecked) {
+                // Enable dark mode
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                binding.setting2.isChecked = true
+            } else {
+                // Enable light mode
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                binding.setting2.isChecked = false
+            }
+        }
         return binding.root
     }
 
