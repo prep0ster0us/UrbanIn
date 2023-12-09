@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".tenant.account.AccountProfileFragment">
+
+    <ImageButton
+        android:id="@+id/btnBackToAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:backgroundTint="@android:color/transparent"
+        android:contentDescription="back button to account page"
+        android:padding="12dp"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintBottom_toBottomOf="@id/profileHeader"
+        app:layout_constraintEnd_toStartOf="@id/profileHeader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/profileHeader"
+        app:tint="@color/default_icon" />
+
+    <TextView
+        android:id="@+id/profileHeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/gotham_medium"
+        android:gravity="center_vertical"
+        android:padding="12dp"
+        android:text="Profile"
+        android:textColor="@color/default_text"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@id/profile1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnBackToAccount"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/profile1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/gotham_book"
+        android:padding="18dp"
+        android:text="text goes here"
+        android:textColor="@color/default_text"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@id/profile1btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileHeader" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/profile1btn"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="@id/profile1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/profile1"
+        app:layout_constraintTop_toTopOf="@id/profile1" />
+
+    <TextView
+        android:id="@+id/profile2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/gotham_book"
+        android:padding="18dp"
+        android:text="text goes here"
+        android:textColor="@color/default_text"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@id/profile2btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile1" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/profile2btn"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="@id/profile2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/profile2"
+        app:layout_constraintTop_toBottomOf="@id/profile1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

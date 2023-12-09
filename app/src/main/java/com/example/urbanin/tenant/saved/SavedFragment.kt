@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.urbanin.auth.LoginPreferenceManager
+import com.example.urbanin.data.LoginPreferenceManager
 import com.example.urbanin.data.ListingAdapter
 import com.example.urbanin.data.ListingData
 import com.example.urbanin.data.SortParameters
@@ -34,26 +35,36 @@ class SavedFragment : Fragment(), ListingAdapter.Callbacks {
         prefManager = LoginPreferenceManager(requireContext())
 
         // TODO: needs to be based on whether user is logged in
-        binding.loggedInView.visibility = View.VISIBLE
-        binding.loggedOutView.visibility = View.GONE
-        setupRecyclerView()
+        if(prefManager.isLoggedIn()) {
+            binding.loggedInView.visibility = View.VISIBLE
+            binding.loggedOutView.visibility = View.GONE
+            setupRecyclerView()
 
-        // sort listings
-        binding.saveListingSort.setOnClickListener {
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Sort By")
-                .setSingleChoiceItems(sortOptions, sortParams.selectedOption) { _, which ->
-                    sortParams.selectedOption = which
-                }
-                .setPositiveButton("Show Results") { _, _ ->
-                    sortParams.sortBy = sortOptions[sortParams.selectedOption]
-                    sortListings()
-                    setupRecyclerView()
-                }
-                .setNeutralButton("Cancel"){ _, _ ->
-                    sortParams.selectedOption = sortOptions.indexOf(sortParams.sortBy)
-                }
-                .show()
+            // sort listings
+            binding.saveListingSort.setOnClickListener {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle("Sort By")
+                    .setSingleChoiceItems(sortOptions, sortParams.selectedOption) { _, which ->
+                        sortParams.selectedOption = which
+                    }
+                    .setPositiveButton("Show Results") { _, _ ->
+                        sortParams.sortBy = sortOptions[sortParams.selectedOption]
+                        sortListings()
+                        setupRecyclerView()
+                    }
+                    .setNeutralButton("Cancel") { _, _ ->
+                        sortParams.selectedOption = sortOptions.indexOf(sortParams.sortBy)
+                    }
+                    .show()
+            }
+        } else {
+            binding.loggedOutView.visibility = View.VISIBLE
+            binding.loggedInView.visibility = View.GONE
+
+            // redirect to login page
+            binding.saveListingLoginBtn.setOnClickListener {
+                findNavController().navigate(SavedFragmentDirections.navigateSavedToLogin())
+            }
         }
 
     }

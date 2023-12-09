@@ -29,8 +29,7 @@
         android:label="ForgotPasswordFragment">
         <action
             android:id="@+id/navigate_forgot_pwd_to_login"
-            app:destination="@id/loginFragment"
-            />
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -111,11 +110,5 @@
             android:id="@+id/navigate_edit_listing_back_to_search_fragment"
             app:destination="@id/landlordSearchFragment" />
     </fragment>
-
-    <!-- add this argument to pass data from "LandlordFragment" to "DetailedListingLandlordFragment"
-    <argument
-            android:name="listing"
-            app:argType="com.example.urbanin.tenant.search.ListingData" />
-            -->
 
 </navigation>

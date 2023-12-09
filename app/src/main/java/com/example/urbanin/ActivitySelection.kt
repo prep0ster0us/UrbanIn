@@ -3,7 +3,7 @@ package com.example.urbanin
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.urbanin.auth.LoginPreferenceManager
+import com.example.urbanin.data.LoginPreferenceManager
 import com.example.urbanin.databinding.ActivitySelectionBinding
 
 class ActivitySelection : AppCompatActivity() {

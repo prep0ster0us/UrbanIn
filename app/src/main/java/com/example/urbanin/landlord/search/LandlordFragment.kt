@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
-import com.example.urbanin.auth.LoginPreferenceManager
+import com.example.urbanin.data.LoginPreferenceManager
 import com.example.urbanin.data.FilterListingUtil
 import com.example.urbanin.data.ListingAdapter
 import com.example.urbanin.data.ListingData

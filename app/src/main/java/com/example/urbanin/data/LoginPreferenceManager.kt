@@ -1,4 +1,4 @@
-package com.example.urbanin.auth
+package com.example.urbanin.data
 
 import android.content.Context
 import android.content.SharedPreferences

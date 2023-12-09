@@ -1,6 +1,5 @@
 package com.example.urbanin.auth
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,10 +14,12 @@ import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
 import androidx.biometric.BiometricPrompt.PromptInfo
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.urbanin.MainActivity.Companion.TAG
+import com.example.urbanin.data.LoginPreferenceManager
 import com.example.urbanin.databinding.FragmentLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -58,15 +59,13 @@ class LoginFragment : Fragment() {
 
 
         prefManager = LoginPreferenceManager(requireContext())
-        // check if user logged in previously, then stay logged in
-        if (prefManager.isLoggedIn()) {
-            navigateToNext()
-        }
 
-//        isLoggedIn = (auth.currentUser != null)
         if(prefManager.isFirstLogin()) {
             binding.loginBiometricButton.visibility = View.GONE
+            prefManager.setLoggedIn(true)
         }
+
+        binding.loginBiometricButton.isVisible = prefManager.isBiometricEnabled()
 
         binding.loginBiometricButton.setOnClickListener {
             checkDeviceHasBiometrics()
@@ -177,8 +176,13 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.loginViewSubmitBtn.setOnClickListener {
+            if(binding.loginRememberLoginCheck.isChecked) {
+                prefManager.writeLoginCreds(
+                    binding.loginViewUsnField.text.toString(),
+                    binding.loginViewPwdField.text.toString()
+                )
+            }
             // check if credentials match
-//            checkIfExists()
             matchCredentials()
         }
 
@@ -191,7 +195,7 @@ class LoginFragment : Fragment() {
         }
 
         binding.loginViewSignUp.setOnClickListener {
-            findNavController().navigate(LoginFragmentDirections.navigateLandlordLoginToSignUp())
+            findNavController().navigate(LoginFragmentDirections.navigateLandlordLoginToForgotPwd())
         }
     }
 
@@ -217,11 +221,11 @@ class LoginFragment : Fragment() {
             if (task.isSuccessful) {
                 // Sign in success, update UI with the signed-in user's information
                 Log.d(TAG, "signInWithEmail:success")
-//                Toast.makeText(
-//                    requireContext(),
-//                    "Welcome, ${auth.currentUser!!.displayName}",
-//                    Toast.LENGTH_SHORT
-//                ).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Welcome, ${auth.currentUser!!.displayName}",
+                    Toast.LENGTH_SHORT
+                ).show()
                 // check if any saved login credentials prior to login (based on which biometric prompt will be enabled)
                 if (prefManager.isFirstLogin()) {
                     // save in shared preferences (for future login + biometric)
