@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.example.urbanin.R
 
 public class AccountFragment : AppCompatActivity() {
@@ -34,7 +33,7 @@ public class AccountFragment : AppCompatActivity() {
             navigateToSettings()
         }
 
-        val tvHelpFAQs = findViewById<TextView>(R.id.HelpFAQs)
+        val tvHelpFAQs = findViewById<TextView>(R.id.switchMode)
         tvHelpFAQs.setOnClickListener {
             navigateToHelpFAQs()
         }

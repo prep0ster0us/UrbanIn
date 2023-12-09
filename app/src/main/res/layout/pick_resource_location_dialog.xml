@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginVertical="20dp"
+        android:paddingHorizontal="25dp"
+        android:paddingVertical="8dp">
+
+        <ImageView
+            android:id="@+id/cameraPhoto"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="36dp"
+            android:contentDescription="Take a Photo"
+            android:src="@drawable/baseline_photo_camera_24"
+            app:layout_constraintEnd_toStartOf="@id/galleryPhoto"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/cameraPhotoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/gotham_medium"
+            android:padding="12dp"
+            android:text="Take a Photo"
+            android:textAlignment="center"
+            android:textColor="@color/default_text"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/cameraPhoto"
+            app:layout_constraintStart_toStartOf="@id/cameraPhoto"
+            app:layout_constraintTop_toBottomOf="@id/cameraPhoto" />
+
+        <ImageView
+            android:id="@+id/galleryPhoto"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="36dp"
+            android:contentDescription="Select from Gallery"
+            android:src="@drawable/baseline_select_photo_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cameraPhoto"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/galleryPhotoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/gotham_medium"
+            android:padding="12dp"
+            android:text="Select from Gallery"
+            android:textAlignment="center"
+            android:textColor="@color/default_text"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/galleryPhoto"
+            app:layout_constraintStart_toStartOf="@id/galleryPhoto"
+            app:layout_constraintTop_toBottomOf="@id/galleryPhoto" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

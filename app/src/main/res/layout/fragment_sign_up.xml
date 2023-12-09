@@ -178,30 +178,8 @@
                 android:layout_width="@dimen/sign_up_text_field_width"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gotham_book"
-                android:inputType="textVisiblePassword" />
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <!--        TODO: <ritwik> check for username authentication-->
-        <!--<com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/signUpUserNameLayout"
-            style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
-            android:layout_width="@dimen/sign_up_text_field_width"
-            android:layout_height="wrap_content"
-            android:hint="Enter a username."
-            app:errorEnabled="true"
-            app:errorIconDrawable="@drawable/ic_error_outline"
-            app:layout_constraintBottom_toTopOf="@id/signUpPhoneLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/signUpConfirmPwdLayout">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/signUpViewUsername"
-                android:layout_width="@dimen/sign_up_text_field_width"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/gotham_book"
-                android:inputType="textPersonName" />
-        </com.google.android.material.textfield.TextInputLayout>-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/signUpPhoneLayout"
@@ -223,6 +201,7 @@
                 android:layout_width="@dimen/sign_up_text_field_width"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gotham_book"
+                android:maxLength="10"
                 android:inputType="phone" />
         </com.google.android.material.textfield.TextInputLayout>
 

@@ -195,7 +195,7 @@ class LoginFragment : Fragment() {
         }
 
         binding.loginViewSignUp.setOnClickListener {
-            findNavController().navigate(LoginFragmentDirections.navigateLandlordLoginToForgotPwd())
+            findNavController().navigate(LoginFragmentDirections.navigateLandlordLoginToSignUp())
         }
     }
 
@@ -234,6 +234,10 @@ class LoginFragment : Fragment() {
                         binding.loginViewPwdField.text.toString()
                     )
                     // TODO: show dialog to ask to enroll in biometric --> *done in LandlordSearchFragment
+                }
+                // set logged in state to Shared Preferences
+                if(binding.loginRememberLoginCheck.isChecked) {
+                    prefManager.setLoggedIn(true)
                 }
                 // navigate successfully to next page
                 // TODO: decide next page based on context of fragment trigger

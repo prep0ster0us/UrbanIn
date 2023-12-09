@@ -27,6 +27,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.urbanin.R
 import com.example.urbanin.data.ListingData
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.UserProfileChangeRequest
 
 class SignUpFragment : Fragment() {
 
@@ -127,6 +128,20 @@ class SignUpFragment : Fragment() {
 
     private fun handleSuccessfulSignUp(fieldMap: HashMap<String, Pair<TextInputLayout, TextInputEditText>>) {
         val user = auth.currentUser
+        // Set display name using UserProfileChangeRequest
+        val addDisplayName = UserProfileChangeRequest.Builder()
+            .setDisplayName("${ fieldMap["fname"]!!.second.text} ${fieldMap["lname"]!!.second.text}")
+            // You can also set other properties like photo URL if needed
+            // .setPhotoUri(Uri.parse("photo_url_here"))
+            .build()
+        user?.updateProfile(addDisplayName)
+            ?.addOnCompleteListener { updateTask ->
+                if (updateTask.isSuccessful) {
+                    Log.d(TAG, "set display name: ${fieldMap["fname"]!!.second.text}")
+                } else {
+                    Log.e(TAG, "Error setting display name with user: ${updateTask.exception}")
+                }
+            }
         val userDetails = hashMapOf(
             "First Name" to fieldMap["fname"]!!.second.text.toString(),
             "Last Name" to fieldMap["lname"]!!.second.text.toString(),
