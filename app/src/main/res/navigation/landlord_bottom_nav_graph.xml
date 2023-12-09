@@ -10,13 +10,13 @@
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/navigate_landlord_login_to_forgot_pwd"
+            android:id="@+id/navigate_login_to_forgot_pwd"
             app:destination="@id/forgotPwdFragment" />
         <action
-            android:id="@+id/navigate_landlord_login_to_sign_up"
+            android:id="@+id/navigate_login_to_sign_up"
             app:destination="@id/signUpFragment" />
         <action
-            android:id="@+id/navigate_landlord_login_success_to_search"
+            android:id="@+id/navigate_login_success_to_search"
             app:destination="@id/landlordSearchFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/loginFragment"
@@ -26,7 +26,8 @@
     <fragment
         android:id="@+id/forgotPwdFragment"
         android:name="com.example.urbanin.auth.ForgotPwdFragment"
-        android:label="ForgotPasswordFragment">
+        android:label="ForgotPasswordFragment"
+        tools:layout="@layout/fragment_forgot_password">
         <action
             android:id="@+id/navigate_forgot_pwd_to_login"
             app:destination="@id/loginFragment" />
@@ -37,7 +38,7 @@
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" >
         <action
-            android:id="@+id/navigate_sign_up_to_landlord_login"
+            android:id="@+id/navigate_sign_up_to_login"
             app:destination="@id/loginFragment" />
     </fragment>
 

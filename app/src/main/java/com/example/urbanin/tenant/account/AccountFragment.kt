@@ -24,6 +24,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
 import com.example.urbanin.data.LoginPreferenceManager
+import com.example.urbanin.data.SearchListingUtil
 import com.example.urbanin.databinding.FragmentAccountBinding
 import com.example.urbanin.landlord.search.AddListing.LandlordAddListingFragmentDirections
 import com.google.android.material.snackbar.Snackbar
@@ -104,7 +105,7 @@ class AccountFragment : Fragment() {
                 with(btnLogout) {
                     text = "SIGN IN"
                     setOnClickListener {
-                        findNavController().navigate(AccountFragmentDirections.navigateAccountToLoginTenant())
+                        navigateToLogin()
                     }
                 }
             }
@@ -119,7 +120,7 @@ class AccountFragment : Fragment() {
                     .show()
                 binding.btnLogout.text = "SIGN IN"
             }
-            findNavController().navigate(AccountFragmentDirections.navigateAccountToLoginTenant())
+            navigateToLogin()
         }
 
         with(binding) {
@@ -133,6 +134,11 @@ class AccountFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun navigateToLogin() {
+        prefManager.setRedirectContext("tenant_account")
+        findNavController().navigate(AccountFragmentDirections.navigateAccountToLoginTenant())
     }
 
     private fun checkHasProfileImage(user: FirebaseUser) {

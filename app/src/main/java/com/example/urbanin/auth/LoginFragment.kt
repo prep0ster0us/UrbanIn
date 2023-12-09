@@ -17,9 +17,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.data.LoginPreferenceManager
+import com.example.urbanin.data.SearchListingUtil
 import com.example.urbanin.databinding.FragmentLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -57,8 +59,12 @@ class LoginFragment : Fragment() {
         db = FirebaseFirestore.getInstance()
         configureGoogleSignIn()
 
-
         prefManager = LoginPreferenceManager(requireContext())
+        // hide nav bar, based on user mode
+        when(prefManager.getUserMode()) {
+            "tenant" -> SearchListingUtil.setTenantNavBarVisibility(requireActivity(), false)
+            "landlord" -> SearchListingUtil.setLandlordNavBarVisibility(requireActivity(), false)
+        }
 
         if(prefManager.isFirstLogin()) {
             binding.loginBiometricButton.visibility = View.GONE
@@ -84,10 +90,13 @@ class LoginFragment : Fragment() {
 
     private fun navigateToNext() {
         when (prefManager.getRedirectContext()) {
-            "Mode selection" -> LoginFragmentDirections.navigateLandlordLoginSuccessToSearch()
+            "Mode selection" -> LoginFragmentDirections.navigateLoginSuccessToSearch()
 //            "Favorite" -> ""
 //            "Message" ->
-//            "Account" ->
+            "tenant_account" -> {
+                SearchListingUtil.setTenantNavBarVisibility(requireActivity(), true)
+                LoginFragmentDirections.navigateLoginSuccessToSearch()
+            }
         }
     }
 
@@ -191,11 +200,11 @@ class LoginFragment : Fragment() {
         }
 
         binding.loginViewForgotPwd.setOnClickListener {
-            findNavController().navigate(LoginFragmentDirections.navigateLandlordLoginToForgotPwd())
+            findNavController().navigate(LoginFragmentDirections.navigateLoginToForgotPwd())
         }
 
         binding.loginViewSignUp.setOnClickListener {
-            findNavController().navigate(LoginFragmentDirections.navigateLandlordLoginToSignUp())
+            findNavController().navigate(LoginFragmentDirections.navigateLoginToSignUp())
         }
     }
 
@@ -241,7 +250,7 @@ class LoginFragment : Fragment() {
                 }
                 // navigate successfully to next page
                 // TODO: decide next page based on context of fragment trigger
-                findNavController().navigate(LoginFragmentDirections.navigateLandlordLoginSuccessToSearch())
+                findNavController().navigate(LoginFragmentDirections.navigateLoginSuccessToSearch())
             } else {
                 // If sign in fails, display a message to the user.
                 Log.w(TAG, "signInWithEmail:failure ", task.exception)
@@ -284,7 +293,7 @@ class LoginFragment : Fragment() {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener(requireActivity()) { task ->
             if (task.isSuccessful) {
-                findNavController().navigate(LoginFragmentDirections.navigateLandlordLoginSuccessToSearch())
+                findNavController().navigate(LoginFragmentDirections.navigateLoginSuccessToSearch())
             } else {
                 Log.w(TAG, "signInWithCredential:failure", task.exception)
                 Toast.makeText(context, "Authentication Failed.", Toast.LENGTH_SHORT).show()

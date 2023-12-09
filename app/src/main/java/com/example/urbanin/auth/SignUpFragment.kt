@@ -3,6 +3,7 @@ package com.example.urbanin.auth
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
 import com.example.urbanin.R
 import com.example.urbanin.data.ListingData
+import com.example.urbanin.landlord.search.AddListing.LandlordAddListingFragmentDirections
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.UserProfileChangeRequest
 
@@ -72,7 +76,7 @@ class SignUpFragment : Fragment() {
         }
 
         binding.backToLoginButton.setOnClickListener {
-            findNavController().navigate(SignUpFragmentDirections.navigateSignUpToLandlordLogin())
+            findNavController().navigate(SignUpFragmentDirections.navigateSignUpToLogin())
         }
         return binding.root
     }
@@ -160,13 +164,20 @@ class SignUpFragment : Fragment() {
     }
 
     private fun showSuccessDialog() {
-        AlertDialog.Builder(requireContext()).apply {
-            setTitle("Success")
-            setMessage("Signed Up successfully.")
-            setPositiveButton("OK", null)
-            setIcon(R.drawable.success)
-            show()
-        }
+//        AlertDialog.Builder(requireContext()).apply {
+//            setTitle("Success")
+//            setMessage("Signed Up successfully.")
+//            setPositiveButton("OK", null)
+//            setIcon(R.drawable.success)
+//            show()
+//        }
+        Snackbar.make(
+            binding.root,
+            "Sign up successful!",
+            Snackbar.LENGTH_SHORT
+        ).show()
+        findNavController().navigate(SignUpFragmentDirections.navigateSignUpToLogin())
+
     }
 
     private fun clearInputFields(fieldMap: HashMap<String, Pair<TextInputLayout, TextInputEditText>>) {

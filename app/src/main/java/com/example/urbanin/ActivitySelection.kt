@@ -58,14 +58,7 @@ class ActivitySelection : AppCompatActivity() {
 
 
     private fun navigateToLogin() {
-        /*
-        // Navigate to the Login Fragment
-        val fragment = LoginFragment()
-        supportFragmentManager.beginTransaction().replace(android.R.id.content, fragment)
-            .addToBackStack(null).commit()
-        */
-
-        // Intent to navigate to the Roommates Activity
+        // Intent to navigate to the Landlord Activity
         val intent = Intent(this, LandlordActivity::class.java)
         startActivity(intent)
         this.overridePendingTransition(
