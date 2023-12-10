@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -143,18 +144,9 @@ class AccountFragment : Fragment() {
     }
 
     private fun checkHasProfileImage(user: FirebaseUser) {
-        storageRef.child("Users/${user.email}/profileImage.png")
-            .downloadUrl
-            .addOnSuccessListener { profileImageUri ->
-                // Got the download URL for logged in user's profile image
-                Log.d(TAG, "STORAGE CHECK: SUCCESS - Found ${user.email}'s profile image")
-                // set profile image
-                Picasso.get().load(profileImageUri).into(binding.ProfileImage)
-            }
-            .addOnFailureListener {
-                // File not found
-                Log.i(TAG, "STORAGE CHECK: FAILURE - Not found!")
-            }
+        if(user.photoUrl != null) {
+            Picasso.get().load(user.photoUrl).into(binding.ProfileImage)
+        }
     }
 
     private fun checkPermission(): Boolean {

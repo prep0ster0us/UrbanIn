@@ -89,11 +89,11 @@ class AccountChangePwdFragment : Fragment() {
         val dialogIcon = view.findViewById<ImageView>(R.id.successIcon)
         Glide.with(requireContext()).load(R.drawable.success_dialog_icon).into(dialogIcon)
         val dialogMsg = view.findViewById<TextView>(R.id.successMessage)
-        dialogMsg.text = "Your account details have been updated"
+        dialogMsg.text = "Password updated"
         builder.setView(view)
         builder.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
         builder.show()
-        // show dialog for 2s
+        // show dialog for 3s
         val timer = object : CountDownTimer(3000, 1000) {
             override fun onTick(millisSeconds: Long) {}
             override fun onFinish() {

@@ -48,7 +48,7 @@
             android:layout_width="@dimen/sign_in_text_field_width"
             android:layout_height="wrap_content"
             android:fontFamily="@font/gotham_medium"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:textColor="@color/default_text" />
     </com.google.android.material.textfield.TextInputLayout>
 

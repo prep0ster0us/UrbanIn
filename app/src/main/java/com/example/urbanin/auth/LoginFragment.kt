@@ -210,7 +210,8 @@ class LoginFragment : Fragment() {
 
     private fun checkIfExists() {
         db.collection("Users").whereEqualTo("Email", binding.loginViewUsnField.text.toString())
-            .get().addOnSuccessListener { documents ->
+            .get()
+            .addOnSuccessListener { documents ->
                 for (document in documents) {
                     Log.d(TAG, "User found! Document id: ${document.id}")
                     matchCredentials()
