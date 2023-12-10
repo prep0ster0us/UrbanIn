@@ -17,7 +17,7 @@ class AccountProfileFragment : Fragment() {
 
         with(binding) {
             btnBackToAccount.setOnClickListener {
-                val action = AccountProfileFragmentDirections.navigateProfileBackToAccountTenant()
+                val action = AccountProfileFragmentDirections.navigateProfileBackToAccount()
                 findNavController().navigate(action)
             }
         }

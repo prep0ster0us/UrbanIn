@@ -36,7 +36,7 @@ class AccountChangePwdFragment : Fragment() {
         with(binding) {
 
             btnBackToAccount.setOnClickListener {
-                findNavController().navigate(AccountChangePwdFragmentDirections.navigateChangePwdBackToAccountTenant())
+                findNavController().navigate(AccountChangePwdFragmentDirections.navigateChangePwdBackToAccount())
             }
 
             confirmNewPwdInput.doOnTextChanged { _, _, _, _ ->
@@ -78,7 +78,7 @@ class AccountChangePwdFragment : Fragment() {
                         override fun onTick(millisUntilFinished: Long) {}
                         override fun onFinish() {
                             successDialog.dismiss()
-                            findNavController().navigate(AccountChangePwdFragmentDirections.navigateChangePwdBackToAccountTenant())
+                            findNavController().navigate(AccountChangePwdFragmentDirections.navigateChangePwdBackToAccount())
                         }
                     }
                     timer.start()

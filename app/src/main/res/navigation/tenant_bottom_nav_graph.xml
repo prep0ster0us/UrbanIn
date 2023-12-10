@@ -42,29 +42,29 @@
         tools:layout="@layout/fragment_message" />
     <fragment
         android:id="@+id/accountFragment"
-        android:name="com.example.urbanin.tenant.account.AccountFragment"
+        android:name="com.example.urbanin.account.AccountFragment"
         android:label="fragment_account"
         tools:layout="@layout/fragment_account" >
         <action
-            android:id="@+id/navigate_account_to_settings_tenant"
+            android:id="@+id/navigate_account_to_settings"
             app:destination="@id/accountSettingsFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/accountFragment"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/navigate_account_to_profile_tenant"
+            android:id="@+id/navigate_account_to_profile"
             app:destination="@id/accountProfileFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/accountFragment"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/navigate_account_to_login_tenant"
+            android:id="@+id/navigate_account_to_login"
             app:destination="@id/loginFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/accountFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/navigate_account_to_change_pwd_tenant"
+            android:id="@+id/navigate_account_to_change_pwd"
             app:destination="@id/accountChangePwdFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/accountFragment"
@@ -91,11 +91,11 @@
     </fragment>
     <fragment
         android:id="@+id/accountSettingsFragment"
-        android:name="com.example.urbanin.tenant.account.AccountSettingsFragment"
+        android:name="com.example.urbanin.account.AccountSettingsFragment"
         android:label="fragment_account_settings"
         tools:layout="@layout/fragment_account_settings" >
         <action
-            android:id="@+id/navigate_settings_back_to_account_tenant"
+            android:id="@+id/navigate_settings_back_to_account"
             app:destination="@id/accountFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/accountSettingsFragment"
@@ -103,11 +103,11 @@
     </fragment>
     <fragment
         android:id="@+id/accountProfileFragment"
-        android:name="com.example.urbanin.tenant.account.AccountProfileFragment"
+        android:name="com.example.urbanin.account.AccountProfileFragment"
         android:label="fragment_account_profile"
         tools:layout="@layout/fragment_account_profile" >
         <action
-            android:id="@+id/navigate_profile_back_to_account_tenant"
+            android:id="@+id/navigate_profile_back_to_account"
             app:destination="@id/accountFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/accountProfileFragment"
@@ -133,11 +133,11 @@
     </fragment>
     <fragment
         android:id="@+id/accountChangePwdFragment"
-        android:name="com.example.urbanin.tenant.account.AccountChangePwdFragment"
+        android:name="com.example.urbanin.account.AccountChangePwdFragment"
         android:label="AccountChangePwdFragment"
         tools:layout="@layout/fragment_account_change_pwd">
         <action
-            android:id="@+id/navigate_change_pwd_back_to_account_tenant"
+            android:id="@+id/navigate_change_pwd_back_to_account"
             app:destination="@id/accountFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/accountProfileFragment"

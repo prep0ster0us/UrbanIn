@@ -31,7 +31,7 @@ class AccountSettingsFragment : Fragment() {
         binding.setting2.isChecked = isDarkTheme
 
         binding.btnBackToAccount.setOnClickListener {
-            val action = AccountSettingsFragmentDirections.navigateSettingsBackToAccountTenant()
+            val action = AccountSettingsFragmentDirections.navigateSettingsBackToAccount()
             findNavController().navigate(action)
         }
 
