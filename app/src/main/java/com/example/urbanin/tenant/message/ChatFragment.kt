@@ -1,27 +1,29 @@
 package com.example.urbanin.tenant.message
 
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import com.example.urbanin.MainActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.data.ChatFirebaseUtil
+import com.example.urbanin.data.ChatListAdapter
 import com.example.urbanin.data.ChatMessageModel
 import com.example.urbanin.data.ChatroomModel
-import com.example.urbanin.databinding.FragmentAccountBinding
 import com.example.urbanin.databinding.FragmentChatBinding
-import com.example.urbanin.tenant.search.DetailedListing.SearchDetailedListingFragmentArgs
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.picasso.Picasso
+import com.google.firebase.firestore.Query
 
-class ChatFragment: Fragment() {
+class ChatFragment : Fragment() {
     private lateinit var binding: FragmentChatBinding
 
     // receive userId
@@ -34,6 +36,8 @@ class ChatFragment: Fragment() {
     private lateinit var receiverId: String
     private lateinit var chatroomId: String
     private lateinit var chatroomModel: ChatroomModel
+
+    private lateinit var adapter: ChatListAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -66,15 +70,15 @@ class ChatFragment: Fragment() {
         ChatFirebaseUtil.getChatroomReference(chatroomId)
             .get()
             .addOnCompleteListener { task ->
-                if(task.isSuccessful) {
+                if (task.isSuccessful) {
                     with(task.result) {
-                        if(data == null) {
-                             chatroomModel = ChatroomModel(
-                                 chatroomId,
-                                 arrayListOf(senderId, receiverId),
-                                 "",
-                                 Timestamp.now()
-                             )
+                        if (data == null) {
+                            chatroomModel = ChatroomModel(
+                                chatroomId,
+                                arrayListOf(senderId, receiverId),
+                                "",
+                                Timestamp.now()
+                            )
                             // add new chatroom to database
                             ChatFirebaseUtil.getChatroomReference(chatroomId).set(chatroomModel)
                         } else {
@@ -86,16 +90,42 @@ class ChatFragment: Fragment() {
                             )
                         }
                     }
-                    
+
                 }
             }
 
+        setupChatRecyclerView()
+
         binding.btnChatSend.setOnClickListener {
             val message = binding.chatMessageInput.text.toString().trim()
-            if(message.isNotEmpty()) {
+            if (message.isNotEmpty()) {
                 sendMessageToUser(message)
             }
         }
+    }
+
+    private fun setupChatRecyclerView() {
+        val query = ChatFirebaseUtil.getChatRoomMsgReference(chatroomId)
+            .orderBy("timeStamp", Query.Direction.ASCENDING)
+
+        val options = FirestoreRecyclerOptions.Builder<ChatMessageModel>()
+            .setQuery(query, ChatMessageModel::class.java)
+            .build()
+
+        adapter = ChatListAdapter(options, requireContext())
+
+        binding.chatRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.chatRecyclerView.adapter = adapter
+        adapter.startListening()
+
+        // scroll to most recent message
+        adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                super.onItemRangeInserted(positionStart, itemCount)
+                binding.chatRecyclerView.smoothScrollToPosition(0)
+            }
+        })
+
     }
 
     private fun sendMessageToUser(message: String) {
@@ -108,8 +138,8 @@ class ChatFragment: Fragment() {
         // add to database (within chatroom for these users, as a sub-collection)
         ChatFirebaseUtil.getChatRoomMsgReference(chatroomId)
             .add(chatMsg)
-            .addOnCompleteListener {task ->
-                if(task.isSuccessful) {
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
                     Log.d(TAG, "send message: SUCCESS")
                     binding.chatMessageInput.text.clear()
                 }

@@ -1,15 +1,13 @@
 package com.example.urbanin.data
 
-import android.net.Uri
-import android.util.Log
-import com.example.urbanin.MainActivity.Companion.TAG
-import com.google.android.gms.tasks.Task
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.Calendar
+import java.util.Locale
+
 
 object ChatFirebaseUtil {
 
@@ -31,4 +29,18 @@ object ChatFirebaseUtil {
         return getChatroomReference(chatroomID)
             .collection("chats")
     }
+
+    fun getCurrentUserId(): String {
+        return FirebaseAuth.getInstance().currentUser!!.uid
+    }
+
+    fun formatTimestamp(timestamp: Timestamp): String {
+        val cal = Calendar.getInstance(Locale.ENGLISH)
+        cal.timeInMillis = timestamp.seconds*1000
+        val hours = cal.get(Calendar.HOUR_OF_DAY)
+        val minutes = cal.get(Calendar.MINUTE)
+
+        return "$hours:$minutes"
+    }
+
 }
