@@ -132,6 +132,10 @@ class AccountFragment : Fragment() {
                 val action = AccountFragmentDirections.navigateAccountToProfileTenant()
                 findNavController().navigate(action)
             }
+            ChangePassword.setOnClickListener {
+                val action = AccountFragmentDirections.navigateAccountToChangePwdTenant()
+                findNavController().navigate(action)
+            }
         }
 
     }

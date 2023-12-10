@@ -50,19 +50,25 @@
             app:destination="@id/accountSettingsFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/accountFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/navigate_account_to_profile_tenant"
             app:destination="@id/accountProfileFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/accountFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/navigate_account_to_login_tenant"
             app:destination="@id/loginFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/accountFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/navigate_account_to_change_pwd_tenant"
+            app:destination="@id/accountChangePwdFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/accountFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -124,5 +130,17 @@
         <action
             android:id="@+id/navigate_forgot_pwd_to_login"
             app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountChangePwdFragment"
+        android:name="com.example.urbanin.tenant.account.AccountChangePwdFragment"
+        android:label="AccountChangePwdFragment"
+        tools:layout="@layout/fragment_account_change_pwd">
+        <action
+            android:id="@+id/navigate_change_pwd_back_to_account_tenant"
+            app:destination="@id/accountFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/accountProfileFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
