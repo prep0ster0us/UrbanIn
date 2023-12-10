@@ -134,6 +134,12 @@
             app:launchSingleTop="true"
             app:popUpTo="@id/accountFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/navigate_account_to_login"
+            app:destination="@id/loginFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/accountFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/accountProfileFragment"

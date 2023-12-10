@@ -44,7 +44,8 @@
     <fragment
         android:id="@+id/searchDetailedListingFragment"
         android:name="com.example.urbanin.tenant.search.DetailedListing.SearchDetailedListingFragment"
-        android:label="SearchDetailedListingFragment" >
+        android:label="SearchDetailedListingFragment"
+        tools:layout="@layout/tenant_search_detailed_listing" >
         <argument
             android:name="listing"
             app:argType="com.example.urbanin.data.ListingData" />
@@ -54,5 +55,23 @@
         <action
             android:id="@+id/action_searchDetailedListingFragment_to_searchMapViewFragment"
             app:destination="@id/searchMapViewFragment" />
+        <action
+            android:id="@+id/navigate_detailed_listing_to_chat"
+            app:destination="@id/chatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.urbanin.tenant.message.ChatFragment"
+        android:label="ChatFragment"
+        tools:layout="@layout/fragment_chat">
+        <argument
+            android:name="receivedUserId"
+            app:argType="string" />
+        <action
+            android:id="@+id/navigate_chat_back_to_detailed_listing"
+            app:destination="@id/searchDetailedListingFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/searchListViewFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

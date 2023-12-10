@@ -143,6 +143,11 @@ class SearchDetailedListingFragment : Fragment() {
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = FacilityAdapter(requireContext(), amenitiesGrid)
         }
+
+        // direct to messages tab if user chooses to message listing owner
+        binding.detailedListingMessageBtn.setOnClickListener {
+            findNavController().navigate(SearchDetailedListingFragmentDirections.navigateDetailedListingToChat(args.listing.userID))
+        }
     }
 
     private fun formatAsCurrency(value: Float): String {
