@@ -39,7 +39,7 @@
             app:destination="@id/searchDetailedListingFragment"
             app:launchSingleTop="true"
             app:popUpTo="@+id/searchListViewFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/searchDetailedListingFragment"
@@ -65,13 +65,10 @@
         android:label="ChatFragment"
         tools:layout="@layout/fragment_chat">
         <argument
-            android:name="receivedUserId"
+            android:name="receiverUserId"
             app:argType="string" />
         <action
             android:id="@+id/navigate_chat_back_to_detailed_listing"
-            app:destination="@id/searchDetailedListingFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@+id/searchListViewFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/searchDetailedListingFragment" />
     </fragment>
 </navigation>

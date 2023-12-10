@@ -1,12 +1,14 @@
 package com.example.urbanin.tenant.message
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,12 +18,12 @@ import com.example.urbanin.data.ChatListAdapter
 import com.example.urbanin.data.ChatMessageModel
 import com.example.urbanin.data.ChatroomModel
 import com.example.urbanin.databinding.FragmentChatBinding
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.squareup.picasso.Picasso
 
 class ChatFragment : Fragment() {
     private lateinit var binding: FragmentChatBinding
@@ -46,25 +48,10 @@ class ChatFragment : Fragment() {
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
-        // TODO: fetch profile image of receiver
-        // TODO: NOTE- need to add profile image url to "Users" collection in database
-//        db.collection("Users")
-//            .document(args.receivedUserId)
-//            .get()
-//            .addOnSuccessListener { doc ->
-//                Log.d(TAG, "getReceiverProfileImage: SUCCESS")
-//                val photoUrl = doc.data!!["profileImage"] as String
-//                if(photoUrl.isNotEmpty()) {
-//                    Picasso.get().load(Uri.parse(photoUrl)).into(binding.userProfileImage)
-//                }
-//            }
-//            .addOnFailureListener {exception ->
-//                Log.w(TAG, "getReceiverProfileImage: FAILED- $exception")
-//            }
+        fetchReceiverUserInfo()
 
-        // TODO: get user ID of user who posted the listing
         senderId = auth.currentUser!!.uid
-        receiverId = args.receivedUserId
+        receiverId = args.receiverUserId
         chatroomId = ChatFirebaseUtil.getChatroomId(senderId, receiverId)
 
         ChatFirebaseUtil.getChatroomReference(chatroomId)
@@ -104,6 +91,25 @@ class ChatFragment : Fragment() {
         }
     }
 
+    private fun fetchReceiverUserInfo() {
+        db.collection("Users")
+            .document(args.receiverUserId)
+            .get()
+            .addOnSuccessListener { doc ->
+                Log.d(TAG, "getReceiverUserInfo: SUCCESS")
+                // set user name in chat window
+                binding.userName.text = "${doc.data!!["First Name"]} ${doc.data!!["Last Name"]}"
+                // set profile image, if any
+                val photoUrl = doc.data!!["profileImage"] as String
+                if(photoUrl.isNotEmpty()) {
+                    Picasso.get().load(Uri.parse(photoUrl)).into(binding.userProfileImage)
+                }
+            }
+            .addOnFailureListener {exception ->
+                Log.w(TAG, "getReceiverUserInfo: FAILED- $exception")
+            }
+    }
+
     private fun setupChatRecyclerView() {
         val query = ChatFirebaseUtil.getChatRoomMsgReference(chatroomId)
             .orderBy("timeStamp", Query.Direction.ASCENDING)
@@ -122,10 +128,9 @@ class ChatFragment : Fragment() {
         adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 super.onItemRangeInserted(positionStart, itemCount)
-                binding.chatRecyclerView.smoothScrollToPosition(0)
+                binding.chatRecyclerView.smoothScrollToPosition(adapter.itemCount-1)
             }
         })
-
     }
 
     private fun sendMessageToUser(message: String) {
@@ -158,6 +163,11 @@ class ChatFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        with(binding) {
+            btnBackToMessage.setOnClickListener {
+                findNavController().popBackStack()
+            }
+        }
         return binding.root
     }
 }

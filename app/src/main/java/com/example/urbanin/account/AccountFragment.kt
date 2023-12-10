@@ -275,6 +275,15 @@ class AccountFragment : Fragment() {
                                 photoUri = uri
                             }
                         )
+                        // save profile image to database, for that user
+                        db.collection("Users")
+                            .document(auth.currentUser!!.uid)
+                            .update("profileImage",uri.toString())
+                            .addOnSuccessListener {
+                                Log.d(TAG, "Saved profile image to Users collection")
+                            }.addOnFailureListener { exception ->
+                                Log.e(TAG, "Couldn't save image to Users collection- $exception")
+                            }
                     }
                 } else {
                     Log.e(

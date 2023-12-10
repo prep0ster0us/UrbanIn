@@ -5,7 +5,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 
@@ -36,11 +38,12 @@ object ChatFirebaseUtil {
 
     fun formatTimestamp(timestamp: Timestamp): String {
         val cal = Calendar.getInstance(Locale.ENGLISH)
-        cal.timeInMillis = timestamp.seconds*1000
+        cal.timeInMillis = timestamp.seconds * 1000
         val hours = cal.get(Calendar.HOUR_OF_DAY)
         val minutes = cal.get(Calendar.MINUTE)
 
-        return "$hours:$minutes"
+        val dateFormat = SimpleDateFormat("HH:mm a", Locale.getDefault())
+        return dateFormat.format(Date(timestamp.seconds * 1000))
     }
 
 }
