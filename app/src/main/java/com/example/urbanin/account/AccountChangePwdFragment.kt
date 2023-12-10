@@ -1,13 +1,19 @@
-package com.example.urbanin.tenant.account
+package com.example.urbanin.account
 
+import android.app.AlertDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.urbanin.R
 import com.example.urbanin.data.LoginPreferenceManager
 import com.example.urbanin.databinding.FragmentAccountChangePwdBinding
@@ -68,26 +74,34 @@ class AccountChangePwdFragment : Fragment() {
                             newPwdInput.text.toString()
                         )
                     }
-                    val successDialog = MaterialAlertDialogBuilder(requireContext())
-                        .setIcon(com.google.android.material.R.drawable.mtrl_ic_check_mark)
-                        .setTitle("Success!")
-                        .setMessage("Password updated successfully")
-                        .show()
-                    // dismiss after 2s
-                    val timer = object: CountDownTimer(2000, 1000) {
-                        override fun onTick(millisUntilFinished: Long) {}
-                        override fun onFinish() {
-                            successDialog.dismiss()
-                            findNavController().navigate(AccountChangePwdFragmentDirections.navigateChangePwdBackToAccount())
-                        }
-                    }
-                    timer.start()
+                    showSuccessDialog()
                 } else {
                     confirmNewPwdLayout.error = "Passwords do not match"
                 }
             }
         }
         return binding.root
+    }
+
+    private fun showSuccessDialog() {
+        val builder = AlertDialog.Builder(requireContext()).create()
+        val view = layoutInflater.inflate(R.layout.success_dialog_layout,null)
+        val dialogIcon = view.findViewById<ImageView>(R.id.successIcon)
+        Glide.with(requireContext()).load(R.drawable.success_dialog_icon).into(dialogIcon)
+        val dialogMsg = view.findViewById<TextView>(R.id.successMessage)
+        dialogMsg.text = "Your account details have been updated"
+        builder.setView(view)
+        builder.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        builder.show()
+        // show dialog for 2s
+        val timer = object : CountDownTimer(3000, 1000) {
+            override fun onTick(millisSeconds: Long) {}
+            override fun onFinish() {
+                builder.dismiss()
+                findNavController().navigate(AccountProfileFragmentDirections.navigateProfileBackToAccount())
+            }
+        }
+        timer.start()
     }
 
 }
