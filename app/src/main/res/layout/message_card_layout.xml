@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/message_card_rounded_bg"
-    android:padding="8dp">
+    android:paddingStart="8dp"
+    android:layout_margin="4dp">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/listingImage"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginVertical="12dp"
+        android:layout_marginEnd="12dp"
         android:scaleType="centerCrop"
-        app:shapeAppearanceOverlay="@style/roundedEdgeMessageCard"
         android:src="@drawable/img"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginVertical="12dp"
-        android:layout_marginEnd="12dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
 
     <TextView
         android:id="@+id/address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/listingImage"
-        app:layout_constraintStart_toStartOf="parent"
-        android:hint="listing address"
-        android:textSize="24sp"
         android:fontFamily="@font/gotham_regular"
+        android:hint="listing address"
+        android:padding="12dp"
         android:textColor="@color/default_text"
-        android:padding="12dp" />
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@id/listingImage"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/recentMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="recent message"
         android:fontFamily="@font/gotham_medium"
-        app:layout_constraintTop_toBottomOf="@id/address"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textSize="16sp"
+        android:hint="recent message"
+        android:paddingHorizontal="16dp"
         android:textColor="@color/default_text"
-        android:paddingHorizontal="12dp" />
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/address"
+        app:layout_constraintStart_toEndOf="@id/listingImage" />
 
     <TextView
         android:id="@+id/recentTimestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="recent timestamp"
-        android:textSize="12sp"
         android:fontFamily="sans-serif-thin"
+        android:hint="recent timestamp"
         android:textColor="@color/default_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/listingImage"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="12dp" />
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/address"
+        app:layout_constraintBottom_toBottomOf="@id/address" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
