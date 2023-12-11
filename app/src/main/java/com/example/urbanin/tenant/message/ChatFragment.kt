@@ -17,6 +17,8 @@ import com.example.urbanin.data.ChatFirebaseUtil
 import com.example.urbanin.data.ChatListAdapter
 import com.example.urbanin.data.ChatMessageModel
 import com.example.urbanin.data.ChatroomModel
+import com.example.urbanin.data.MessageDataModel
+import com.example.urbanin.data.SearchListingUtil
 import com.example.urbanin.databinding.FragmentChatBinding
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.Timestamp
@@ -38,6 +40,7 @@ class ChatFragment : Fragment() {
     private lateinit var receiverId: String
     private lateinit var chatroomId: String
     private lateinit var chatroomModel: ChatroomModel
+    private lateinit var messageModel: MessageDataModel
 
     private lateinit var adapter: ChatListAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +54,7 @@ class ChatFragment : Fragment() {
         fetchReceiverUserInfo()
 
         senderId = auth.currentUser!!.uid
-        receiverId = args.receiverUserId
+        receiverId = args.chatData.landlordId
         chatroomId = ChatFirebaseUtil.getChatroomId(senderId, receiverId)
 
         ChatFirebaseUtil.getChatroomReference(chatroomId)
@@ -89,11 +92,13 @@ class ChatFragment : Fragment() {
                 sendMessageToUser(message)
             }
         }
+        SearchListingUtil.setTenantNavBarVisibility(requireActivity(), false)
     }
+
 
     private fun fetchReceiverUserInfo() {
         db.collection("Users")
-            .document(args.receiverUserId)
+            .document(args.chatData.landlordId)
             .get()
             .addOnSuccessListener { doc ->
                 Log.d(TAG, "getReceiverUserInfo: SUCCESS")
@@ -101,11 +106,11 @@ class ChatFragment : Fragment() {
                 binding.userName.text = "${doc.data!!["First Name"]} ${doc.data!!["Last Name"]}"
                 // set profile image, if any
                 val photoUrl = doc.data!!["profileImage"] as String
-                if(photoUrl.isNotEmpty()) {
+                if (photoUrl.isNotEmpty()) {
                     Picasso.get().load(Uri.parse(photoUrl)).into(binding.userProfileImage)
                 }
             }
-            .addOnFailureListener {exception ->
+            .addOnFailureListener { exception ->
                 Log.w(TAG, "getReceiverUserInfo: FAILED- $exception")
             }
     }
@@ -125,10 +130,10 @@ class ChatFragment : Fragment() {
         adapter.startListening()
 
         // scroll to most recent message
-        adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 super.onItemRangeInserted(positionStart, itemCount)
-                binding.chatRecyclerView.smoothScrollToPosition(adapter.itemCount-1)
+                binding.chatRecyclerView.smoothScrollToPosition(adapter.itemCount - 1)
             }
         })
     }
@@ -156,6 +161,39 @@ class ChatFragment : Fragment() {
         // update in database
         ChatFirebaseUtil.getChatroomReference(chatroomId).set(chatroomModel)
 
+        // save/update chatroom in user's message collection
+        saveChatroomToUser(senderId, message, chatroomModel.lastMsgTimestamp)
+        saveChatroomToUser(receiverId, message, chatroomModel.lastMsgTimestamp)
+
+    }
+
+    private fun saveChatroomToUser(userId: String, msg: String, timeStamp: Timestamp) {
+        // save for sender
+        db.collection("Users")
+            .document(userId)
+            .get()
+            .addOnSuccessListener { doc ->
+                if (doc.data != null) {
+                    // fetch listing landlord name, and save to user's messages collection
+                    db.collection("Users")
+                        .document(userId)
+                        .collection("messages")
+                        .document()
+                        .set(
+                            MessageDataModel(
+                                chatroomId,
+                                args.chatData.listingAddress,
+                                args.chatData.listingImageUrl,
+                                args.chatData.landlordId,
+                                msg,
+                                timeStamp
+                            )
+                        )
+                }
+            }
+            .addOnFailureListener { exception->
+                Log.d(TAG, "couldn't save chatroom to user: $userId- $exception")
+            }
     }
 
     override fun onCreateView(

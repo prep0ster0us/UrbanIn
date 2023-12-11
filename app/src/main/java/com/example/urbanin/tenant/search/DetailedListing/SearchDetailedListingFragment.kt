@@ -10,10 +10,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.urbanin.R
+import com.example.urbanin.data.ChatMessageData
 import com.example.urbanin.data.FacilityAdapter
 import com.example.urbanin.data.FacilityItem
 import com.example.urbanin.data.MediaAdapter
 import com.example.urbanin.data.MediaItem
+import com.example.urbanin.data.MessageDataModel
 import com.example.urbanin.data.SearchListingUtil
 import com.example.urbanin.databinding.TenantSearchDetailedListingBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -146,7 +148,14 @@ class SearchDetailedListingFragment : Fragment() {
 
         // direct to messages tab if user chooses to message listing owner
         binding.detailedListingMessageBtn.setOnClickListener {
-            findNavController().navigate(SearchDetailedListingFragmentDirections.navigateDetailedListingToChat(args.listing.userID))
+            findNavController().navigate(SearchDetailedListingFragmentDirections.navigateDetailedListingToChat(
+                ChatMessageData(
+                    "",
+                    args.listing.userID,
+                    args.listing.address,
+                    args.listing.img[0]
+                )
+            ))
         }
     }
 

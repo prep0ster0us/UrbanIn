@@ -65,8 +65,8 @@
         android:label="ChatFragment"
         tools:layout="@layout/fragment_chat">
         <argument
-            android:name="receiverUserId"
-            app:argType="string" />
+            android:name="chatData"
+            app:argType="com.example.urbanin.data.ChatMessageData" />
         <action
             android:id="@+id/navigate_chat_back_to_detailed_listing"
             app:destination="@id/searchDetailedListingFragment" />
