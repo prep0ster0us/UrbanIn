@@ -168,8 +168,8 @@ class ChatFragment : Fragment() {
         ChatFirebaseUtil.getChatroomReference(chatroomId).set(chatroomModel)
 
         // save/update chatroom in user's message collection
-        saveChatroomToUser(senderId, receiverId, message, chatroomModel.lastMsgTimestamp)
-        saveChatroomToUser(receiverId, senderId, message, chatroomModel.lastMsgTimestamp)
+        saveChatroomToUser(senderId, receiverId, message, Timestamp.now())
+        saveChatroomToUser(receiverId, senderId, message, Timestamp.now())
 
     }
 

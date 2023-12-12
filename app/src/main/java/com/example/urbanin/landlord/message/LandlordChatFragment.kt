@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -50,10 +51,11 @@ class LandlordChatFragment : Fragment() {
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
-        fetchReceiverUserInfo()
 
         senderId = auth.currentUser!!.uid
-        receiverId = args.landlordChatData.receiverId
+        receiverId = getReceiverIdFromChatroomId()
+        fetchReceiverUserInfo()
+
         chatroomId = args.landlordChatData.chatroomId
         ChatFirebaseUtil.getChatroomReference(chatroomId)
             .get()
@@ -79,13 +81,13 @@ class LandlordChatFragment : Fragment() {
                 sendMessageToUser(message)
             }
         }
-        SearchListingUtil.setTenantNavBarVisibility(requireActivity(), false)
+        SearchListingUtil.setLandlordNavBarVisibility(requireActivity(), false)
     }
 
 
     private fun fetchReceiverUserInfo() {
         db.collection("Users")
-            .document(args.landlordChatData.receiverId)
+            .document(receiverId)
             .get()
             .addOnSuccessListener { doc ->
                 Log.d(TAG, "getReceiverUserInfo: SUCCESS")
@@ -100,6 +102,15 @@ class LandlordChatFragment : Fragment() {
             .addOnFailureListener { exception ->
                 Log.w(TAG, "getReceiverUserInfo: FAILED- $exception")
             }
+    }
+
+    private fun getReceiverIdFromChatroomId(): String {
+        val ids = args.landlordChatData.chatroomId.split("_")
+        return if (ids[0] == args.landlordChatData.receiverId) {
+            ids[1]
+        } else {
+            ids[0]
+        }
     }
 
     private fun setupChatRecyclerView() {
@@ -149,8 +160,8 @@ class LandlordChatFragment : Fragment() {
         ChatFirebaseUtil.getChatroomReference(chatroomId).set(chatroomModel)
 
         // save/update chatroom in user's message collection
-        saveChatroomToUser(senderId, receiverId, message, chatroomModel.lastMsgTimestamp)
-        saveChatroomToUser(receiverId, senderId, message, chatroomModel.lastMsgTimestamp)
+        saveChatroomToUser(senderId, receiverId, message, Timestamp.now())
+        saveChatroomToUser(receiverId, senderId, message, Timestamp.now())
 
     }
 

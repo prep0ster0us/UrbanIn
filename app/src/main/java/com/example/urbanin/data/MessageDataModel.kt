@@ -1,6 +1,7 @@
 package com.example.urbanin.data
 
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.ServerTimestamp
 
 data class MessageDataModel(
     var chatroomId: String="",
@@ -9,5 +10,5 @@ data class MessageDataModel(
     val senderId: String="",
     val receiverId: String="",
     var recentMsg: String="",
-    val recentTimestamp: Timestamp=Timestamp.now()
+    @ServerTimestamp val recentTimestamp: Timestamp=Timestamp.now()
 )

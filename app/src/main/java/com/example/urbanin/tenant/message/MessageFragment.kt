@@ -56,6 +56,7 @@ class MessageFragment : Fragment(), MessageListAdapter.Callbacks {
         val query = db.collection("Users")
             .document(auth.currentUser!!.uid)
             .collection("messages")
+//            .whereNotEqualTo("receiverId", auth.currentUser!!.uid)
             .orderBy("recentTimestamp", Query.Direction.DESCENDING)
 
         val options = FirestoreRecyclerOptions.Builder<MessageDataModel>()

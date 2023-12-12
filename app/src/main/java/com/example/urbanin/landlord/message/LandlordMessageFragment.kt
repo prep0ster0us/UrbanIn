@@ -49,7 +49,7 @@ class LandlordMessageFragment : Fragment(), LandlordMessageListAdapter.Callbacks
         val query = db.collection("Users")
             .document(auth.currentUser!!.uid)
             .collection("messages")
-            .whereEqualTo("userId", auth.currentUser!!.uid)
+//            .whereEqualTo("receiverId", auth.currentUser!!.uid)
             .orderBy("recentTimestamp", Query.Direction.DESCENDING)
 
         val options = FirestoreRecyclerOptions.Builder<MessageDataModel>()
