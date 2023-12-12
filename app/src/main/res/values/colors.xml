@@ -24,5 +24,6 @@
 
     <color name="primary_background">#FF1DB954</color>
     <color name="message_card_bg">#381DB954</color>
+    <color name="soft_bg">#201DB954</color>
 
 </resources>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primary_background">#FF1DB954</color>
+    <color name="message_card_bg">#381DB954</color>
+    <color name="soft_bg">#201DB954</color>
 
     <!--    light/dark mode colors-->
     <color name="default_text">#FFFFFFFF</color>
