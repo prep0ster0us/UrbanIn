@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
@@ -14,11 +15,11 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.squareup.picasso.Picasso
 
-class MessageListAdapter(
+class LandlordMessageListAdapter(
     private val options: FirestoreRecyclerOptions<MessageDataModel>,
     private val context: Context,
     private val handler: Callbacks
-) : FirestoreRecyclerAdapter<MessageDataModel, MessageListAdapter.ChatMessageViewHolder>(options) {
+) : FirestoreRecyclerAdapter<MessageDataModel, LandlordMessageListAdapter.ChatMessageViewHolder>(options) {
 
     private lateinit var contextViewGroup: ViewGroup
     override fun onCreateViewHolder(
@@ -48,9 +49,9 @@ class MessageListAdapter(
                 Log.d(TAG, "Chatroom: ${model.chatroomId}")
 
                 handler.handleMessageData(
-                    ChatMessageData(
+                    LandlordChatMessageData(
                         model.chatroomId,
-                        model.senderId,
+                        model.receiverId,
                         model.address,
                         model.image
                     )
@@ -67,7 +68,7 @@ class MessageListAdapter(
     }
 
     interface Callbacks {
-        fun handleMessageData(data: ChatMessageData) {
+        fun handleMessageData(data: LandlordChatMessageData) {
 
         }
     }

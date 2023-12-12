@@ -1,23 +1,33 @@
 package com.example.urbanin.tenant.search.DetailedListing
 
+import android.app.AlertDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
 import com.example.urbanin.R
 import com.example.urbanin.data.ChatMessageData
 import com.example.urbanin.data.FacilityAdapter
 import com.example.urbanin.data.FacilityItem
+import com.example.urbanin.data.LoginPreferenceManager
 import com.example.urbanin.data.MediaAdapter
 import com.example.urbanin.data.MediaItem
 import com.example.urbanin.data.MessageDataModel
 import com.example.urbanin.data.SearchListingUtil
 import com.example.urbanin.databinding.TenantSearchDetailedListingBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -27,10 +37,12 @@ class SearchDetailedListingFragment : Fragment() {
     private lateinit var binding: TenantSearchDetailedListingBinding
 
     private lateinit var db: FirebaseFirestore
-
-    private lateinit var amenitiesList: Map<String, Boolean>
+    private lateinit var auth: FirebaseAuth
+    private lateinit var prefManager: LoginPreferenceManager
 
     private val args: SearchDetailedListingFragmentArgs by navArgs<SearchDetailedListingFragmentArgs>()
+
+    private lateinit var amenitiesList: Map<String, Boolean>
 
     // for media gallery
     private lateinit var mediaAdapter: MediaAdapter
@@ -41,6 +53,8 @@ class SearchDetailedListingFragment : Fragment() {
         binding = TenantSearchDetailedListingBinding.inflate(layoutInflater)
 
         db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
+        prefManager = LoginPreferenceManager(requireContext())
 
         binding.detailedListingTitle.text = args.listing.title
         binding.detailedListingSubTitle.text = args.listing.address
@@ -50,10 +64,49 @@ class SearchDetailedListingFragment : Fragment() {
         showAmenitiesGrid()
         showUtilitiesGrid()
 
-        binding.btnBackToSearch.setOnClickListener{
-            val action = SearchDetailedListingFragmentDirections.actionSearchDetailedListingFragmentToSearchListViewFragment()
+        binding.btnBackToSearch.setOnClickListener {
+            val action =
+                SearchDetailedListingFragmentDirections.actionSearchDetailedListingFragmentToSearchListViewFragment()
             findNavController().navigate(action)
         }
+
+        // make button invisible if the listing was posted by user
+        if((auth.currentUser != null) and (auth.currentUser!!.uid == args.listing.userID)) {
+            binding.detailedListingMessageBtn.visibility = View.GONE
+        }
+        // direct to messages tab if user chooses to message listing owner
+        binding.detailedListingMessageBtn.setOnClickListener {
+            if (auth.currentUser == null) {
+                showLoginPrompt()
+            } else {
+                findNavController().navigate(
+                    SearchDetailedListingFragmentDirections.navigateDetailedListingToChat(
+                        ChatMessageData(
+                            "",
+                            args.listing.userID,
+                            args.listing.address,
+                            args.listing.img[0]
+                        )
+                    )
+                )
+            }
+        }
+    }
+
+    private fun showLoginPrompt() {
+        val builder = AlertDialog.Builder(requireContext()).create()
+        val view = layoutInflater.inflate(R.layout.login_prompt_dialog_layout, null)
+        val btnLogin = view.findViewById<Button>(R.id.promptLogin)
+        btnLogin.setOnClickListener {
+            prefManager.setRedirectContext("tenant_detailed_listing")
+            Toast.makeText(requireContext(), "go to login", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(SearchDetailedListingFragmentDirections.navigateDetailedListingToLogin())
+            builder.dismiss()
+        }
+        builder.setView(view)
+        builder.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        builder.setCancelable(true)
+        builder.show()
     }
 
     private fun setupMediaGallery() {
@@ -144,18 +197,6 @@ class SearchDetailedListingFragment : Fragment() {
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = FacilityAdapter(requireContext(), amenitiesGrid)
-        }
-
-        // direct to messages tab if user chooses to message listing owner
-        binding.detailedListingMessageBtn.setOnClickListener {
-            findNavController().navigate(SearchDetailedListingFragmentDirections.navigateDetailedListingToChat(
-                ChatMessageData(
-                    "",
-                    args.listing.userID,
-                    args.listing.address,
-                    args.listing.img[0]
-                )
-            ))
         }
     }
 

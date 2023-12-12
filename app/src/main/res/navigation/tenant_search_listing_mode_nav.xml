@@ -58,6 +58,9 @@
         <action
             android:id="@+id/navigate_detailed_listing_to_chat"
             app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/navigate_detailed_listing_to_login"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
@@ -71,4 +74,9 @@
             android:id="@+id/navigate_chat_back_to_detailed_listing"
             app:destination="@id/searchDetailedListingFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.urbanin.auth.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
 </navigation>

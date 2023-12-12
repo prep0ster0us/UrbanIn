@@ -1,4 +1,4 @@
-package com.example.urbanin.tenant.message
+package com.example.urbanin.landlord.message
 
 import android.net.Uri
 import android.os.Bundle
@@ -6,8 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,7 +18,7 @@ import com.example.urbanin.data.ChatMessageModel
 import com.example.urbanin.data.ChatroomModel
 import com.example.urbanin.data.MessageDataModel
 import com.example.urbanin.data.SearchListingUtil
-import com.example.urbanin.databinding.FragmentChatBinding
+import com.example.urbanin.databinding.FragmentLandlordChatBinding
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
@@ -28,11 +26,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.squareup.picasso.Picasso
 
-class ChatFragment : Fragment() {
-    private lateinit var binding: FragmentChatBinding
+class LandlordChatFragment : Fragment() {
+    private lateinit var binding: FragmentLandlordChatBinding
 
     // receive userId
-    private val args: ChatFragmentArgs by navArgs<ChatFragmentArgs>()
+    private val args: LandlordChatFragmentArgs by navArgs<LandlordChatFragmentArgs>()
 
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
@@ -47,7 +45,7 @@ class ChatFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = FragmentChatBinding.inflate(layoutInflater)
+        binding = FragmentLandlordChatBinding.inflate(layoutInflater)
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
@@ -55,42 +53,25 @@ class ChatFragment : Fragment() {
         fetchReceiverUserInfo()
 
         senderId = auth.currentUser!!.uid
-        receiverId = args.chatData.landlordId
-
-        // in tenant mode's messages view, senderId != receiverId
-        // since landlord shouldn't open messages from tenants, in tenant mode
-        // should only be viewable in landlord mode
-        if(senderId != receiverId) {
-            chatroomId = ChatFirebaseUtil.getChatroomId(senderId, receiverId)
-
-            ChatFirebaseUtil.getChatroomReference(chatroomId)
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        with(task.result) {
-                            if (data == null) {
-                                chatroomModel = ChatroomModel(
-                                    chatroomId,
-                                    arrayListOf(senderId, receiverId),
-                                    "",
-                                    Timestamp.now()
-                                )
-                                // add new chatroom to database
-                                ChatFirebaseUtil.getChatroomReference(chatroomId).set(chatroomModel)
-                            } else {
-                                chatroomModel = ChatroomModel(
-                                    data!!["chatroomID"] as String,
-                                    data!!["userIds"] as ArrayList<String>,
-                                    data!!["lastMsgSenderId"] as String,
-                                    data!!["lastMsgTimestamp"] as Timestamp
-                                )
-                            }
-                        }
-
+        receiverId = args.landlordChatData.receiverId
+        chatroomId = args.landlordChatData.chatroomId
+        ChatFirebaseUtil.getChatroomReference(chatroomId)
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    with(task.result) {
+                        chatroomModel = ChatroomModel(
+                            data!!["chatroomID"] as String,
+                            data!!["userIds"] as ArrayList<String>,
+                            data!!["lastMsgSenderId"] as String,
+                            data!!["lastMsgTimestamp"] as Timestamp
+                        )
                     }
+
                 }
-            setupChatRecyclerView()
-        }
+            }
+        setupChatRecyclerView()
+
 
         binding.btnChatSend.setOnClickListener {
             val message = binding.chatMessageInput.text.toString().trim()
@@ -104,7 +85,7 @@ class ChatFragment : Fragment() {
 
     private fun fetchReceiverUserInfo() {
         db.collection("Users")
-            .document(args.chatData.landlordId)
+            .document(args.landlordChatData.receiverId)
             .get()
             .addOnSuccessListener { doc ->
                 Log.d(TAG, "getReceiverUserInfo: SUCCESS")
@@ -193,8 +174,8 @@ class ChatFragment : Fragment() {
                         .set(
                             MessageDataModel(
                                 chatroomId,
-                                args.chatData.listingAddress,
-                                args.chatData.listingImageUrl,
+                                args.landlordChatData.listingAddress,
+                                args.landlordChatData.listingImageUrl,
                                 receiveId,
                                 sendId,
                                 msg,

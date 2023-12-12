@@ -94,6 +94,14 @@ class SearchListViewFragment : Fragment(), ListingAdapter.Callbacks {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        with(SearchListingUtil) {
+            setTenantNavBarVisibility(requireActivity(), true)
+            setSearchBarVisibility(requireActivity(), true)
+        }
+    }
+
     override fun handleListingData(data: ListingData, flag: String) {
         val action = SearchListViewFragmentDirections.navigateToDetailedListingFragmentFromList(data)
         findNavController().navigate(action)

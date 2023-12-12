@@ -151,9 +151,12 @@ class SignUpFragment : Fragment() {
             "Last Name" to fieldMap["lname"]!!.second.text.toString(),
             "Email" to fieldMap["email"]!!.second.text.toString(),
             "Phone" to fieldMap["phone"]!!.second.text.toString(),
-            "Listings" to arrayListOf<ListingData>()
+            "Listings" to arrayListOf<ListingData>(),
+            "profileImage" to ""
         )
-        db.collection("Users").document(user!!.uid).set(userDetails)
+        db.collection("Users")
+            .document(user!!.uid)
+            .set(userDetails)
             .addOnSuccessListener {
                 showSuccessDialog()
                 clearInputFields(fieldMap)

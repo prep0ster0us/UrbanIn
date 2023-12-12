@@ -1,11 +1,14 @@
 package com.example.urbanin.data
 
+import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -45,6 +48,12 @@ object ChatFirebaseUtil {
 
         val dateFormat = SimpleDateFormat("HH:mm a", Locale.getDefault())
         return dateFormat.format(Date(timestamp.seconds * 1000))
+    }
+
+    fun getReceiverChatrooms(receiverId: String): Query {
+        return FirebaseFirestore.getInstance()
+            .collection("Chatrooms")
+            .whereArrayContains("userIds", receiverId)
     }
 
 }

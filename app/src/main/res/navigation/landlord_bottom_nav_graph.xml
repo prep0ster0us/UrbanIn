@@ -63,7 +63,12 @@
     <fragment
         android:id="@+id/landlordMessageFragment"
         android:name="com.example.urbanin.landlord.message.LandlordMessageFragment"
-        android:label="LandlordMessageFragment" />
+        android:label="LandlordMessageFragment"
+        tools:layout="@layout/landlord_fragment_message" >
+        <action
+            android:id="@+id/navigate_message_to_chat"
+            app:destination="@id/landlordChatFragment" />
+    </fragment>
     <fragment
         android:id="@+id/landlordAccountFragment"
         android:name="com.example.urbanin.landlord.account.LandlordAccountFragment"
@@ -176,6 +181,21 @@
             app:launchSingleTop="true"
             app:popUpTo="@id/accountSettingsFragment"
             app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/landlordChatFragment"
+        android:name="com.example.urbanin.landlord.message.LandlordChatFragment"
+        android:label="LandlordChatFragment"
+        tools:layout="@layout/fragment_landlord_chat" >
+        <argument
+            android:name="landlordChatData"
+            app:argType="com.example.urbanin.data.LandlordChatMessageData" />
+        <action
+            android:id="@+id/navigate_chat_back_to_message"
+            app:destination="@id/landlordMessageFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/landlordChatFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
 </navigation>

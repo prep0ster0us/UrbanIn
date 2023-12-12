@@ -24,6 +24,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
 import com.example.urbanin.data.LoginPreferenceManager
+import com.example.urbanin.data.userListingCollection
 import com.example.urbanin.databinding.FragmentAccountBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -112,11 +113,13 @@ class AccountFragment : Fragment() {
         }
         binding.btnLogout.setOnClickListener {
             if (prefManager.isLoggedIn()) {
+                auth.signOut()
                 // save logged out state in SharedPreferences
                 prefManager.setLoggedIn(false)
                 Snackbar.make(binding.root, "Logged out successfully!", Snackbar.LENGTH_SHORT)
                     .show()
-                binding.btnLogout.text = "SIGN IN"
+                // clear landlord listings
+                userListingCollection = arrayListOf()
             }
             navigateToLogin()
         }

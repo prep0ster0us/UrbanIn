@@ -97,6 +97,9 @@ class LoginFragment : Fragment() {
                 SearchListingUtil.setTenantNavBarVisibility(requireActivity(), true)
                 LoginFragmentDirections.navigateLoginSuccessToSearch()
             }
+            "tenant_detailed_listing" -> {
+                findNavController().popBackStack()
+            }
         }
     }
 
@@ -250,8 +253,7 @@ class LoginFragment : Fragment() {
                     prefManager.setLoggedIn(true)
                 }
                 // navigate successfully to next page
-                // TODO: decide next page based on context of fragment trigger
-                findNavController().navigate(LoginFragmentDirections.navigateLoginSuccessToSearch())
+                navigateToNext()
             } else {
                 // If sign in fails, display a message to the user.
                 Log.w(TAG, "signInWithEmail:failure ", task.exception)
@@ -294,7 +296,7 @@ class LoginFragment : Fragment() {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener(requireActivity()) { task ->
             if (task.isSuccessful) {
-                findNavController().navigate(LoginFragmentDirections.navigateLoginSuccessToSearch())
+                navigateToNext()
             } else {
                 Log.w(TAG, "signInWithCredential:failure", task.exception)
                 Toast.makeText(context, "Authentication Failed.", Toast.LENGTH_SHORT).show()

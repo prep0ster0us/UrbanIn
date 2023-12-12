@@ -1,23 +1,15 @@
 package com.example.urbanin.data
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.squareup.picasso.Picasso
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.util.Locale
 
 class ChatListAdapter(
     private val options: FirestoreRecyclerOptions<ChatMessageModel>,

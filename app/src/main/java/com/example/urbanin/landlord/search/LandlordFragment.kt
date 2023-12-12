@@ -171,7 +171,6 @@ class LandlordFragment : Fragment(), ListingAdapter.Callbacks {
     }
 
     private fun getListingsFromDatabase() {
-//        TODO("Not yet implemented")
         db.collection("Users")
             .document(auth.currentUser!!.uid)
             .get()
