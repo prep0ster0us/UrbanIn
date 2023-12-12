@@ -19,19 +19,26 @@ class ActivitySelection : AppCompatActivity() {
         prefManager = LoginPreferenceManager(this)
         setContentView(binding.root)
 
+        // navigate to last known user mode
+        when(prefManager.getUserMode()) {
+            "roommate" -> binding.roommatesLayout.callOnClick()
+            "tenant" -> binding.rentPlaceLayout.callOnClick()
+            "landlord" -> binding.rentOutLayout.callOnClick()
+        }
+
         with(binding) {
             roommatesLayout.setOnClickListener {
-                navigateToRoommatesActivity()
                 prefManager.setUserMode("roommate")
+                navigateToRoommatesActivity()
             }
             rentPlaceLayout.setOnClickListener {
                 prefManager.setUserMode("tenant")
                 navigateToTenantActivity()
             }
             rentOutLayout.setOnClickListener {
+                prefManager.setUserMode("landlord")
                 prefManager.setRedirectContext("Mode selection")
                 navigateToLogin()
-                prefManager.setUserMode("landlord")
             }
         }
     }

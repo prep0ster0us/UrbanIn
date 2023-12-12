@@ -19,6 +19,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.example.urbanin.BuildConfig
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.data.LoginPreferenceManager
 import com.example.urbanin.data.SearchListingUtil
@@ -32,7 +33,6 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.messaging.FirebaseMessaging
 import java.util.concurrent.Executor
 
 
@@ -85,15 +85,24 @@ class LoginFragment : Fragment() {
 
     private fun configureGoogleSignIn() {
         val gso =
-            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(BuildConfig.MAPS_API_KEY)
+                .requestEmail()
+                .build()
         googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
     }
 
     private fun navigateToNext() {
         when (prefManager.getRedirectContext()) {
-            "Mode selection" -> LoginFragmentDirections.navigateLoginSuccessToSearch()
-//            "Favorite" -> ""
-//            "Message" ->
+            "Mode selection" -> findNavController().navigate(LoginFragmentDirections.navigateLoginSuccessToSearch())
+            "Saved" -> {
+                SearchListingUtil.setTenantNavBarVisibility(requireActivity(), true)
+                findNavController().navigate(LoginFragmentDirections.navigateLoginToSaved())
+            }
+            "Message" -> {
+                SearchListingUtil.setTenantNavBarVisibility(requireActivity(), true)
+                findNavController().navigate(LoginFragmentDirections.navigateLoginToMessage())
+            }
             "tenant_account" -> {
                 SearchListingUtil.setTenantNavBarVisibility(requireActivity(), true)
                 findNavController().navigate(LoginFragmentDirections.navigateLoginSuccessToSearch())
@@ -267,10 +276,6 @@ class LoginFragment : Fragment() {
                 Toast.makeText(
                     requireContext(), "Wrong Credentials! Try again..", Toast.LENGTH_SHORT
                 ).show()
-                // TODO: show dialog that user not registered yet, and ask if want to register
-
-                // TODO: based on response, dismiss dialog (if no) or redirect to sign up (if yes)
-//                    findNavController().navigate(LoginFragmentDirections.navigateLandlordLoginToSignUp())
             }
         }
     }
@@ -299,7 +304,8 @@ class LoginFragment : Fragment() {
 
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential).addOnCompleteListener(requireActivity()) { task ->
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(requireActivity()) { task ->
             if (task.isSuccessful) {
                 navigateToNext()
             } else {

@@ -82,7 +82,6 @@
         android:name="com.example.urbanin.auth.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
-
         <action
             android:id="@+id/navigate_login_success_to_search"
             app:destination="@id/searchFragment"
@@ -95,6 +94,12 @@
         <action
             android:id="@+id/navigate_login_to_forgot_pwd"
             app:destination="@id/forgotPwdFragment" />
+        <action
+            android:id="@+id/navigate_login_to_message"
+            app:destination="@id/messageFragment" />
+        <action
+            android:id="@+id/navigate_login_to_saved"
+            app:destination="@id/savedFragment" />
     </fragment>
     <fragment
         android:id="@+id/accountSettingsFragment"

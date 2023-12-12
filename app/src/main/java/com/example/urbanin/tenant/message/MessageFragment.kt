@@ -49,6 +49,7 @@ class MessageFragment : Fragment(), MessageListAdapter.Callbacks {
         } else {
             toggleLoggedInView(false)
             binding.messageLoginBtn.setOnClickListener {
+                prefManager.setRedirectContext("Message")
                 findNavController().navigate(MessageFragmentDirections.navigateMessageToLogin())
             }
         }

@@ -34,7 +34,6 @@ class SavedFragment : Fragment(), ListingAdapter.Callbacks {
 
         prefManager = LoginPreferenceManager(requireContext())
 
-        // TODO: needs to be based on whether user is logged in
         if(prefManager.isLoggedIn()) {
             binding.loggedInView.visibility = View.VISIBLE
             binding.loggedOutView.visibility = View.GONE
@@ -63,6 +62,7 @@ class SavedFragment : Fragment(), ListingAdapter.Callbacks {
 
             // redirect to login page
             binding.saveListingLoginBtn.setOnClickListener {
+                prefManager.setRedirectContext("Saved")
                 findNavController().navigate(SavedFragmentDirections.navigateSavedToLogin())
             }
         }
@@ -96,7 +96,6 @@ class SavedFragment : Fragment(), ListingAdapter.Callbacks {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_saved, container, false)
         return binding.root
     }
 
