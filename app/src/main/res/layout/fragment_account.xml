@@ -60,6 +60,7 @@
         android:gravity="center_vertical"
         android:padding="16dp"
         android:text="Profile"
+        android:background="@drawable/account_option_textlines"
         android:textSize="22sp"
         app:drawableEndCompat="@drawable/ic_arrow_right"
         app:drawableStartCompat="@drawable/ic_profile_photo"
@@ -80,6 +81,7 @@
         android:visibility="gone"
         android:text="Notifications"
         android:textSize="22sp"
+        android:background="@drawable/account_option_textlines"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Settings" />
@@ -96,6 +98,7 @@
         android:padding="16dp"
         android:text="Change Password"
         android:textSize="22sp"
+        android:background="@drawable/account_option_textlines"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Profile" />
@@ -112,6 +115,7 @@
         android:padding="16dp"
         android:text="Settings"
         android:textSize="22sp"
+        android:background="@drawable/account_option_textlines"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ChangePassword" />
@@ -132,6 +136,7 @@
         android:textColor="@color/primary_background"
         android:textSize="22sp"
         android:textStyle="bold"
+        android:background="@drawable/account_option_textlines"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profileUserName" />

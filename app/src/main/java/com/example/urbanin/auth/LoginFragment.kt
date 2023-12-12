@@ -260,7 +260,6 @@ class LoginFragment : Fragment() {
                         binding.loginViewUsnField.text.toString(),
                         binding.loginViewPwdField.text.toString()
                     )
-                    // TODO: show dialog to ask to enroll in biometric --> *done in LandlordSearchFragment
                 }
                 // set logged in state to Shared Preferences
                 if(binding.loginRememberLoginCheck.isChecked) {

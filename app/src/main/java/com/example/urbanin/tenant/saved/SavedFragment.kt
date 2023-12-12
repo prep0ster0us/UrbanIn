@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.urbanin.data.LoginPreferenceManager
 import com.example.urbanin.data.ListingAdapter
 import com.example.urbanin.data.ListingData
+import com.example.urbanin.data.LoginPreferenceManager
 import com.example.urbanin.data.SortParameters
 import com.example.urbanin.data.savedCollection
 import com.example.urbanin.data.sortOptions
@@ -34,31 +34,40 @@ class SavedFragment : Fragment(), ListingAdapter.Callbacks {
 
         prefManager = LoginPreferenceManager(requireContext())
 
-        if(prefManager.isLoggedIn()) {
-            binding.loggedInView.visibility = View.VISIBLE
+        if (prefManager.isLoggedIn()) {
             binding.loggedOutView.visibility = View.GONE
-            setupRecyclerView()
 
-            // sort listings
-            binding.saveListingSort.setOnClickListener {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle("Sort By")
-                    .setSingleChoiceItems(sortOptions, sortParams.selectedOption) { _, which ->
-                        sortParams.selectedOption = which
-                    }
-                    .setPositiveButton("Show Results") { _, _ ->
-                        sortParams.sortBy = sortOptions[sortParams.selectedOption]
-                        sortListings()
-                        setupRecyclerView()
-                    }
-                    .setNeutralButton("Cancel") { _, _ ->
-                        sortParams.selectedOption = sortOptions.indexOf(sortParams.sortBy)
-                    }
-                    .show()
+            if(savedCollection.size == 0) {
+                binding.loggedInView.visibility = View.GONE
+                binding.emptyLayout.visibility = View.VISIBLE
+            } else {
+                binding.loggedInView.visibility = View.VISIBLE
+                binding.emptyLayout.visibility = View.GONE
+
+                setupRecyclerView()
+
+                // sort listings
+                binding.saveListingSort.setOnClickListener {
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setTitle("Sort By")
+                        .setSingleChoiceItems(sortOptions, sortParams.selectedOption) { _, which ->
+                            sortParams.selectedOption = which
+                        }
+                        .setPositiveButton("Show Results") { _, _ ->
+                            sortParams.sortBy = sortOptions[sortParams.selectedOption]
+                            sortListings()
+                            setupRecyclerView()
+                        }
+                        .setNeutralButton("Cancel") { _, _ ->
+                            sortParams.selectedOption = sortOptions.indexOf(sortParams.sortBy)
+                        }
+                        .show()
+                }
             }
         } else {
             binding.loggedOutView.visibility = View.VISIBLE
             binding.loggedInView.visibility = View.GONE
+            binding.emptyLayout.visibility = View.GONE
 
             // redirect to login page
             binding.saveListingLoginBtn.setOnClickListener {
@@ -74,14 +83,14 @@ class SavedFragment : Fragment(), ListingAdapter.Callbacks {
         listingRecyclerView = binding.saveListingRecyclerView
         listingRecyclerView.setHasFixedSize(true)
         listingRecyclerView.layoutManager = LinearLayoutManager(context)
-        listingRecyclerView.adapter = ListingAdapter(savedCollection, context,"tenant", this)
+        listingRecyclerView.adapter = ListingAdapter(savedCollection, context, "tenant", this)
     }
 
     private fun sortListings() {
         val roomComparator = mutableListOf("Studio", "1", "2", "3", "4", "5")
         val bathComparator = mutableListOf("1", "1.5", "2", "3", "4")
 
-        savedCollection = when(sortParams.sortBy) {
+        savedCollection = when (sortParams.sortBy) {
             "Latest" -> savedCollection.sortedWith(compareBy { it.datePosted }) as MutableList<ListingData>
             "Rent: Low to High" -> savedCollection.sortedWith(compareBy { it.price.toLong() }) as MutableList<ListingData>
             "Rent: High to Low" -> savedCollection.sortedWith(compareByDescending { it.price.toLong() }) as MutableList<ListingData>

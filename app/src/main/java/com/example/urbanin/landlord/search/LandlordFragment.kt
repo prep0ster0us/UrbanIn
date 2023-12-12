@@ -78,7 +78,7 @@ class LandlordFragment : Fragment(), ListingAdapter.Callbacks {
     private fun showOptForBiometricDialog() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Enable biometric login")
-            .setMessage("Would you like to enable biometric login for easier access?")
+            .setMessage("Would you like to enable biometric login for easier access?\n You can also enable it from the settings later on.")
             .setPositiveButton(
                 "I'M IN!"
             ) { _, _ ->

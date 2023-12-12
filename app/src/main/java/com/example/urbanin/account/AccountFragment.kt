@@ -19,6 +19,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.urbanin.ActivitySelection
@@ -70,8 +71,8 @@ class AccountFragment : Fragment() {
         // check if logged in
         if (prefManager.isLoggedIn()) {
             with(binding) {
+                toggleViewVisibility(true)
                 // set text based on logged in state
-                EditIcon.visibility = View.VISIBLE
                 profileUserName.text = auth.currentUser!!.displayName
                 // check if logged in user has a corresponding profile image
                 checkHasProfileImage(auth.currentUser!!)
@@ -100,7 +101,7 @@ class AccountFragment : Fragment() {
             }
         } else {
             with(binding) {
-                EditIcon.visibility = View.GONE
+                toggleViewVisibility(false)
                 profileUserName.text = "Guest User"
                 with(btnLogout) {
                     text = "SIGN IN"
@@ -146,6 +147,14 @@ class AccountFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun toggleViewVisibility(flag: Boolean) {
+        with(binding) {
+            EditIcon.isVisible = flag
+            Profile.isVisible = flag
+            ChangePassword.isVisible = flag
+        }
     }
 
     private fun navigateToLogin() {

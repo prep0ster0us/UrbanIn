@@ -52,7 +52,7 @@ class ActivitySelection : AppCompatActivity() {
         this.overridePendingTransition(
             R.anim.slide_in_left,
             R.anim.slide_out_left
-        );
+        )
     }
 
     private fun navigateToRoommatesActivity() {
@@ -64,7 +64,7 @@ class ActivitySelection : AppCompatActivity() {
         this.overridePendingTransition(
             R.anim.slide_in_left,
             R.anim.slide_out_left
-        );
+        )
     }
 
 
@@ -77,7 +77,7 @@ class ActivitySelection : AppCompatActivity() {
         this.overridePendingTransition(
             R.anim.slide_in_left,
             R.anim.slide_out_left
-        );
+        )
     }
 
     override fun onBackPressed() {
@@ -85,6 +85,6 @@ class ActivitySelection : AppCompatActivity() {
         this.overridePendingTransition(
             R.anim.slide_in_right,
             R.anim.slide_out_right
-        );
+        )
     }
 }

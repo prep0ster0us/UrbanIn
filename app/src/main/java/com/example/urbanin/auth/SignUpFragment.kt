@@ -2,12 +2,17 @@ package com.example.urbanin.auth
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -25,7 +30,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.urbanin.R
+import com.example.urbanin.account.AccountProfileFragmentDirections
 import com.example.urbanin.data.ListingData
 import com.example.urbanin.landlord.search.AddListing.LandlordAddListingFragmentDirections
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -41,7 +48,11 @@ class SignUpFragment : Fragment() {
     private lateinit var googleSignInClient: GoogleSignInClient
     private var signUpFlag = true
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentSignUpBinding.inflate(inflater, container, false)
 
         // Initialize FirebaseAuth
@@ -93,7 +104,10 @@ class SignUpFragment : Fragment() {
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
-    private fun setUpPasswordValidation(passwordLayout: TextInputLayout, passwordEditText: TextInputEditText) {
+    private fun setUpPasswordValidation(
+        passwordLayout: TextInputLayout,
+        passwordEditText: TextInputEditText
+    ) {
         passwordEditText.doOnTextChanged { text, _, _, _ ->
             if (text.isNullOrEmpty()) {
                 passwordLayout.error = "Password required"
@@ -134,9 +148,7 @@ class SignUpFragment : Fragment() {
         val user = auth.currentUser
         // Set display name using UserProfileChangeRequest
         val addDisplayName = UserProfileChangeRequest.Builder()
-            .setDisplayName("${ fieldMap["fname"]!!.second.text} ${fieldMap["lname"]!!.second.text}")
-            // You can also set other properties like photo URL if needed
-            // .setPhotoUri(Uri.parse("photo_url_here"))
+            .setDisplayName("${fieldMap["fname"]!!.second.text} ${fieldMap["lname"]!!.second.text}")
             .build()
         user?.updateProfile(addDisplayName)
             ?.addOnCompleteListener { updateTask ->
@@ -167,19 +179,25 @@ class SignUpFragment : Fragment() {
     }
 
     private fun showSuccessDialog() {
-//        AlertDialog.Builder(requireContext()).apply {
-//            setTitle("Success")
-//            setMessage("Signed Up successfully.")
-//            setPositiveButton("OK", null)
-//            setIcon(R.drawable.success)
-//            show()
-//        }
-        Snackbar.make(
-            binding.root,
-            "Sign up successful!",
-            Snackbar.LENGTH_SHORT
-        ).show()
-        findNavController().navigate(SignUpFragmentDirections.navigateSignUpToLogin())
+        val builder = android.app.AlertDialog.Builder(requireContext()).create()
+        val view = layoutInflater.inflate(R.layout.success_dialog_layout, null)
+        val dialogIcon = view.findViewById<ImageView>(R.id.successIcon)
+        Glide.with(requireContext()).load(R.drawable.success_dialog_icon).into(dialogIcon)
+        val dialogMsg = view.findViewById<TextView>(R.id.successMessage)
+        dialogMsg.text = "Password updated"
+        builder.setView(view)
+        builder.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        builder.show()
+        // show dialog for 3s
+        val timer = object : CountDownTimer(3000, 1000) {
+            override fun onTick(millisSeconds: Long) {}
+            override fun onFinish() {
+                builder.dismiss()
+                findNavController().navigate(SignUpFragmentDirections.navigateSignUpToLogin())
+
+            }
+        }
+        timer.start()
 
     }
 
@@ -188,20 +206,22 @@ class SignUpFragment : Fragment() {
     }
 
     private fun showUserCollisionDialog() {
-        AlertDialog.Builder(requireContext()).apply {
+        MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle("Sign In Failed")
             setMessage("User already exists")
             setPositiveButton("OK", null)
             setIcon(R.drawable.ic_error_outline)
+            setCancelable(true)
             show()
         }
     }
 
     private fun showSignUpError(errorMessage: String?) {
-        AlertDialog.Builder(requireContext()).apply {
+        MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle("Sign Up Error")
             setMessage(errorMessage ?: "An unknown error occurred")
             setPositiveButton("OK", null)
+            setCancelable(true)
             show()
         }
     }
@@ -215,7 +235,10 @@ class SignUpFragment : Fragment() {
         }
     }
 
-    private fun checkIfMatch(setPwd: Pair<TextInputLayout, TextInputEditText>?, confirmPwd: Pair<TextInputLayout, TextInputEditText>?) {
+    private fun checkIfMatch(
+        setPwd: Pair<TextInputLayout, TextInputEditText>?,
+        confirmPwd: Pair<TextInputLayout, TextInputEditText>?
+    ) {
         if (setPwd?.second?.text.toString() != confirmPwd?.second?.text.toString()) {
             confirmPwd?.first?.error = "Passwords do not match"
             signUpFlag = false

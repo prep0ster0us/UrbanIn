@@ -26,6 +26,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:itemTextColor="@drawable/bottom_navigation_items"
+        app:itemIconTint="@drawable/bottom_navigation_items"
         app:menu="@menu/tenant_bottom_nav" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

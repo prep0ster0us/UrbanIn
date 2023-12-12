@@ -43,11 +43,16 @@ class MessageFragment : Fragment(), MessageListAdapter.Callbacks {
         prefManager = LoginPreferenceManager(requireContext())
 
         if (prefManager.isLoggedIn()) {
-            toggleLoggedInView(true)
+            binding.loggedInView.visibility = View.VISIBLE
+            binding.loggedOutView.visibility = View.GONE
+            binding.emptyLayout.visibility = View.GONE
 
             setupMessageRecyclerView()
         } else {
-            toggleLoggedInView(false)
+            binding.loggedInView.visibility = View.GONE
+            binding.loggedOutView.visibility = View.VISIBLE
+            binding.emptyLayout.visibility = View.GONE
+
             binding.messageLoginBtn.setOnClickListener {
                 prefManager.setRedirectContext("Message")
                 findNavController().navigate(MessageFragmentDirections.navigateMessageToLogin())
@@ -71,9 +76,14 @@ class MessageFragment : Fragment(), MessageListAdapter.Callbacks {
         binding.msgRecyclerView.adapter = adapter
         adapter.startListening()
 
+        binding.messageReadStatus.visibility = View.GONE
+        binding.emptyLayout.visibility = View.VISIBLE
+
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 super.onItemRangeInserted(positionStart, itemCount)
+                binding.emptyLayout.visibility = View.GONE
+                binding.messageReadStatus.visibility = View.VISIBLE
                 binding.messageReadStatus.text = if(adapter.itemCount == 1) {
                      "1 message"
                 } else {
@@ -81,11 +91,6 @@ class MessageFragment : Fragment(), MessageListAdapter.Callbacks {
                 }
             }
         })
-    }
-
-    private fun toggleLoggedInView(flag: Boolean) {
-        binding.loggedInView.isVisible = flag
-        binding.loggedOutView.isVisible = !flag
     }
 
     override fun onCreateView(

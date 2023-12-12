@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.urbanin.MainActivity
 import com.example.urbanin.R
 import com.example.urbanin.data.ListingAdapter
 import com.example.urbanin.data.ListingData
@@ -57,10 +58,10 @@ class SearchListViewFragment : Fragment(), ListingAdapter.Callbacks {
                 }
                 .show()
         }
-        with(SearchListingUtil) {
-            setTenantNavBarVisibility(requireActivity(), true)
-            setSearchBarVisibility(requireActivity(), true)
-        }
+//        with(SearchListingUtil) {
+//            setTenantNavBarVisibility(requireActivity(), true)
+//            setSearchBarVisibility(requireActivity(), true)
+//        }
     }
 
     private fun setupRecyclerView() {

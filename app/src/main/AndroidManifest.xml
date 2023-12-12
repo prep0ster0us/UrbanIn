@@ -50,8 +50,7 @@
             android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name=".ActivitySelection"
-            android:launchMode="singleTop" />
+            android:name=".ActivitySelection" />
         <activity android:name=".RoommatesActivity" />
         <!-- For Camera Integration (opening camera for photo/video -->
         <provider
