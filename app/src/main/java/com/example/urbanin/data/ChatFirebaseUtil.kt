@@ -1,5 +1,8 @@
 package com.example.urbanin.data
 
+import android.util.Log
+import android.widget.Toast
+import com.example.urbanin.MainActivity.Companion.TAG
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.Timestamp
@@ -54,6 +57,11 @@ object ChatFirebaseUtil {
         return FirebaseFirestore.getInstance()
             .collection("Chatrooms")
             .whereArrayContains("userIds", receiverId)
+    }
+
+    fun checkIfSentLast(userId: String): Boolean {
+        Log.w(TAG, "$userId is not ${FirebaseAuth.getInstance().currentUser!!.uid}")
+        return userId == FirebaseAuth.getInstance().currentUser!!.uid
     }
 
 }

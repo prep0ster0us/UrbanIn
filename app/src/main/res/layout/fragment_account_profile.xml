@@ -25,7 +25,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:fontFamily="@font/gotham_medium"
+        android:fontFamily="@font/gotham_regular"
         android:gravity="center_vertical"
         android:padding="12dp"
         android:text="Profile"

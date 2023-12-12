@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.urbanin.data.ChatMessageData
 import com.example.urbanin.data.LoginPreferenceManager
 import com.example.urbanin.data.MessageDataModel
@@ -56,7 +58,6 @@ class MessageFragment : Fragment(), MessageListAdapter.Callbacks {
         val query = db.collection("Users")
             .document(auth.currentUser!!.uid)
             .collection("messages")
-//            .whereNotEqualTo("receiverId", auth.currentUser!!.uid)
             .orderBy("recentTimestamp", Query.Direction.DESCENDING)
 
         val options = FirestoreRecyclerOptions.Builder<MessageDataModel>()
@@ -68,6 +69,17 @@ class MessageFragment : Fragment(), MessageListAdapter.Callbacks {
         binding.msgRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.msgRecyclerView.adapter = adapter
         adapter.startListening()
+
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                super.onItemRangeInserted(positionStart, itemCount)
+                binding.messageReadStatus.text = if(adapter.itemCount == 1) {
+                     "1 message"
+                } else {
+                    "${adapter.itemCount} messages"
+                }
+            }
+        })
     }
 
     private fun toggleLoggedInView(flag: Boolean) {

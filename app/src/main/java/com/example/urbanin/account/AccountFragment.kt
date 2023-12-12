@@ -1,6 +1,7 @@
 package com.example.urbanin.account
 
 import android.app.Dialog
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -14,13 +15,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.urbanin.ActivitySelection
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
 import com.example.urbanin.data.LoginPreferenceManager
@@ -125,6 +126,12 @@ class AccountFragment : Fragment() {
         }
 
         with(binding) {
+            switchMode.setOnClickListener {
+                val intent = Intent(requireContext(), ActivitySelection::class.java)
+                // clear backstack
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
+            }
             Settings.setOnClickListener {
                 val action = AccountFragmentDirections.navigateAccountToSettings()
                 findNavController().navigate(action)
@@ -142,7 +149,8 @@ class AccountFragment : Fragment() {
     }
 
     private fun navigateToLogin() {
-        prefManager.setRedirectContext("tenant_account")
+        val redirectContext = if(prefManager.getUserMode() == "tenant") "tenant_account" else "landlord_account"
+        prefManager.setRedirectContext(redirectContext)
         findNavController().navigate(AccountFragmentDirections.navigateAccountToLogin())
     }
 

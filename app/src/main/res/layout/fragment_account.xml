@@ -60,9 +60,9 @@
         android:gravity="center_vertical"
         android:padding="16dp"
         android:text="Profile"
-        android:textSize="18sp"
+        android:textSize="22sp"
         app:drawableEndCompat="@drawable/ic_arrow_right"
-        app:drawableStartCompat="@drawable/ic_account"
+        app:drawableStartCompat="@drawable/ic_profile_photo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/switchMode" />
@@ -78,7 +78,7 @@
         android:gravity="center_vertical"
         android:padding="16dp"
         android:text="Notifications"
-        android:textSize="18sp"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Settings" />
@@ -94,7 +94,7 @@
         android:gravity="center_vertical"
         android:padding="16dp"
         android:text="Change Password"
-        android:textSize="18sp"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Profile" />
@@ -110,7 +110,7 @@
         android:gravity="center_vertical"
         android:padding="16dp"
         android:text="Settings"
-        android:textSize="18sp"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ChangePassword" />
@@ -129,7 +129,7 @@
         android:padding="16dp"
         android:text="Switch User Modes"
         android:textColor="@color/primary_background"
-        android:textSize="18sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -139,7 +139,7 @@
         android:id="@+id/btnLogout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/primary_background"
         android:fontFamily="@font/gotham_regular"
@@ -149,7 +149,6 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Notifications" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

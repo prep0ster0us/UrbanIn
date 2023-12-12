@@ -14,54 +14,56 @@
         android:contentDescription="back button to account page"
         android:padding="12dp"
         android:src="@drawable/ic_arrow_back"
-        app:layout_constraintBottom_toBottomOf="@id/settingsHeader"
-        app:layout_constraintEnd_toStartOf="@id/settingsHeader"
+        app:layout_constraintBottom_toBottomOf="@id/notifHeader"
+        app:layout_constraintEnd_toStartOf="@id/notifHeader"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/settingsHeader"
+        app:layout_constraintTop_toTopOf="@id/notifHeader"
         app:tint="@color/default_icon" />
 
     <TextView
-        android:id="@+id/settingsHeader"
+        android:id="@+id/notifHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:fontFamily="@font/gotham_regular"
         android:gravity="center_vertical"
         android:padding="12dp"
-        android:text="Settings"
+        android:text="Notifications"
         android:textColor="@color/default_text"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/setting1"
+        app:layout_constraintBottom_toTopOf="@id/notif1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnBackToAccount"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/setting1"
+        android:id="@+id/notif1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:fontFamily="@font/gotham_book"
         android:padding="18dp"
-        android:text="Enable biometric login"
+        android:text="Message Alerts"
         android:textColor="@color/default_text"
         android:textSize="22sp"
+        android:checked="true"
         android:theme="@style/switchButton"
         app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/settingsHeader" />
+        app:layout_constraintTop_toBottomOf="@id/notifHeader" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/setting2"
+        android:id="@+id/notif2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gotham_book"
         android:padding="18dp"
-        android:text="Use Dark Theme"
+        android:text="New Listing Alert"
         android:textColor="@color/default_text"
         android:textSize="22sp"
+        android:checked="true"
         android:theme="@style/switchButton"
         app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/setting1" />
+        app:layout_constraintTop_toBottomOf="@id/notif1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

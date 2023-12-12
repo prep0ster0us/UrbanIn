@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/receiverMsgText"
-            android:layout_alignEnd="@id/receiverMsgText"
+            android:layout_alignStart="@id/receiverMsgText"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/gotham_thin"
             android:hint="12:00"

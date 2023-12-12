@@ -9,7 +9,7 @@
         android:icon="@drawable/baseline_message_24"
         android:title="Message" />
     <item
-        android:id="@+id/landlordAccountFragment"
+        android:id="@+id/accountFragment"
         android:icon="@drawable/baseline_account_24"
         android:title="Account" />
 </menu>

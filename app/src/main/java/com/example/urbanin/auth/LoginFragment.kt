@@ -32,6 +32,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import java.util.concurrent.Executor
 
 
@@ -95,7 +96,11 @@ class LoginFragment : Fragment() {
 //            "Message" ->
             "tenant_account" -> {
                 SearchListingUtil.setTenantNavBarVisibility(requireActivity(), true)
-                LoginFragmentDirections.navigateLoginSuccessToSearch()
+                findNavController().navigate(LoginFragmentDirections.navigateLoginSuccessToSearch())
+            }
+            "landlord_account" -> {
+                SearchListingUtil.setLandlordNavBarVisibility(requireActivity(), true)
+                findNavController().navigate(LoginFragmentDirections.navigateLoginSuccessToSearch())
             }
             "tenant_detailed_listing" -> {
                 findNavController().popBackStack()

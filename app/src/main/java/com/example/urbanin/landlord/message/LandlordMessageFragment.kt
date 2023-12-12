@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.urbanin.R
 import com.example.urbanin.data.ChatMessageData
 import com.example.urbanin.data.LandlordChatMessageData
@@ -61,6 +62,16 @@ class LandlordMessageFragment : Fragment(), LandlordMessageListAdapter.Callbacks
         binding.landlordMsgRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.landlordMsgRecyclerView.adapter = adapter
         adapter.startListening()
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                super.onItemRangeInserted(positionStart, itemCount)
+                binding.messageReadStatus.text = if(adapter.itemCount == 1) {
+                    "1 message"
+                } else {
+                    "${adapter.itemCount} messages"
+                }
+            }
+        })
     }
 
 
