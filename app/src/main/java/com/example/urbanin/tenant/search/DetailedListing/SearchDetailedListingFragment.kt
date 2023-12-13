@@ -32,6 +32,7 @@ import com.example.urbanin.databinding.TenantSearchDetailedListingBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -105,6 +106,10 @@ class SearchDetailedListingFragment : Fragment(), OnMapReadyCallback {
                 )
             }
         }
+        // init map
+        val mapFragment =
+            childFragmentManager.findFragmentById(binding.detailedListingLocationMap.id) as SupportMapFragment
+        mapFragment.getMapAsync(this)
     }
 
     private fun showLoginPrompt() {

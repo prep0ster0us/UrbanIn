@@ -86,6 +86,8 @@ class SearchFragment : Fragment() {
         )
         // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onError(p0: Status) {}
+
             override fun onPlaceSelected(place: Place) {
                 // TODO: Get info about the selected place.
                 Log.i(TAG, "Place: ${place.name}, ${place.id}")
@@ -95,28 +97,9 @@ class SearchFragment : Fragment() {
                 // if location is valid, add marker and zoom to it
                 if (selectedPlaceLatLng != null) {
                     if (selectedPlaceName != null) {
-//                        googleMap.clear()
-                        Log.d(
-                            TAG,
-                            "Place Selected: ${selectedPlaceName}\n Place Location: $selectedPlaceLatLng"
-                        )
-                        // add marker for the place selected
-//                        googleMap.addMarker(
-//                            MarkerOptions().position(selectedPlaceLatLng).title(selectedPlaceName)
-//                        )
-//                        zoomToLocation(googleMap, selectedPlaceLatLng, selectedPlaceName)
+                        Log.d(TAG, "Place Selected: ${selectedPlaceName}\n Place Location: $selectedPlaceLatLng")
                     }
                 }
-            }
-
-            override fun onError(status: Status) {
-                // TODO: Handle the error.
-                Log.i(TAG, "An error occurred: $status")
-                Toast.makeText(
-                    requireContext(),
-                    "some error occurred for search: ",
-                    Toast.LENGTH_SHORT
-                ).show()
             }
         })
 

@@ -36,8 +36,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="detailed listing back"
-                android:paddingTop="24dp"
                 android:paddingHorizontal="16dp"
+                android:paddingTop="24dp"
                 android:paddingBottom="16dp"
                 android:src="@drawable/ic_arrow_back"
                 app:layout_constraintStart_toStartOf="parent"
@@ -103,11 +103,12 @@
                 android:fontFamily="@font/gotham_book"
                 android:hint="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                 android:justificationMode="inter_word"
+                android:lineSpacingExtra="4dp"
                 android:paddingHorizontal="18dp"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toTopOf="@id/detailedListingRoomTitle"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detailedListingDescriptionHeader" />
 
             <TextView
@@ -176,12 +177,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
+                app:layout_constraintBottom_toTopOf="@id/detailedListingUtilitiesTitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detailedListingAmenitiesTitle"
-                app:layout_constraintBottom_toTopOf="@id/detailedListingUtilitiesTitle"
-                tools:listitem="@layout/facility_card_layout"
-                tools:ignore="NestedScrolling" />
+                tools:ignore="NestedScrolling"
+                tools:listitem="@layout/facility_card_layout" />
 
             <TextView
                 android:id="@+id/detailedListingUtilitiesTitle"
@@ -200,10 +201,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
+                app:layout_constraintBottom_toTopOf="@id/detailedListingLocationTitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detailedListingUtilitiesTitle"
-                app:layout_constraintBottom_toTopOf="@id/detailedListingLocationTitle"
                 tools:listitem="@layout/facility_card_layout" />
 
             <TextView
@@ -309,8 +310,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/gotham_medium"
             android:hint="Rent amount"
-            android:paddingVertical="18dp"
             android:paddingHorizontal="24dp"
+            android:paddingVertical="18dp"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
