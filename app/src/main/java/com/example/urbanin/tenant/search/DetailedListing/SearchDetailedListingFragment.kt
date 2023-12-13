@@ -1,6 +1,7 @@
 package com.example.urbanin.tenant.search.DetailedListing
 
 import android.app.AlertDialog
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -12,6 +13,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.graphics.scale
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -27,12 +29,18 @@ import com.example.urbanin.data.MediaItem
 import com.example.urbanin.data.MessageDataModel
 import com.example.urbanin.data.SearchListingUtil
 import com.example.urbanin.databinding.TenantSearchDetailedListingBinding
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.DecimalFormat
 import java.text.NumberFormat
 
-class SearchDetailedListingFragment : Fragment() {
+class SearchDetailedListingFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var binding: TenantSearchDetailedListingBinding
 
@@ -64,11 +72,17 @@ class SearchDetailedListingFragment : Fragment() {
         showAmenitiesGrid()
         showUtilitiesGrid()
 
-        binding.btnBackToSearch.setOnClickListener {
-            val action =
-                SearchDetailedListingFragmentDirections.actionSearchDetailedListingFragmentToSearchListViewFragment()
+        binding.detailedListingBackBtn.setOnClickListener {
+            val action = SearchDetailedListingFragmentDirections.actionSearchDetailedListingFragmentToSearchListViewFragment()
             findNavController().navigate(action)
         }
+
+        binding.detailedListingRoom.text = args.listing.numRooms
+        binding.detailedListingBath.text = args.listing.numBaths
+        binding.detailedListingType.text = args.listing.type
+        binding.detailedListingFurnished.text = args.listing.furnished
+        binding.detailedListingRent.text = formatAsCurrency(args.listing.price.toFloat())
+        binding.detailedListingLocationAddress.text = args.listing.address
 
         // make button invisible if the listing was posted by user
         if((auth.currentUser != null) and (auth.currentUser!!.uid == args.listing.userID)) {
@@ -205,20 +219,49 @@ class SearchDetailedListingFragment : Fragment() {
         return "$ " + formatter.format(value).toString()
     }
 
+    override fun onMapReady(googleMap: GoogleMap) {
+        val listingLocation = LatLng(
+            args.listing.latitude.toDouble(),
+            args.listing.longitude.toDouble()
+        )
+        googleMap.let {
+            // add marker at listing location
+            addMarker(
+                googleMap,
+                listingLocation,
+                args.listing.address
+            )
+            // move map to listing location
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(listingLocation, 16F))
+
+            // allow child scrolling
+            googleMap.setOnCameraMoveStartedListener {
+                binding.detailedListingLocationMap.parent.requestDisallowInterceptTouchEvent(true)
+            }
+            googleMap.setOnCameraIdleListener {
+                binding.detailedListingLocationMap.parent.requestDisallowInterceptTouchEvent(false)
+            }
+        }
+    }
+    private fun addMarker(googleMap: GoogleMap, location: LatLng?, markerTitle: String) {
+        val customMarkerIcon = BitmapFactory.decodeResource(resources, R.drawable.map_marker_icon)
+        val customMarker =
+            BitmapDescriptorFactory.fromBitmap(customMarkerIcon.scale(120, 120, false))
+        googleMap.addMarker(
+            MarkerOptions().position(location!!).title(markerTitle).icon(customMarker)
+        )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        return binding.root
         return binding.apply {
             val listingParcel = args.listing
             binding.detailedListingTitle.text = listingParcel.title
             binding.detailedListingDescription.text = listingParcel.description
             amenitiesList = listingParcel.amenities
-            // TODO: populate data for listing to respective view
-//            binding.detailedImageGallery.resources = listingParcel.img
-//            binding.detailedListingAmenities = listingParel.amenities
         }.root
     }
 

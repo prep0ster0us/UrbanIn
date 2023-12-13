@@ -26,6 +26,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class LandlordFragment : Fragment(), ListingAdapter.Callbacks {
 
@@ -104,6 +106,7 @@ class LandlordFragment : Fragment(), ListingAdapter.Callbacks {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        sortListings()
         // Load your listings data into the 'listings' list
         loadData()
 
@@ -126,8 +129,8 @@ class LandlordFragment : Fragment(), ListingAdapter.Callbacks {
                     sortParams.selectedOption = sortOptions.indexOf(sortParams.sortBy)
                 }
                 .show()
-            sortListings()
-            setupRecyclerView()
+//            sortListings()
+//            setupRecyclerView()
         }
 
         binding.landlordSearchFilter.setOnClickListener {
@@ -156,8 +159,10 @@ class LandlordFragment : Fragment(), ListingAdapter.Callbacks {
         val roomComparator = mutableListOf("Studio", "1", "2", "3", "4", "5")
         val bathComparator = mutableListOf("1", "1.5", "2", "3", "4")
 
+        val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
        when(sortParams.sortBy) {
-            "Latest" -> userListingCollection.sortBy { it.datePosted }
+            "Latest" -> userListingCollection.sortBy { LocalDate.parse(it.datePosted, dateTimeFormatter) }
             "Rent: Low to High" -> userListingCollection.sortBy { it.price.toLong() }
             "Rent: High to Low" -> userListingCollection.sortByDescending { it.price.toLong() }
             "Number of Rooms" -> userListingCollection.sortBy { roomComparator.indexOf(it.numRooms) }
@@ -194,14 +199,11 @@ class LandlordFragment : Fragment(), ListingAdapter.Callbacks {
                             .document(listingId)
                             .get()
                             .addOnSuccessListener { doc ->
-                                Log.d(TAG, "Listing fetch: SUCCESS - id= " + doc.id)
-                                Log.d(TAG, "doc data: $doc")
                                 if (doc != null) {
                                     // check if this listing already exists in the recycler list (for listings)
                                     userListingCollection.add(
                                         ListingData(
                                             listingId,
-//                                            auth.currentUser!!.uid,
                                             doc.data!!["userID"] as String,
                                             doc.data!!["type"] as String,
                                             doc.data!!["title"] as String,

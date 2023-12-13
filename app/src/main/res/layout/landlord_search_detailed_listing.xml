@@ -109,11 +109,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detailedListingDescriptionHeader" />
 
-            <!--        <TextView-->
-            <!--            android:id="@+id/detailedListing"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-
             <TextView
                 android:id="@+id/detailedListingRoomTitle"
                 android:layout_width="wrap_content"

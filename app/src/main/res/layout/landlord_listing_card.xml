@@ -65,7 +65,7 @@
             android:scaleType="centerCrop"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Delete Listing"
-            android:src="@drawable/ic_delete_listing" />
+            android:src="@drawable/ic_delete" />
 
     </RelativeLayout>
 

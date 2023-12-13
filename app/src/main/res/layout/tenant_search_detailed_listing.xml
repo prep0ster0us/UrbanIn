@@ -17,7 +17,11 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/searchDetailedBottomLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/detailedImageGallery"
@@ -27,30 +31,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btnBackToSearch"
-                style="@style/Widget.Material3.Button.OutlinedButton"
+            <ImageView
+                android:id="@+id/detailedListingBackBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="12dp"
-                android:backgroundTint="#10000000"
-                android:contentDescription="back button"
-                android:padding="0dp"
+                android:contentDescription="detailed listing back"
+                android:paddingTop="24dp"
+                android:paddingHorizontal="16dp"
+                android:paddingBottom="16dp"
                 android:src="@drawable/ic_arrow_back"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:rippleColor="@color/primary_background" />
+                app:layout_constraintTop_toTopOf="@id/detailedImageGallery" />
 
             <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
                 android:id="@+id/imageGalleryDots"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="12dp"
                 android:foregroundGravity="center"
                 app:dotsColor="@color/default_icon"
                 app:dotsCornerRadius="8dp"
-                app:dotsSize="14dp"
+                app:dotsSize="10dp"
                 app:dotsSpacing="4dp"
                 app:dotsWidthFactor="2.5"
                 app:layout_constraintBottom_toBottomOf="@id/detailedImageGallery"
@@ -63,12 +64,11 @@
                 android:id="@+id/detailedListingTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
                 android:fontFamily="@font/gotham_regular"
                 android:hint="Listing title"
                 android:paddingHorizontal="12dp"
                 android:paddingTop="16dp"
-                android:textSize="28sp"
+                android:textSize="32sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detailedImageGallery" />
 
@@ -78,10 +78,10 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gotham_medium"
                 android:hint="Listing Sub Title"
-                android:paddingHorizontal="12dp"
-                android:paddingTop="6dp"
+                android:paddingHorizontal="14dp"
+                android:paddingTop="4dp"
                 android:paddingBottom="12dp"
-                android:textSize="12sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detailedListingTitle" />
 
@@ -101,36 +101,87 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/gotham_book"
-                android:hint="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Porttitor leo a diam sollicitudin tempor id eu nisl nunc. Tellus integer feugiat scelerisque varius morbi."
+                android:hint="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                 android:justificationMode="inter_word"
                 android:paddingHorizontal="18dp"
-                android:paddingBottom="8dp"
-                android:textAlignment="textStart"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toTopOf="@id/detailedListingAmenities"
+                app:layout_constraintBottom_toTopOf="@id/detailedListingRoomTitle"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detailedListingDescriptionHeader" />
 
             <TextView
-                android:id="@+id/detailedListingAmenitiesTitle"
+                android:id="@+id/detailedListingRoomTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/gotham_regular"
-                android:hint="Amenities"
+                android:hint="Number of Bedrooms"
                 android:paddingHorizontal="12dp"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detailedListingDescription" />
 
+            <TextView
+                android:id="@+id/detailedListingRoom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_medium"
+                android:hint="bedroom count"
+                android:paddingHorizontal="12dp"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/detailedListingRoomTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/detailedListingRoomTitle"
+                app:layout_constraintTop_toTopOf="@id/detailedListingRoomTitle" />
+
+            <TextView
+                android:id="@+id/detailedListingBathTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/gotham_regular"
+                android:hint="Number of Bathrooms"
+                android:paddingHorizontal="12dp"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailedListingRoom" />
+
+            <TextView
+                android:id="@+id/detailedListingBath"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_medium"
+                android:hint="bedroom count"
+                android:paddingHorizontal="12dp"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/detailedListingBathTitle"
+                app:layout_constraintStart_toStartOf="@id/detailedListingRoom"
+                app:layout_constraintTop_toTopOf="@id/detailedListingBathTitle" />
+
+            <TextView
+                android:id="@+id/detailedListingAmenitiesTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/gotham_regular"
+                android:hint="Amenities"
+                android:paddingHorizontal="12dp"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailedListingBathTitle" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/detailedListingAmenities"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:padding="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detailedListingAmenitiesTitle"
-                tools:listitem="@layout/facility_card_layout" />
+                app:layout_constraintBottom_toTopOf="@id/detailedListingUtilitiesTitle"
+                tools:listitem="@layout/facility_card_layout"
+                tools:ignore="NestedScrolling" />
 
             <TextView
                 android:id="@+id/detailedListingUtilitiesTitle"
@@ -148,11 +199,96 @@
                 android:id="@+id/detailedListingUtilities"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:padding="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detailedListingUtilitiesTitle"
+                app:layout_constraintBottom_toTopOf="@id/detailedListingLocationTitle"
                 tools:listitem="@layout/facility_card_layout" />
+
+            <TextView
+                android:id="@+id/detailedListingLocationTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/gotham_regular"
+                android:hint="Location"
+                android:paddingHorizontal="12dp"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailedListingUtilities" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/detailedListingLocationMap"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="350dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailedListingLocationTitle" />
+
+            <TextView
+                android:id="@+id/detailedListingLocationAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/gotham_book"
+                android:hint="Location Address"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/detailedListingLocationMap"
+                app:layout_constraintTop_toBottomOf="@id/detailedListingLocationMap" />
+
+            <TextView
+                android:id="@+id/detailedListingTypeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/gotham_regular"
+                android:hint="Property Type"
+                android:paddingHorizontal="12dp"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailedListingLocationAddress" />
+
+            <TextView
+                android:id="@+id/detailedListingType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_medium"
+                android:hint="Listing Type"
+                android:paddingHorizontal="12dp"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/detailedListingTypeTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/detailedListingTypeTitle"
+                app:layout_constraintTop_toTopOf="@id/detailedListingTypeTitle" />
+
+            <TextView
+                android:id="@+id/detailedListingFurnishedTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="30dp"
+                android:fontFamily="@font/gotham_regular"
+                android:hint="Furnished"
+                android:paddingHorizontal="12dp"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailedListingTypeTitle" />
+
+            <TextView
+                android:id="@+id/detailedListingFurnished"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_medium"
+                android:hint="Listing Furnished"
+                android:paddingHorizontal="12dp"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/detailedListingFurnishedTitle"
+                app:layout_constraintStart_toStartOf="@id/detailedListingType"
+                app:layout_constraintTop_toTopOf="@id/detailedListingFurnishedTitle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

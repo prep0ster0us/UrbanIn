@@ -64,10 +64,9 @@ class LandlordDetailedListingFragment : Fragment(), OnMapReadyCallback {
         binding.detailedListingFurnished.text = args.landlordListing.furnished
 
         setupMediaGallery()
-
         showAmenitiesGrid()
         showUtilitiesGrid()
-        Toast.makeText(requireContext(), args.landlordListing.price, Toast.LENGTH_SHORT).show()
+
         binding.detailedListingRent.text = formatAsCurrency(args.landlordListing.price.toFloat())
         binding.detailedListingLocationAddress.text = args.landlordListing.address
 
@@ -181,15 +180,11 @@ class LandlordDetailedListingFragment : Fragment(), OnMapReadyCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        return binding.root
         return binding.apply {
             val listingParcel = args.landlordListing
             detailedListingTitle.text = listingParcel.title
             detailedListingDescription.text = listingParcel.description
             amenitiesList = listingParcel.amenities
-            // TODO: populate data for listing to respective view
-//            binding.detailedImageGallery.resources = listingParcel.img
-//            binding.detailedListingAmenities = listingParel.amenities
         }.root
     }
 
@@ -209,8 +204,6 @@ class LandlordDetailedListingFragment : Fragment(), OnMapReadyCallback {
             args.landlordListing.longitude.toDouble()
         )
         googleMap.let {
-//            googleMap.uiSettings.isZoomGesturesEnabled = true
-//            googleMap.uiSettings.isScrollGesturesEnabled = true
             // add marker at listing location
             addMarker(
                 googleMap,
