@@ -20,5 +20,9 @@ object SearchListingUtil {
         val parentNavBar: View = activity.findViewById(R.id.bottomNavigationView)
         parentNavBar.isVisible = flag
     }
+    fun setRoommateNavBarVisibility(activity: FragmentActivity, flag: Boolean) {
+        val parentNavBar: View = activity.findViewById(R.id.roommate_bottom_bar)
+        parentNavBar.isVisible = flag
+    }
 
 }

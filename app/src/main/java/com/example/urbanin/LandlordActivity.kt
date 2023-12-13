@@ -11,7 +11,6 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.urbanin.auth.LoginFragmentDirections
 import com.example.urbanin.data.LoginPreferenceManager
 import com.example.urbanin.databinding.ActivityLandlordBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView

@@ -14,7 +14,7 @@ class SearchListViewFragment : Fragment() {
     private var _binding: FragmentSearchListViewBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var listingAdapter: RoommateListingAdapter
+//    private lateinit var listingAdapter: RoommateListingAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,9 +26,9 @@ class SearchListViewFragment : Fragment() {
         val listingCollection: List<ListingCard> = initializeListingCollection()
 
         // Initialize the adapter and assign it to the RecyclerView
-        listingAdapter = RoommateListingAdapter(listingCollection)
-        binding.searchListingListView.adapter = listingAdapter
-        binding.searchListingListView.layoutManager = LinearLayoutManager(context)
+//        listingAdapter = RoommateListingAdapter(listingCollection)
+//        binding.searchListingListView.adapter = listingAdapter
+//        binding.searchListingListView.layoutManager = LinearLayoutManager(context)
 
         return binding.root
     }

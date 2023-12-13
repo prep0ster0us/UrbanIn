@@ -5,25 +5,29 @@
     android:id="@+id/fragmentContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LandlordActivity">
+    tools:context=".RoommatesActivity">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
+        android:id="@+id/roommate_bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="?android:attr/windowBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/landlord_bottom_nav" />
+        app:menu="@menu/roommate_bottom_nav" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/landlordFragmentContainerView"
+        android:id="@+id/roommateFCV"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:layout_constraintBottom_toTopOf="@id/roommate_bottom_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:itemTextColor="@drawable/bottom_navigation_items"
+        app:itemIconTint="@drawable/bottom_navigation_items"
+        app:navGraph="@navigation/roommate_bottom_nav_graph" />
 </androidx.constraintlayout.widget.ConstraintLayout>

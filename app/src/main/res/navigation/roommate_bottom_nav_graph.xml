@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/roommate_bottom_nav_graph"
+    app:startDestination="@id/roommateSearchFragment">
+
+    <fragment
+        android:id="@+id/roommateSearchFragment"
+        android:name="com.example.urbanin.roommates.search.RoommateSearchFragment"
+        android:label="RoommateSearchFragment"
+        tools:layout="@layout/fragment_roommate_search" >
+        <action
+            android:id="@+id/navigate_search_to_detailed_listing"
+            app:destination="@id/roommateDetailedListingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/roommateDetailedListingFragment"
+        android:name="com.example.urbanin.roommates.search.RoommateDetailedListingFragment"
+        android:label="RoommateDetailedListingFragment"
+        tools:layout="@layout/roommate_search_detailed_listing" >
+        <action
+            android:id="@+id/navigate_detailed_listing_to_search"
+            app:destination="@id/roommateSearchFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/roommateDetailedListingFragment"
+            app:popUpToInclusive="false"/>
+        <argument
+            android:name="rmListing"
+            app:argType="com.example.urbanin.data.RoommateListingData" />
+        <action
+            android:id="@+id/navigate_detailed_roommate_to_chat"
+            app:destination="@id/roommateChatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/roommateChatFragment"
+        android:name="com.example.urbanin.roommates.message.RoommateChatFragment"
+        android:label="RoommateChatFragment"
+        tools:layout="@layout/roommate_fragment_chat" >
+        <argument
+            android:name="rmChatData"
+            app:argType="com.example.urbanin.data.ChatMessageData" />
+        <action
+            android:id="@+id/navigate_roommate_chat_to_message"
+            app:destination="@id/roommateMessageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/roommateMessageFragment"
+        android:name="com.example.urbanin.roommates.message.RoommateMessageFragment"
+        android:label="RoommateMessageFragment"
+        tools:layout="@layout/roommate_fragment_message">
+        <action
+            android:id="@+id/navigate_roommate_message_to_chat"
+            app:destination="@id/roommateChatFragment" />
+    </fragment>
+</navigation>
