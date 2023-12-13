@@ -10,10 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="16dp">
+
         <ImageView
             android:id="@+id/rmImage"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="200dp"
             android:contentDescription="roommate listing image"
             android:src="@drawable/baseline_account_24"
             app:layout_constraintStart_toStartOf="parent"

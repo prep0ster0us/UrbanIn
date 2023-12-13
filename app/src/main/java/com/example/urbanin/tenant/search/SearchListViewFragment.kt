@@ -43,7 +43,7 @@ class SearchListViewFragment : Fragment(), ListingAdapter.Callbacks {
 
         // sort listings
         binding.searchListViewSort.setOnClickListener {
-            MaterialAlertDialogBuilder(requireContext())
+            MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogPalette)
                 .setTitle("Sort By")
                 .setSingleChoiceItems(sortOptions, sortParams.selectedOption) { _, which ->
                     sortParams.selectedOption = which

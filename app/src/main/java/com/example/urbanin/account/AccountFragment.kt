@@ -88,13 +88,12 @@ class AccountFragment : Fragment() {
                     if (prefManager.isLoggedIn()) {
                         // save logged out state in SharedPreferences
                         prefManager.setLoggedIn(false)
-                        prefManager.setBiometricEnabled(false)
+                        auth.signOut()
                         Snackbar.make(
                             root,
                             "Logged out successfully!",
                             Snackbar.LENGTH_SHORT
-                        )
-                            .show()
+                        ).show()
                     }
                     findNavController().navigate(AccountFragmentDirections.navigateAccountToLogin())
                 }

@@ -103,7 +103,7 @@
                 android:fontFamily="@font/gotham_book"
                 android:hint="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                 android:justificationMode="inter_word"
-                android:lineSpacingExtra="4dp"
+                android:lineSpacingExtra="8dp"
                 android:paddingHorizontal="18dp"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toTopOf="@id/detailedListingRoomTitle"

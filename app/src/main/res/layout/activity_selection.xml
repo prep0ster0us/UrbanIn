@@ -5,20 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--    <ImageButton-->
-    <!--        android:id="@+id/back_button"-->
-    <!--        android:layout_width="53dp"-->
-    <!--        android:layout_height="50dp"-->
-    <!--        android:layout_marginStart="10dp"-->
-    <!--        android:layout_marginTop="44dp"-->
-    <!--        android:src="@drawable/ic_arrow_back"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
-
     <TextView
         android:id="@+id/t1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/gotham_regular"
         android:paddingVertical="12dp"
         android:text="What are you looking for?"
@@ -33,27 +24,33 @@
         android:id="@+id/roommates_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/rent_place_layout"
+        android:layout_marginTop="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/t1">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/roommates_icon"
             android:layout_width="150dp"
             android:layout_height="120dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/roommates" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/roommates"
+            app:shapeAppearanceOverlay="@style/roundedEdgeMessageCard"
+            app:strokeColor="@color/default_text"
+            app:strokeWidth="0.2dp" />
 
         <TextView
             android:id="@+id/roommates_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/roommates_icon"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/gotham_medium"
             android:padding="8dp"
             android:text="Looking for roommates"
-            android:textSize="18sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 
@@ -66,22 +63,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/roommates_layout">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/rent_place_icon"
             android:layout_width="150dp"
             android:layout_height="120dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/img_1" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_1"
+            app:shapeAppearanceOverlay="@style/roundedEdgeMessageCard"
+            app:strokeColor="@color/default_text"
+            app:strokeWidth="0.2dp" />
 
         <TextView
             android:id="@+id/rent_place_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/rent_place_icon"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/gotham_medium"
             android:padding="8dp"
             android:text="Looking for a place to rent"
-            android:textSize="18sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 
@@ -94,22 +97,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rent_place_layout">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/rent_out_icon"
             android:layout_width="150dp"
             android:layout_height="120dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/img" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/img"
+            app:shapeAppearanceOverlay="@style/roundedEdgeMessageCard"
+            app:strokeColor="@color/default_text"
+            app:strokeWidth="0.2dp" />
 
         <TextView
             android:id="@+id/rent_out_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/rent_out_icon"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/gotham_medium"
             android:padding="8dp"
             android:text="Looking to rent out"
-            android:textSize="18sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 

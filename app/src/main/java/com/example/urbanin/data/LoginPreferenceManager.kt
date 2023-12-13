@@ -2,6 +2,7 @@ package com.example.urbanin.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatDelegate
 
 class LoginPreferenceManager(context: Context) {
 
@@ -47,6 +48,20 @@ class LoginPreferenceManager(context: Context) {
         editor.commit()
     }
 
+    // dark mode opt-in
+    fun isDarkModeEnabled() = preferences.getBoolean(DARK_MODE_ENABLED, true)
+    fun setDarkModeEnabled(status: Boolean) {
+        editor.putBoolean(DARK_MODE_ENABLED, status).commit()
+        editor.commit()
+    }
+    fun loadAppTheme(darkModeEnabled: Boolean) {
+        if(darkModeEnabled) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+    }
+
     // keep track if user already logged in (even when app destroyed)
     fun isLoggedIn() = preferences.getBoolean(LOGGED_IN, false)
 
@@ -78,5 +93,6 @@ class LoginPreferenceManager(context: Context) {
         private const val LOGGED_IN = "isLoggedIn"
         private const val USER_MODE = "userMode"
         private const val REDIRECT_FROM = "redirectContext"
+        private const val DARK_MODE_ENABLED = "darkModeEnabled"
     }
 }

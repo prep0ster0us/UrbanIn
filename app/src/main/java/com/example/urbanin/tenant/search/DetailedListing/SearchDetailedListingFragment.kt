@@ -86,8 +86,10 @@ class SearchDetailedListingFragment : Fragment(), OnMapReadyCallback {
         binding.detailedListingLocationAddress.text = args.listing.address
 
         // make button invisible if the listing was posted by user
-        if((auth.currentUser != null) and (auth.currentUser!!.uid == args.listing.userID)) {
-            binding.detailedListingMessageBtn.visibility = View.GONE
+        if(auth.currentUser != null) {
+            if(auth.currentUser!!.uid == args.listing.userID) {
+                binding.detailedListingMessageBtn.visibility = View.GONE
+            }
         }
         // direct to messages tab if user chooses to message listing owner
         binding.detailedListingMessageBtn.setOnClickListener {

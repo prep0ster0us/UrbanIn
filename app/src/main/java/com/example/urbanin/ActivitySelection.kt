@@ -17,6 +17,8 @@ class ActivitySelection : AppCompatActivity() {
         binding = ActivitySelectionBinding.inflate(layoutInflater)
 
         prefManager = LoginPreferenceManager(this)
+        // load preferred app theme
+        prefManager.loadAppTheme(prefManager.isDarkModeEnabled())
         setContentView(binding.root)
 
         // navigate to last known user mode

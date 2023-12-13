@@ -18,4 +18,16 @@
     <style name="switchButton" parent="Theme.AppCompat">
         <item name="colorControlActivated">@color/primary_background</item>
     </style>
+    <!--  For Material Alert Dialog -->
+    <style name="AlertDialogPalette" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="colorAccent">@color/primary_background</item> <!-- Change to your desired button color -->
+        <item name="colorPrimary">@color/primary_background</item> <!-- Change to your desired button color -->
+    </style>
+    <!--  For Bottom Navigation Views-->
+    <style name="BottomNavigation">
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="itemBackground">@color/soft_bg</item>
+        <item name="itemIconTint">@color/primary_background</item>
+        <item name="labelVisibilityMode">labeled</item>
+    </style>
 </resources>

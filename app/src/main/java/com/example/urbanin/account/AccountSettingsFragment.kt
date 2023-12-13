@@ -47,15 +47,16 @@ class AccountSettingsFragment : Fragment() {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_account_settings, container, false)
         binding.setting2.setOnCheckedChangeListener { _, isChecked ->
-            // TODO: toggle between light and dark mode
             if (isChecked) {
                 // Enable dark mode
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 binding.setting2.isChecked = true
+                prefManager.setDarkModeEnabled(true)
             } else {
                 // Enable light mode
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 binding.setting2.isChecked = false
+                prefManager.setDarkModeEnabled(false)
             }
         }
         return binding.root
