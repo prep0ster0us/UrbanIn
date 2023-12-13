@@ -7,73 +7,71 @@
     android:layout_height="match_parent"
     tools:context=".landlord.search.LandlordFragment">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" >
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/landlordSearchSort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gotham_medium"
+            android:padding="12dp"
+            android:text="Sort"
+            android:textColor="@color/default_text"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/landlordListingRecyclerView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/landlordSearchFilterCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/filter_count_background"
+            android:fontFamily="@font/gotham_medium"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="0.2dp"
+            android:text="1"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/landlordSearchFilter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/landlordSearchFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gotham_medium"
+            android:paddingVertical="12dp"
+            android:paddingStart="@dimen/search_bar_padding_horizontal"
+            android:paddingEnd="4dp"
+            android:text="Filters"
+            android:textAlignment="center"
+            android:textColor="@color/default_text"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/landlordSearchFilterCount"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/landlordListingRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:background="@color/soft_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/landlordSearchSort"
+            tools:listitem="@layout/listing_card" />
 
-            <TextView
-                android:id="@+id/landlordSearchSort"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/gotham_medium"
-                android:padding="12dp"
-                android:text="Sort"
-                android:textColor="@color/default_text"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/landlordListingRecyclerView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/landlordSearchFilterCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/filter_count_background"
-                android:fontFamily="@font/gotham_medium"
-                android:paddingHorizontal="4dp"
-                android:paddingVertical="0.2dp"
-                android:text="1"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@id/landlordSearchFilter"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/landlordSearchFilter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/gotham_medium"
-                android:paddingVertical="12dp"
-                android:paddingStart="@dimen/search_bar_padding_horizontal"
-                android:paddingEnd="4dp"
-                android:text="Filters"
-                android:textAlignment="center"
-                android:textColor="@color/default_text"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/landlordSearchFilterCount"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/landlordListingRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/soft_bg"
-                android:padding="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/landlordSearchSort"
-                tools:listitem="@layout/listing_card" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/landlordListingFAB"
@@ -82,6 +80,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="25dp"
+        app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+        android:backgroundTint="@color/primary_background"
         android:contentDescription="Add new listing"
         android:src="@drawable/landlord_add_listing_24" />
 
@@ -90,7 +90,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#AA000000"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ProgressBar
             android:id="@+id/uploadProgressBar"
@@ -110,4 +110,52 @@
             android:textSize="24sp"
             android:textStyle="bold" />
     </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/emptyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:id="@+id/emptyImg"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:contentDescription="empty saved listing placeholder"
+            android:scaleType="fitXY"
+            android:src="@drawable/empty_saved_listing"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/emptyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gotham_regular"
+            android:padding="12dp"
+            android:text="No saved listings"
+            android:textColor="@color/default_text"
+            android:textSize="32sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/emptyImg" />
+
+        <TextView
+            android:id="@+id/emptyMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gotham_medium"
+            android:padding="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Favorite a listing to save it!"
+            android:textColor="@color/default_text"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/emptyTitle" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

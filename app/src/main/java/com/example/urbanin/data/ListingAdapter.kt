@@ -52,8 +52,6 @@ class ListingAdapter(
             "tenant" -> {
                 // on click listener for each item in the recycler view
                 holder.itemView.setOnClickListener {
-                    Log.d(TAG, "Position: $position -> ${listingList[position]}")
-//                    Navigation.createNavigateOnClickListener(R.id.navigate_to_detailed_listing_fragment).onClick(holder.listingImageView)
                     handler.handleListingData(listingList[position], mode)
                 }
                 // save a listing
@@ -71,13 +69,7 @@ class ListingAdapter(
             "landlord" -> {
                 // on click listener for each item in the recycler view
                 holder.itemView.setOnClickListener {
-                    Log.d(TAG, "Position: $position -> ${listingList[position]}")
-//                    Navigation.createNavigateOnClickListener(R.id.navigate_to_detailed_listing_fragment).onClick(holder.listingImageView)
                     handler.handleListingData(listingList[position], mode)
-                }
-                // edit listing
-                holder.itemView.findViewById<ImageButton>(R.id.editListingButton).setOnClickListener {
-                    handler.handleListingData(listingList[position], "edit")
                 }
                 // delete listing
                 holder.itemView.findViewById<ImageButton>(R.id.deleteListingButton).setOnClickListener {

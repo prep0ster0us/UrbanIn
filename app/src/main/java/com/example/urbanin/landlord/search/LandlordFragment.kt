@@ -24,6 +24,7 @@ import com.example.urbanin.data.userListingCollection
 import com.example.urbanin.databinding.FragmentLandlordBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
 class LandlordFragment : Fragment(), ListingAdapter.Callbacks {
@@ -256,15 +257,53 @@ class LandlordFragment : Fragment(), ListingAdapter.Callbacks {
 
     override fun handleListingData(data: ListingData, flag: String) {
         when(flag) {
-            "load" -> {
+            "landlord" -> {
+                val action = LandlordFragmentDirections.navigateToLandlordDetailedListingFragment(data)
+                findNavController().navigate(action)
+            }
+            "delete" -> {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle("Confirm")
+                    .setIcon(android.R.drawable.stat_sys_warning)
+                    .setMessage("Do you wish to remove this listing?\nNOTE: This action is irreversible!")
+                    .setPositiveButton("Yes") { _, _ ->
+                        // remove from database
+                        deleteAndUpdate(data)
+                        userListingCollection.remove(data)
+                        // refresh recycler view
+                        adapter.notifyDataSetChanged()
+                    }
+                    .setNegativeButton("Cancel", null)
+                    .setCancelable(true)
+                    .show()
+
                 val action =
                     LandlordFragmentDirections.navigateToLandlordDetailedListingFragment(data)
                 findNavController().navigate(action)
             }
-            "edit" -> {
-                val action = LandlordFragmentDirections.navigateToLandlordEditListing(data)
-                findNavController().navigate(action)
-            }
         }
+    }
+
+    private fun deleteAndUpdate(data: ListingData) {
+        // remove from listings database
+        db.collection("Listings")
+            .document(data.listingID)
+            .delete()
+            .addOnSuccessListener {
+                Log.d(TAG, "Deletion SUCCESS: ${data.listingID}")
+            }
+            .addOnFailureListener { exception ->
+                Log.e(TAG, "Deletion FAILURE: $exception")
+            }
+        // remove from user's database
+        db.collection("Users")
+            .document(data.userID)
+            .update("Listings", FieldValue.arrayRemove(data.listingID))
+            .addOnSuccessListener {
+                Log.d(TAG, "Deletion SUCCESS: ${auth.currentUser!!.uid} removed ${data.listingID}")
+            }
+            .addOnFailureListener { exception ->
+                Log.e(TAG, "Deletion from user FAILURE: $exception")
+            }
     }
 }

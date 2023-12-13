@@ -29,6 +29,8 @@ import com.example.urbanin.data.ListingData
 import com.example.urbanin.data.MediaAdapter
 import com.example.urbanin.data.MediaItem
 import com.example.urbanin.databinding.FragmentLandlordEditListingBinding
+import com.example.urbanin.landlord.search.AddListing.LandlordAddListingFragmentDirections
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.io.File
@@ -73,6 +75,7 @@ class LandlordEditListingFragment : Fragment() {
 //        storage = FirebaseStorage.getInstance()
 //        storageRef = storage.reference
 
+        cleanPriceText(binding.editListingPrice.text.toString())
         setupMediaGallery()
         setupTypeGrid()
 
@@ -93,7 +96,7 @@ class LandlordEditListingFragment : Fragment() {
                         latitude,
                         longitude,
                         editListingAddress.text.toString(),
-                        editListingPrice.text.toString(),
+                        cleanPriceText(editListingPrice.text.toString()),
                         img,
                         vid,
                         LocalDate.now().toString(),
@@ -112,9 +115,12 @@ class LandlordEditListingFragment : Fragment() {
                 .document(args.landlordEditListing.listingID)
                 .set(saveListing)
                 .addOnSuccessListener {
-                    Log.d(MainActivity.TAG, "Listing added with ID: ${args.landlordEditListing.listingID}")
+                    Log.d(
+                        MainActivity.TAG,
+                        "Listing added with ID: ${args.landlordEditListing.listingID}"
+                    )
                     binding.editListingProgressLayout.visibility = View.GONE
-                    findNavController().navigate(LandlordEditListingFragmentDirections.navigateEditListingBackToSearchFragment())
+                    findNavController().navigate(LandlordEditListingFragmentDirections.navigateEditListingBackToDetailedListing(saveListing))
                 }
                 .addOnFailureListener { e ->
                     Log.w(MainActivity.TAG, "Error adding document", e)
@@ -122,7 +128,20 @@ class LandlordEditListingFragment : Fragment() {
         }
 
         setNavBarVisibility(false)
+
+        // show confirmation dialog when user tries to exit
+        binding.btnBackEditListing.setOnClickListener {
+            showConfirmExitDialog()
+        }
+        binding.btnCloseEditListing.setOnClickListener {
+            showConfirmExitDialog()
+        }
     }
+
+    private fun cleanPriceText(priceText: String): String {
+        return priceText.replace("[$, ]".toRegex(),"").trim()
+    }
+
     private fun setNavBarVisibility(flag: Boolean) {
         val parentNavBar: View = requireActivity().findViewById(R.id.bottomNavigationView)
         parentNavBar.isVisible = flag
@@ -164,6 +183,7 @@ class LandlordEditListingFragment : Fragment() {
             }
         }
     }
+
     private fun populateListingInformation() {
         with(binding) {
             val roomMap = linkedMapOf(
@@ -255,6 +275,7 @@ class LandlordEditListingFragment : Fragment() {
             binding.util5.text.toString() to binding.util5.isChecked,
         )
     }
+
     private fun getAmenitiesMap(): Map<String, Boolean> {
         return hashMapOf(
             binding.amen1.text.toString() to binding.amen1.isChecked,
@@ -265,6 +286,7 @@ class LandlordEditListingFragment : Fragment() {
             binding.amen6.text.toString() to binding.amen6.isChecked
         )
     }
+
     private fun getPropertyType(bindingView: View): String {
         return if (binding.typeListTop.checkedButtonId != View.NO_ID) {
             bindingView.findViewById<Button>(binding.typeListTop.checkedButtonId).text.toString()
@@ -327,7 +349,13 @@ class LandlordEditListingFragment : Fragment() {
 
         binding.editListingMediaLayout.adapter = mediaAdapter
         binding.mediaDotsIndicator.attachTo(binding.editListingMediaLayout)
+        binding.mediaDotsIndicator.visibility = if (mediaList.size > 1) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
     }
+
     private fun pickResourceTypeDialog() {
 
         val dialog = Dialog(requireContext())
@@ -477,18 +505,27 @@ class LandlordEditListingFragment : Fragment() {
         // refresh view pager
         mediaAdapter.notifyDataSetChanged()
         // slide to newly inserted media file
-        binding.editListingMediaLayout.currentItem = mediaAdapter.count;
+        binding.editListingMediaLayout.currentItem = mediaAdapter.count
+        binding.mediaDotsIndicator.visibility = if (mediaList.size > 1) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
     }
 
     private fun addVideoToMediaGallery(uri: Uri) {
         mediaList.add(
             MediaItem(MediaItem.ItemType.VIDEO, uri)
         )
-        mediaList
         // refresh view pager
         mediaAdapter.notifyDataSetChanged()
         // slide to newly inserted media file
-        binding.editListingMediaLayout.currentItem = mediaAdapter.count;
+        binding.editListingMediaLayout.currentItem = mediaAdapter.count
+        binding.mediaDotsIndicator.visibility = if (mediaList.size > 1) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
     }
 
     // Registers a camera launcher (picture mode).
@@ -522,4 +559,23 @@ class LandlordEditListingFragment : Fragment() {
             }
         }
 
+    private fun showConfirmExitDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Confirm Action")
+            .setMessage("Any changes made will not be saved. Continue?")
+            .setIcon(android.R.drawable.stat_sys_warning)
+            .setPositiveButton(
+                "Confirm"
+            ) { _, _ ->
+                findNavController().navigate(
+                    LandlordEditListingFragmentDirections.navigateEditListingBackToDetailedListing(args.landlordEditListing)
+                )
+            }
+            .setNegativeButton(
+                "Cancel"
+            ) { _, _ ->
+
+            }
+            .show()
+    }
 }

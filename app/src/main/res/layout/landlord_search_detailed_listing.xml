@@ -37,7 +37,8 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="detailed listing back"
                 android:paddingTop="24dp"
-                android:paddingStart="16dp"
+                android:paddingHorizontal="16dp"
+                android:paddingBottom="16dp"
                 android:src="@drawable/ic_arrow_back"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/detailedImageGallery" />
@@ -318,15 +319,17 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/detailedListingMessageBtn"
+            android:id="@+id/detailedListingEditBtn"
             style="@style/Widget.Material3.Button.TonalButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/gotham_regular"
             android:paddingHorizontal="48dp"
-            android:text="Message"
-            android:textSize="14sp"
+            android:text="Update"
+            android:textSize="16sp"
+            android:backgroundTint="@color/primary_background"
+            android:textColor="@color/default_text"
             app:layout_constraintBottom_toBottomOf="@id/detailedListingRent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/detailedListingRent" />

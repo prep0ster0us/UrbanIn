@@ -60,9 +60,6 @@
         <action
             android:id="@+id/navigate_to_landlord_filter_fragment"
             app:destination="@id/landlordFilterFragment" />
-        <action
-            android:id="@+id/navigate_to_landlord_edit_listing"
-            app:destination="@id/landlordEditListingFragment" />
     </fragment>
     <fragment
         android:id="@+id/landlordMessageFragment"
@@ -89,13 +86,17 @@
     <fragment
         android:id="@+id/landlordDetailedListingFragment"
         android:name="com.example.urbanin.landlord.search.DetailedListing.LandlordDetailedListingFragment"
-        android:label="LandlordDetailedListingFragment" >
+        android:label="LandlordDetailedListingFragment"
+        tools:layout="@layout/landlord_search_detailed_listing">
         <argument
             android:name="landlordListing"
             app:argType="com.example.urbanin.data.ListingData" />
         <action
             android:id="@+id/navigate_from_detailed_listing_to_search"
             app:destination="@id/landlordSearchFragment" />
+        <action
+            android:id="@+id/navigate_from_detailed_listing_to_edit_listing"
+            app:destination="@id/landlordEditListingFragment" />
     </fragment>
     <fragment
         android:id="@+id/landlordFilterFragment"
@@ -117,8 +118,8 @@
             android:name="landlordEditListing"
             app:argType="com.example.urbanin.data.ListingData" />
         <action
-            android:id="@+id/navigate_edit_listing_back_to_search_fragment"
-            app:destination="@id/landlordSearchFragment" />
+            android:id="@+id/navigate_edit_listing_back_to_detailed_listing"
+            app:destination="@id/landlordDetailedListingFragment" />
     </fragment>
     <fragment
         android:id="@+id/accountFragment"

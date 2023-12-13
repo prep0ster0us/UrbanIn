@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.graphics.scale
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -66,13 +67,17 @@ class LandlordDetailedListingFragment : Fragment(), OnMapReadyCallback {
 
         showAmenitiesGrid()
         showUtilitiesGrid()
+        Toast.makeText(requireContext(), args.landlordListing.price, Toast.LENGTH_SHORT).show()
         binding.detailedListingRent.text = formatAsCurrency(args.landlordListing.price.toFloat())
         binding.detailedListingLocationAddress.text = args.landlordListing.address
 
         // hide main bottom nav bar
         setNavBarVisibility(false)
 
-//        binding.detailedListingMessageBtn.setOnClickListener {  }
+        binding.detailedListingEditBtn.setOnClickListener {
+            val action = LandlordDetailedListingFragmentDirections.navigateFromDetailedListingToEditListing(args.landlordListing)
+            findNavController().navigate(action)
+        }
     }
 
     private fun setupMediaGallery() {
