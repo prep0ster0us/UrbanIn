@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".account.AccountProfileFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="36dp">
+
+        <ImageButton
+            android:id="@+id/btnBackToAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="back button to account page"
+            android:padding="12dp"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintBottom_toBottomOf="@id/profileHeader"
+            app:layout_constraintEnd_toStartOf="@id/profileHeader"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/profileHeader"
+            app:tint="@color/default_icon" />
+
+        <TextView
+            android:id="@+id/profileHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/gotham_regular"
+            android:gravity="center_vertical"
+            android:padding="12dp"
+            android:text="Profile"
+            android:textColor="@color/default_text"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnBackToAccount"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fnameLayout"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="16dp"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toStartOf="@id/lnameLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profileHeader">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fnameInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/gotham_book"
+                android:hint="First Name"
+                android:inputType="textCapWords"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lnameLayout"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="12dp"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/fnameLayout"
+            app:layout_constraintTop_toBottomOf="@id/profileHeader">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/lnameInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/gotham_book"
+                android:hint="Last Name"
+                android:inputType="textCapWords"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ageLayout"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            app:errorEnabled="true"
+            app:layout_constraintStart_toStartOf="@id/fnameLayout"
+            app:layout_constraintTop_toBottomOf="@id/fnameLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ageInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/gotham_book"
+                android:hint="Age"
+                android:inputType="number"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/budgetLayout"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            app:errorEnabled="true"
+            app:layout_constraintStart_toStartOf="@id/lnameLayout"
+            app:layout_constraintTop_toBottomOf="@id/lnameLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/budgetInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/gotham_book"
+                android:hint="Budget"
+                android:inputType="number"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/descriptionLayout"
+            style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox.Dense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Provide a short description"
+            app:counterEnabled="true"
+            app:counterMaxLength="200"
+            app:endIconMode="clear_text"
+            app:layout_constraintEnd_toEndOf="@id/budgetLayout"
+            app:layout_constraintStart_toStartOf="@id/ageLayout"
+            app:layout_constraintTop_toBottomOf="@id/ageLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/descriptionInput"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:fontFamily="@font/gotham_book"
+                android:gravity="top"
+                android:inputType="text|textLongMessage|textMultiLine"
+                android:textColor="@color/default_text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/occupationLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="12dp"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="@id/descriptionLayout"
+            app:layout_constraintStart_toStartOf="@id/descriptionLayout"
+            app:layout_constraintTop_toBottomOf="@id/descriptionLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/occupationInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/gotham_book"
+                android:hint="Occupation"
+                android:inputType="textCapWords"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/genderHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gotham_medium"
+            android:text="Gender"
+            android:textColor="@color/default_text"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@id/occupationLayout"
+            app:layout_constraintTop_toBottomOf="@id/occupationLayout" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/genderList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toStartOf="@id/genderHeader"
+            app:layout_constraintTop_toBottomOf="@id/genderHeader"
+            app:singleSelection="true">
+
+            <Button
+                android:id="@+id/gender1"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_book"
+                android:text="Male"
+                android:paddingHorizontal="30dp"
+                app:cornerRadius="0dp" />
+
+            <Button
+                android:id="@+id/gender2"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_book"
+                android:text="Female"
+                android:paddingHorizontal="30dp"
+                app:cornerRadius="0dp" />
+
+            <Button
+                android:id="@+id/gender3"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_book"
+                android:text="Other"
+                android:paddingHorizontal="30dp"
+                app:cornerRadius="0dp" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <TextView
+            android:id="@+id/roomSizeHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/gotham_medium"
+            android:text="Preferred Room Size"
+            android:textColor="@color/default_text"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@id/genderList"
+            app:layout_constraintTop_toBottomOf="@id/genderList" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/roomSizeLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toStartOf="@id/roomSizeHeader"
+            app:layout_constraintTop_toBottomOf="@id/roomSizeHeader"
+            app:singleSelection="true">
+
+            <Button
+                android:id="@+id/roomsize1"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_book"
+                android:text="Large"
+                android:paddingHorizontal="48dp"
+                app:cornerRadius="0dp" />
+
+            <Button
+                android:id="@+id/roomsize2"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gotham_book"
+                android:paddingHorizontal="48dp"
+                android:text="Small"
+                app:cornerRadius="0dp" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <TextView
+            android:id="@+id/moveInHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/gotham_medium"
+            android:text="Earliest Move-In"
+            android:textColor="@color/default_text"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@id/roomSizeLayout"
+            app:layout_constraintTop_toBottomOf="@id/roomSizeLayout" />
+
+        <RelativeLayout
+            android:id="@+id/moveInLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toStartOf="@id/occupationLayout"
+            app:layout_constraintEnd_toEndOf="@id/occupationLayout"
+            app:layout_constraintTop_toBottomOf="@id/moveInHeader">
+
+            <ImageView
+                android:id="@+id/moveInIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:contentDescription="calender icon"
+                android:src="@drawable/baseline_calendar_month_24" />
+
+            <TextView
+                android:id="@+id/moveInDisplayText"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="12dp"
+                android:layout_toEndOf="@id/moveInIcon"
+                android:fontFamily="@font/gotham_book"
+                android:hint="Select a date"
+                android:padding="12dp"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addressLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            app:endIconDrawable="@drawable/map_marker_icon"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="@id/occupationLayout"
+            app:layout_constraintStart_toStartOf="@id/occupationLayout"
+            app:layout_constraintTop_toBottomOf="@id/moveInLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addressInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/gotham_book"
+                android:hint="Preferred Location"
+                android:inputType="textCapWords"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/hobbieLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="@id/occupationLayout"
+            app:layout_constraintStart_toStartOf="@id/occupationLayout"
+            app:layout_constraintTop_toBottomOf="@id/addressLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/hobbieInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/gotham_book"
+                android:hint="Hobbies"
+                android:inputType="textCapWords"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnSaveChanges"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="48dp"
+            android:layout_marginTop="36dp"
+            android:backgroundTint="@color/primary_background"
+            android:fontFamily="@font/gotham_regular"
+            android:paddingVertical="12dp"
+            android:text="Save Changes"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@id/hobbieLayout"
+            app:layout_constraintStart_toStartOf="@id/hobbieLayout"
+            app:layout_constraintTop_toBottomOf="@id/hobbieLayout" />
+
+        <Button
+            android:id="@+id/btnDiscardChanges"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/gotham_regular"
+            android:paddingVertical="12dp"
+            android:text="Discard Changes"
+            android:textColor="@color/default_text"
+            android:textSize="18sp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@id/btnSaveChanges"
+            app:layout_constraintStart_toStartOf="@id/btnSaveChanges"
+            app:layout_constraintTop_toBottomOf="@id/btnSaveChanges" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

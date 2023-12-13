@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/roommate_account_nav_graph"
+    app:startDestination="@id/accountHome">
+
+    <fragment
+        android:id="@+id/accountHome"
+        android:name="com.example.urbanin.roommates.account.AccountHome"
+        android:label="AccountHome"
+        tools:layout="@layout/roommate_account_home" >
+        <action
+            android:id="@+id/action_accountHome_to_accountSettings"
+            app:destination="@id/accountSettings" />
+        <action
+            android:id="@+id/action_accountHome_to_accountChangePwd"
+            app:destination="@id/accountChangePwd" />
+        <action
+            android:id="@+id/action_accountHome_to_accountProfile"
+            app:destination="@id/accountProfile" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountSettings"
+        android:name="com.example.urbanin.roommates.account.AccountSettings"
+        android:label="AccountSettings"
+        tools:layout="@layout/roommate_account_settings"/>
+    <fragment
+        android:id="@+id/accountChangePwd"
+        android:name="com.example.urbanin.roommates.account.AccountChangePwd"
+        android:label="AccountChangePwd"
+        tools:layout="@layout/roommate_account_change_pwd" />
+    <fragment
+        android:id="@+id/accountProfile"
+        android:name="com.example.urbanin.roommates.account.AccountProfile"
+        android:label="AccountProfile"
+        tools:layout="@layout/roommate_account_profile"/>
+</navigation>

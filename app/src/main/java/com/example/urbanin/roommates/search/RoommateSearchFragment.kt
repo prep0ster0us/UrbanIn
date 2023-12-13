@@ -42,6 +42,7 @@ class RoommateSearchFragment : Fragment(), RoommateListAdapter.Callbacks {
 
     private fun setupRecyclerView() {
         val query = db.collection("RoommateListings")
+            .whereNotEqualTo("userID", auth.currentUser!!.uid)
             .orderBy("moveInDate", Query.Direction.DESCENDING)
 
         val options = FirestoreRecyclerOptions.Builder<RoommateListingData>()

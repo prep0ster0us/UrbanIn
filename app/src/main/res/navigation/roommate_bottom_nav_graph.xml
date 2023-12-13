@@ -53,4 +53,11 @@
             android:id="@+id/navigate_roommate_message_to_chat"
             app:destination="@id/roommateChatFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/roommateAccountFragment"
+        android:name="com.example.urbanin.roommates.account.RoommateAccountFragment"
+        android:label="RoommateAccountFragment"
+        tools:layout="@layout/roommate_fragment_account" >
+    </fragment>
+
 </navigation>

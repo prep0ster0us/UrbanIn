@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ProfileImage"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_marginTop="24dp"
+        android:contentDescription="profile image"
+        android:padding="2dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/baseline_account_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp" />
+
+    <TextView
+        android:id="@+id/profileUserName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/gotham_regular"
+        android:hint="name"
+        android:textAlignment="center"
+        android:textColor="@color/default_text"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ProfileImage" />
+
+    <ImageView
+        android:id="@+id/EditIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_edit"
+        app:layout_constraintBottom_toBottomOf="@id/ProfileImage"
+        app:layout_constraintEnd_toEndOf="@id/ProfileImage"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/ProfileImage"
+        app:layout_constraintTop_toTopOf="@id/ProfileImage"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/Profile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="8dp"
+        android:fontFamily="@font/gotham_medium"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:text="Roommate Profile"
+        android:background="@drawable/account_option_textlines"
+        android:textSize="22sp"
+        app:drawableEndCompat="@drawable/ic_arrow_right"
+        app:drawableStartCompat="@drawable/ic_profile_photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/switchMode" />
+
+    <TextView
+        android:id="@+id/Notifications"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_notifications"
+        android:drawableEnd="@drawable/ic_arrow_right"
+        android:drawablePadding="8dp"
+        android:fontFamily="@font/gotham_medium"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:visibility="gone"
+        android:text="Notifications"
+        android:textSize="22sp"
+        android:background="@drawable/account_option_textlines"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Settings" />
+
+    <TextView
+        android:id="@+id/ChangePassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_password"
+        android:drawableEnd="@drawable/ic_arrow_right"
+        android:drawablePadding="8dp"
+        android:fontFamily="@font/gotham_medium"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:text="Change Password"
+        android:textSize="22sp"
+        android:background="@drawable/account_option_textlines"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Profile" />
+
+    <TextView
+        android:id="@+id/Settings"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_settings"
+        android:drawableEnd="@drawable/ic_arrow_right"
+        android:drawablePadding="8dp"
+        android:fontFamily="@font/gotham_medium"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:text="Settings"
+        android:textSize="22sp"
+        android:background="@drawable/account_option_textlines"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ChangePassword" />
+
+    <TextView
+        android:id="@+id/switchMode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:drawableStart="@drawable/baseline_switch_mode_24"
+        android:drawableEnd="@drawable/ic_arrow_right"
+        android:drawablePadding="8dp"
+        android:drawableTint="@color/primary_background"
+        android:fontFamily="@font/gotham_medium"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:text="Switch User Modes"
+        android:textColor="@color/primary_background"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:background="@drawable/account_option_textlines"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileUserName" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
