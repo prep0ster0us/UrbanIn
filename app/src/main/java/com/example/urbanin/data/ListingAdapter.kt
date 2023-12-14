@@ -32,6 +32,7 @@ class ListingAdapter(
         val itemView = when(mode) {
             "tenant" -> LayoutInflater.from(parent.context).inflate(R.layout.listing_card, parent, false)
             "landlord" -> LayoutInflater.from(parent.context).inflate(R.layout.landlord_listing_card, parent, false)
+            "saved" -> LayoutInflater.from(parent.context).inflate(R.layout.listing_card, parent, false)
             else -> LayoutInflater.from(parent.context).inflate(R.layout.listing_card, parent, false)
         }
         return ListingViewHolder(itemView)
@@ -74,6 +75,19 @@ class ListingAdapter(
                 // delete listing
                 holder.itemView.findViewById<ImageButton>(R.id.deleteListingButton).setOnClickListener {
                     handler.handleListingData(listingList[position], "delete")
+                }
+            }
+            "saved" -> {
+                // on click listener for each item in the recycler view
+                holder.itemView.setOnClickListener {
+                    handler.handleListingData(listingList[position], mode)
+                }
+                // save a listing
+                val favButton = holder.itemView.findViewById<ImageButton>(R.id.listingItemSave)
+                favButton.setImageResource(R.drawable.listing_favorite_24)
+                favButton.setOnClickListener {
+                    savedCollection.remove(listingList[position])
+                    favButton.setImageResource(R.drawable.listing_favorite_outline_24)
                 }
             }
         }

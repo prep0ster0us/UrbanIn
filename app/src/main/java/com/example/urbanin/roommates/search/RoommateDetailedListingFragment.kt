@@ -67,7 +67,7 @@ class RoommateDetailedListingFragment : Fragment(), OnMapReadyCallback {
         binding.detailedListingDescription.text = args.rmListing.description
         binding.detailedListingBudget.text = formatAsCurrency(args.rmListing.budget.toFloat())
         binding.detailedListingOccupation.text = args.rmListing.occupation
-        binding.detailedListingHobbies.text = args.rmListing.hobbies.toString()
+        binding.detailedListingHobbies.text = args.rmListing.hobbies.toString().replace("[","").replace("]","")
         binding.detailedListingMoveIn.text = args.rmListing.moveInDate
         binding.detailedListingRoomSize.text = args.rmListing.roomSize
 
@@ -116,13 +116,7 @@ class RoommateDetailedListingFragment : Fragment(), OnMapReadyCallback {
             args.rmListing.longitude.toDouble()
         )
         googleMap.let {
-            // add marker at listing location
-            addMarker(
-                googleMap,
-                listingLocation,
-                args.rmListing.address
-            )
-            // move map to listing location
+            // move map to user location
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(listingLocation, 16F))
 
             // allow child scrolling

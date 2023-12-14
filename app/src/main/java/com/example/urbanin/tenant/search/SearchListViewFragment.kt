@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.urbanin.MainActivity
 import com.example.urbanin.R
 import com.example.urbanin.data.ListingAdapter
@@ -70,6 +71,15 @@ class SearchListViewFragment : Fragment(), ListingAdapter.Callbacks {
         listingRecyclerView.setHasFixedSize(true)
         listingRecyclerView.layoutManager = LinearLayoutManager(context)
         listingRecyclerView.adapter = ListingAdapter(listingCollection, context, "tenant", this)
+
+        if(listingCollection.size<1) {
+            binding.emptyLayout.visibility = View.VISIBLE
+            listingRecyclerView.isVisible = false
+            Glide.with(requireActivity()).load(R.drawable.empty_search).into(binding.emptyImg)
+        } else {
+            binding.emptyLayout.visibility = View.GONE
+            listingRecyclerView.isVisible = true
+        }
     }
 
 

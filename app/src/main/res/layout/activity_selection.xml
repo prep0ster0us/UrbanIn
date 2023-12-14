@@ -37,7 +37,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/roommates"
             app:shapeAppearanceOverlay="@style/roundedEdgeMessageCard"
-            app:strokeColor="@color/default_text"
+            app:strokeColor="@color/default_background"
             app:strokeWidth="0.2dp" />
 
         <TextView
@@ -48,7 +48,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/gotham_medium"
             android:padding="8dp"
-            android:text="Looking for roommates"
+            android:text="Find a roomate"
             android:textSize="20sp"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -82,7 +82,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/gotham_medium"
             android:padding="8dp"
-            android:text="Looking for a place to rent"
+            android:text="Find a place to rent"
             android:textSize="20sp"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -116,7 +116,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/gotham_medium"
             android:padding="8dp"
-            android:text="Looking to rent out"
+            android:text="Rent out my place"
             android:textSize="20sp"
             android:textStyle="bold" />
     </RelativeLayout>

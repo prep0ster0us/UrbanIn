@@ -13,6 +13,7 @@ import android.widget.Button
 import androidx.navigation.fragment.findNavController
 import com.example.urbanin.MainActivity
 import com.example.urbanin.R
+import com.example.urbanin.data.SearchListingUtil
 import com.example.urbanin.data.filterCount
 import com.example.urbanin.data.filterParameters
 import com.example.urbanin.data.ifFiltered
@@ -71,6 +72,10 @@ class LandlordFilterFragment : Fragment() {
             setParameterCount()
             // navigate back to search page (where listings will be filtered based on above stored parameters)
             findNavController().navigate(LandlordFilterFragmentDirections.navigateBackToLandlordSearchFragment())
+        }
+
+        binding.btnFilterBack.setOnClickListener {
+            findNavController().popBackStack()
         }
 
         // load in any existing filters
@@ -375,8 +380,15 @@ class LandlordFilterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_landlord_filter, container, false)
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        with(SearchListingUtil) {
+            // hide main bottom nav bar
+            setLandlordNavBarVisibility(requireActivity(), false)
+        }
     }
 
 }

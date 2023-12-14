@@ -558,6 +558,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/amen1"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/gotham_book"
@@ -568,6 +569,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/amen2"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/amen1"
@@ -579,6 +581,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/amen3"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/amen2"
@@ -590,6 +593,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/amen4"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/amen3"
@@ -601,6 +605,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/amen5"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/amen4"
@@ -612,6 +617,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/amen6"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/amen5"
@@ -652,6 +658,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/util1"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/gotham_book"
@@ -662,6 +669,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/util2"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/util1"
@@ -673,6 +681,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/util3"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/util2"
@@ -684,6 +693,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/util4"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/util3"
@@ -695,6 +705,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/util5"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/util4"

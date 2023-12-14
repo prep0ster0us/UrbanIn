@@ -560,7 +560,7 @@ class LandlordEditListingFragment : Fragment() {
         }
 
     private fun showConfirmExitDialog() {
-        MaterialAlertDialogBuilder(requireContext())
+        MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogPalette)
             .setTitle("Confirm Action")
             .setMessage("Any changes made will not be saved. Continue?")
             .setIcon(android.R.drawable.stat_sys_warning)

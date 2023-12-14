@@ -120,7 +120,6 @@ class SearchDetailedListingFragment : Fragment(), OnMapReadyCallback {
         val btnLogin = view.findViewById<Button>(R.id.promptLogin)
         btnLogin.setOnClickListener {
             prefManager.setRedirectContext("tenant_detailed_listing")
-            Toast.makeText(requireContext(), "go to login", Toast.LENGTH_SHORT).show()
             findNavController().navigate(SearchDetailedListingFragmentDirections.navigateDetailedListingToLogin())
             builder.dismiss()
         }

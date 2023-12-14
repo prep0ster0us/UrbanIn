@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.urbanin.R
 import com.example.urbanin.roommates.RoommateAdapter
@@ -39,6 +40,7 @@ class RoommateListAdapter(
         model: RoommateListingData
     ) {
         with(holder) {
+            Toast.makeText(context, model.name, Toast.LENGTH_SHORT).show()
             if(model.img.isNotEmpty()) {
                 Picasso.get().load(model.img).into(rmImg)
                 rmImg.scaleType=ImageView.ScaleType.CENTER_CROP

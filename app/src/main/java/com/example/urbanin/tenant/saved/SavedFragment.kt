@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.urbanin.R
 import com.example.urbanin.data.ListingAdapter
 import com.example.urbanin.data.ListingData
 import com.example.urbanin.data.LoginPreferenceManager
@@ -48,7 +49,7 @@ class SavedFragment : Fragment(), ListingAdapter.Callbacks {
 
                 // sort listings
                 binding.saveListingSort.setOnClickListener {
-                    MaterialAlertDialogBuilder(requireContext())
+                    MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogPalette)
                         .setTitle("Sort By")
                         .setSingleChoiceItems(sortOptions, sortParams.selectedOption) { _, which ->
                             sortParams.selectedOption = which
@@ -83,7 +84,7 @@ class SavedFragment : Fragment(), ListingAdapter.Callbacks {
         listingRecyclerView = binding.saveListingRecyclerView
         listingRecyclerView.setHasFixedSize(true)
         listingRecyclerView.layoutManager = LinearLayoutManager(context)
-        listingRecyclerView.adapter = ListingAdapter(savedCollection, context, "tenant", this)
+        listingRecyclerView.adapter = ListingAdapter(savedCollection, context, "saved", this)
     }
 
     private fun sortListings() {

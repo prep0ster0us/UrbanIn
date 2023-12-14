@@ -42,9 +42,9 @@ class MediaAdapter (
                 val view = inflater.inflate(R.layout.listing_media_video_layout, container, false) as VideoView
                 view.setVideoURI(item.data)
                 // add playback controls (optional)
-                val mediaController = MediaController(context)
-                view.setMediaController((mediaController))
-                mediaController.setAnchorView(view)
+//                val mediaController = MediaController(context)
+//                view.setMediaController((mediaController))
+//                mediaController.setAnchorView(view)
 
                 // seamlessly loop the video
                 view.setOnPreparedListener { mp ->

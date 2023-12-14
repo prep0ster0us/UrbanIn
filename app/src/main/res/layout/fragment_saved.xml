@@ -13,7 +13,8 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
             android:id="@+id/saveListingSort"
@@ -31,12 +32,13 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/saveListingRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:background="@color/soft_bg"
             android:padding="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/saveListingSort"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/listing_card" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

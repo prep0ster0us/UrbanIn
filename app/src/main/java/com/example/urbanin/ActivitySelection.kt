@@ -2,9 +2,11 @@ package com.example.urbanin
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.urbanin.data.LoginPreferenceManager
 import com.example.urbanin.databinding.ActivitySelectionBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class ActivitySelection : AppCompatActivity() {
 
@@ -21,8 +23,13 @@ class ActivitySelection : AppCompatActivity() {
         prefManager.loadAppTheme(prefManager.isDarkModeEnabled())
         setContentView(binding.root)
 
+        // singin
+        if (prefManager.isRememberLogin() && prefManager.isLoggedIn()) {
+            signInSavedUser()
+        }
+
         // navigate to last known user mode
-        when(prefManager.getUserMode()) {
+        when (prefManager.getUserMode()) {
             "roommate" -> binding.roommatesLayout.callOnClick()
             "tenant" -> binding.rentPlaceLayout.callOnClick()
             "landlord" -> binding.rentOutLayout.callOnClick()
@@ -79,6 +86,14 @@ class ActivitySelection : AppCompatActivity() {
         this.overridePendingTransition(
             R.anim.slide_in_left,
             R.anim.slide_out_left
+        )
+    }
+
+    private fun signInSavedUser() {
+        val creds = prefManager.fetchLoginCreds()
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(
+            creds.first.toString(),
+            creds.second.toString()
         )
     }
 

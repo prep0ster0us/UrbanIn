@@ -51,10 +51,12 @@ class AccountSettings : Fragment() {
                 // Enable dark mode
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 binding.setting2.isChecked = true
+                prefManager.setDarkModeEnabled(true)
             } else {
                 // Enable light mode
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 binding.setting2.isChecked = false
+                prefManager.setDarkModeEnabled(false)
             }
         }
         return binding.root

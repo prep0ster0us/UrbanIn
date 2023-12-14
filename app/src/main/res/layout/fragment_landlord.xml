@@ -10,8 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" >
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
         <TextView
             android:id="@+id/landlordSearchSort"
@@ -80,10 +80,12 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="25dp"
-        app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
         android:backgroundTint="@color/primary_background"
+        android:alpha="0.85"
         android:contentDescription="Add new listing"
-        android:src="@drawable/landlord_add_listing_24" />
+        android:src="@drawable/landlord_add_listing_24"
+        android:tint="@color/default_icon"
+        app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
 
     <RelativeLayout
         android:id="@+id/landlordListingProgressLayout"
@@ -115,9 +117,8 @@
         android:id="@+id/emptyLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:layout_centerInParent="true"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/emptyImg"
@@ -136,7 +137,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/gotham_regular"
             android:padding="12dp"
-            android:text="No saved listings"
+            android:text="No listings found"
             android:textColor="@color/default_text"
             android:textSize="32sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -147,10 +148,10 @@
             android:id="@+id/emptyMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/gotham_medium"
             android:padding="16dp"
-            android:layout_marginTop="16dp"
-            android:text="Favorite a listing to save it!"
+            android:text="Add a listing and find a match!"
             android:textColor="@color/default_text"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"

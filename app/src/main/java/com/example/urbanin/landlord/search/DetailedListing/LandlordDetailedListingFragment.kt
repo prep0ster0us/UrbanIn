@@ -102,6 +102,11 @@ class LandlordDetailedListingFragment : Fragment(), OnMapReadyCallback {
 
         binding.detailedImageGallery.adapter = mediaAdapter
         binding.imageGalleryDots.attachTo(binding.detailedImageGallery)
+        binding.imageGalleryDots.visibility = if (mediaList.size > 1) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
 
         val mapFragment =
             childFragmentManager.findFragmentById(binding.detailedListingLocationMap.id) as SupportMapFragment

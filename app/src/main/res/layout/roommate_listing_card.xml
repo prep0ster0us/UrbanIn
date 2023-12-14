@@ -82,7 +82,7 @@
             android:textColor="@color/default_text"
             android:textSize="16dp"
             app:layout_constraintBottom_toTopOf="@id/rmDate"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="@id/rmDate" />
 
         <TextView
             android:id="@+id/rmDate"
@@ -92,9 +92,9 @@
             android:hint="Dec XX"
             android:paddingHorizontal="8dp"
             android:textColor="@color/default_text"
-            android:textSize="14dp"
+            android:textSize="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/rmMoveIn" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

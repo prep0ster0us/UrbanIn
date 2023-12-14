@@ -9,71 +9,75 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.urbanin.R
+import com.example.urbanin.databinding.FragmentForgotPasswordBinding
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
 class ForgotPwdFragment : Fragment() {
-
-    private lateinit var btnReset: Button
-    private lateinit var btnBack: Button
-    private lateinit var edtEmail: EditText
-    private lateinit var progressBar: ProgressBar
+    private lateinit var binding: FragmentForgotPasswordBinding
     private lateinit var mAuth: FirebaseAuth
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = FragmentForgotPasswordBinding.inflate(layoutInflater)
+
+        mAuth = FirebaseAuth.getInstance()
+
+        // Reset Button Listener
+        binding.btnReset.setOnClickListener {
+            val strEmail = binding.edtForgotPasswordEmail.text.toString().trim()
+            if (!TextUtils.isEmpty(strEmail)) {
+                resetPassword(strEmail)
+            } else {
+                binding.txtLayoutEmail.error = "Email address can't be empty"
+            }
+        }
+
+        binding.edtForgotPasswordEmail.doOnTextChanged { _, _, _, _ ->
+            if (binding.edtForgotPasswordEmail.text.toString().isEmpty()) {
+                binding.txtLayoutEmail.error = null
+            }
+        }
+
+        // Back Button Listener
+        binding.backToLoginButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_forgot_password, container, false)
-
-        // Initialization
-        btnBack = view.findViewById(R.id.backToLoginButton)
-        btnReset = view.findViewById(R.id.btnReset)
-        edtEmail = view.findViewById(R.id.edtForgotPasswordEmail)
-        progressBar = view.findViewById(R.id.forgetPasswordProgressbar)
-
-        mAuth = FirebaseAuth.getInstance()
-
-        // Reset Button Listener
-        btnReset.setOnClickListener {
-            val strEmail = edtEmail.text.toString().trim()
-            if (!TextUtils.isEmpty(strEmail)) {
-                resetPassword(strEmail)
-            } else {
-                edtEmail.error = "Email field can't be empty"
-            }
-        }
-
-        // Back Button Listener
-        btnBack.setOnClickListener {
-            requireActivity().onBackPressed()
-        }
-
-        return view
+        return binding.root
     }
 
     private fun resetPassword(email: String) {
-        progressBar.visibility = View.VISIBLE
-        btnReset.visibility = View.INVISIBLE
+        binding.forgetPasswordProgressbar.visibility = View.VISIBLE
+        binding.btnReset.visibility = View.GONE
 
         mAuth.sendPasswordResetEmail(email)
             .addOnSuccessListener {
-                Toast.makeText(
-                    activity,
+                Snackbar.make(
+                    binding.root,
                     "Reset Password link has been sent to your registered Email",
-                    Toast.LENGTH_SHORT
+                    Snackbar.LENGTH_SHORT
                 ).show()
                 // Navigate to LoginActivity or other relevant actions
                 // Example: findNavController().navigate(R.id.action_forgotPasswordFragment_to_loginFragment)
+                findNavController().popBackStack()
             }
             .addOnFailureListener { e ->
                 Toast.makeText(activity, "Error :- ${e.message}", Toast.LENGTH_SHORT).show()
-                progressBar.visibility = View.INVISIBLE
-                btnReset.visibility = View.VISIBLE
+                binding.forgetPasswordProgressbar.visibility = View.GONE
+                binding.btnReset.visibility = View.VISIBLE
             }
     }
 }

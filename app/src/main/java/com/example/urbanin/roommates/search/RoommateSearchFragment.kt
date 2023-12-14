@@ -4,20 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.doOnTextChanged
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.urbanin.R
 import com.example.urbanin.data.RoommateListAdapter
 import com.example.urbanin.data.RoommateListingData
 import com.example.urbanin.data.SearchListingUtil
-import com.example.urbanin.data.sortOptions
 import com.example.urbanin.databinding.FragmentRoommateSearchBinding
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 
@@ -53,7 +54,7 @@ class RoommateSearchFragment : Fragment(), RoommateListAdapter.Callbacks {
         setupRecyclerView()
 
         binding.searchSort.setOnClickListener {
-            MaterialAlertDialogBuilder(requireContext())
+            MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogPalette)
                 .setTitle("Sort By")
                 .setSingleChoiceItems(sortOptions, selectedOption) { _, which ->
                     selectedOption = which
@@ -83,6 +84,20 @@ class RoommateSearchFragment : Fragment(), RoommateListAdapter.Callbacks {
         binding.recyclerViewRoommates.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewRoommates.adapter = adapter
         adapter.startListening()
+
+        adapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+                super.onItemRangeChanged(positionStart, itemCount)
+                if(adapter.itemCount<1) {
+                    binding.emptyLayout.visibility = View.VISIBLE
+                    binding.recyclerViewRoommates.isVisible = false
+                    Glide.with(requireActivity()).load(R.drawable.empty_search).into(binding.emptyImg)
+                } else {
+                    binding.emptyLayout.visibility = View.GONE
+                    binding.recyclerViewRoommates.isVisible = true
+                }
+            }
+        })
     }
 
     private fun sortListings(sortField: String, order: String = "") {
@@ -117,18 +132,6 @@ class RoommateSearchFragment : Fragment(), RoommateListAdapter.Callbacks {
         findNavController().navigate(action)
     }
 
-
-    //    private fun setupOptionClickListeners(view: View) {
-//        view.findViewById<TextView>(R.id.textViewViewOption).setOnClickListener {
-//            // Handle View option click
-//        }
-//        view.findViewById<TextView>(R.id.textViewSortOption).setOnClickListener {
-//            // Handle Sort option click
-//        }
-//        view.findViewById<TextView>(R.id.textViewFilterOption).setOnClickListener {
-//            // Handle Filter option click
-//        }
-//    }
     override fun onStart() {
         super.onStart()
         adapter.startListening()

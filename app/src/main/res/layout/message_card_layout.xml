@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="4dp"
     android:background="@drawable/message_card_rounded_bg"
-    android:paddingStart="8dp"
-    android:layout_margin="4dp">
+    android:paddingStart="8dp">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/listingImage"
@@ -25,8 +25,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gotham_regular"
-        android:hint="listing address"
+        android:hint="address"
         android:padding="12dp"
+        android:paddingEnd="12dp"
         android:textColor="@color/default_text"
         android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@id/listingImage"
@@ -37,23 +38,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gotham_medium"
-        android:hint="recent message"
+        android:hint="msg"
+        android:lineSpacingExtra="4dp"
+        android:maxWidth="275dp"
         android:paddingHorizontal="16dp"
+        android:paddingBottom="8dp"
         android:textColor="@color/default_text"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/address"
-        app:layout_constraintStart_toEndOf="@id/listingImage" />
+        app:layout_constraintStart_toEndOf="@id/listingImage"
+        app:layout_constraintTop_toBottomOf="@id/address" />
 
     <TextView
         android:id="@+id/recentTimestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-thin"
-        android:hint="recent timestamp"
+        android:layout_marginEnd="12dp"
+        android:fontFamily="@font/gotham_book"
+        android:hint="timstamp"
         android:textColor="@color/default_text"
         android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/address"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/address"
-        app:layout_constraintBottom_toBottomOf="@id/address" />
+        app:layout_constraintTop_toTopOf="@id/address" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

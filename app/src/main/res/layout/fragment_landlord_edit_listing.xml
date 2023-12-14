@@ -10,10 +10,10 @@
         android:id="@+id/editListingTopLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/btnBackEditListing"
@@ -60,12 +60,12 @@
         android:id="@+id/editListingMainLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editListingTopLayout"
-        app:layout_constraintBottom_toTopOf="@id/editListingSubmitLayout"
         android:fillViewport="true"
-        android:paddingTop="4dp">
+        android:paddingTop="4dp"
+        app:layout_constraintBottom_toTopOf="@id/editListingSubmitLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editListingTopLayout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -531,6 +531,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/amen1"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/gotham_book"
@@ -541,6 +542,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/amen2"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/amen1"
@@ -552,6 +554,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/amen3"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/amen2"
@@ -563,6 +566,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/amen4"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/amen3"
@@ -574,6 +578,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/amen5"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/amen4"
@@ -585,6 +590,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/amen6"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/amen5"
@@ -625,6 +631,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/util1"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/gotham_book"
@@ -635,6 +642,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/util2"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/util1"
@@ -646,6 +654,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/util3"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/util2"
@@ -657,6 +666,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/util4"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/util3"
@@ -668,6 +678,7 @@
 
                     <com.google.android.material.checkbox.MaterialCheckBox
                         android:id="@+id/util5"
+                        style="@style/CheckBoxPalette"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/util4"
@@ -795,11 +806,11 @@
         android:id="@+id/editListingSubmitLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/editListingMainLayout"
+        android:background="@color/default_contrast_background"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/default_contrast_background">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editListingMainLayout">
 
         <Button
             android:id="@+id/btnSubmitEditListing"
@@ -820,10 +831,10 @@
         android:id="@+id/editListingProgressLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:background="#AA000000"
-        android:visibility="gone">
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ProgressBar
             android:id="@+id/updateProgressBar"

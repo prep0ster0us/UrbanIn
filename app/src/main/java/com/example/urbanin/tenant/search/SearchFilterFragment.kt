@@ -387,7 +387,8 @@ class SearchFilterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnFilterBack.setOnClickListener {
-            findNavController().navigate(SearchFilterFragmentDirections.navigateTenantFilterToSearch())
+//            findNavController().navigate(SearchFilterFragmentDirections.navigateTenantFilterToSearch())
+            findNavController().popBackStack()
         }
     }
 

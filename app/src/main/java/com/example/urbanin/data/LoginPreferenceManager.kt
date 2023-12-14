@@ -70,6 +70,14 @@ class LoginPreferenceManager(context: Context) {
         editor.apply()
     }
 
+    // keep track if user already logged in (even when app destroyed)
+    fun isRememberLogin() = preferences.getBoolean(STAY_SIGNED_IN, false)
+
+    fun setRememberLogin(status: Boolean) {
+        editor.putBoolean(STAY_SIGNED_IN, status).apply()
+        editor.apply()
+    }
+
     // keep track of which mode the user uses
     fun getUserMode() = preferences.getString(USER_MODE, "tenant")
     fun setUserMode(mode: String) {
@@ -91,6 +99,7 @@ class LoginPreferenceManager(context: Context) {
         private const val FIRST_LOGIN = "isFirstLogin"
         private const val BIOMETRIC_ENABLED = "biometricEnabled"
         private const val LOGGED_IN = "isLoggedIn"
+        private const val STAY_SIGNED_IN = "rememberLogin"
         private const val USER_MODE = "userMode"
         private const val REDIRECT_FROM = "redirectContext"
         private const val DARK_MODE_ENABLED = "darkModeEnabled"

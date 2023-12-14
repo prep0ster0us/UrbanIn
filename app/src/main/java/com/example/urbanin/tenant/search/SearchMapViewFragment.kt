@@ -51,6 +51,7 @@ class SearchMapViewFragment : Fragment(), OnMapReadyCallback {
         binding = FragmentSearchMapViewBinding.inflate(layoutInflater)
         db = FirebaseFirestore.getInstance()
 
+        listingCollection = arrayListOf()
         getListingFromFirebase()
 
     }

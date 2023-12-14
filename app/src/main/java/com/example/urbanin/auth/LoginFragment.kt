@@ -1,11 +1,13 @@
 package com.example.urbanin.auth
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.biometric.BiometricManager
@@ -65,11 +67,6 @@ class LoginFragment : Fragment() {
         when(prefManager.getUserMode()) {
             "tenant" -> SearchListingUtil.setTenantNavBarVisibility(requireActivity(), false)
             "landlord" -> SearchListingUtil.setLandlordNavBarVisibility(requireActivity(), false)
-        }
-
-        if(prefManager.isFirstLogin()) {
-            binding.loginBiometricButton.visibility = View.GONE
-            prefManager.setLoggedIn(true)
         }
 
         binding.loginBiometricButton.isVisible = prefManager.isBiometricEnabled()
@@ -209,7 +206,14 @@ class LoginFragment : Fragment() {
                 )
             }
             // check if credentials match
-            matchCredentials()
+            binding.loginUsnLayout.error = if(binding.loginViewUsnField.text.toString().isEmpty()) "Please enter your email address" else null
+            binding.loginPwdLayout.error = if(binding.loginViewPwdField.text.toString().isEmpty()) "Please enter your password" else null
+            if(binding.loginUsnLayout.error == null) {
+                if(binding.loginPwdLayout.error == null) {
+                    hideKeyboard()
+                    matchCredentials()
+                }
+            }
         }
 
         binding.signUpViewGoogle.setOnClickListener {
@@ -225,20 +229,9 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun checkIfExists() {
-        db.collection("Users").whereEqualTo("Email", binding.loginViewUsnField.text.toString())
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    Log.d(TAG, "User found! Document id: ${document.id}")
-                    matchCredentials()
-                }
-            }.addOnFailureListener { e ->
-                Log.w(TAG, "No User! Error: ${e.message}")
-                Toast.makeText(requireContext(), "No associated account found!", Toast.LENGTH_SHORT)
-                    .show()
-                binding.loginViewPwdField.setText("")
-            }
+    private fun hideKeyboard() {
+        val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     private fun matchCredentials() {
@@ -253,17 +246,14 @@ class LoginFragment : Fragment() {
                     "Welcome, ${auth.currentUser!!.displayName}",
                     Toast.LENGTH_SHORT
                 ).show()
-                // check if any saved login credentials prior to login (based on which biometric prompt will be enabled)
-                if (prefManager.isFirstLogin()) {
+                prefManager.setLoggedIn(true)
+                prefManager.setRememberLogin(binding.loginRememberLoginCheck.isChecked)
+                if(prefManager.isBiometricEnabled()) {
                     // save in shared preferences (for future login + biometric)
                     prefManager.writeLoginCreds(
                         binding.loginViewUsnField.text.toString(),
                         binding.loginViewPwdField.text.toString()
                     )
-                }
-                // set logged in state to Shared Preferences
-                if(binding.loginRememberLoginCheck.isChecked) {
-                    prefManager.setLoggedIn(true)
                 }
                 // navigate successfully to next page
                 navigateToNext()

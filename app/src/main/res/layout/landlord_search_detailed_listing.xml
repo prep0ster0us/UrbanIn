@@ -324,7 +324,7 @@
             android:text="Update"
             android:textSize="16sp"
             android:backgroundTint="@color/primary_background"
-            android:textColor="@color/default_text"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/detailedListingRent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/detailedListingRent" />

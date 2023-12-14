@@ -651,7 +651,7 @@ class LandlordAddListingFragment : Fragment() {
     }
 
     private fun showConfirmExitDialog() {
-        MaterialAlertDialogBuilder(requireContext())
+        MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogPalette)
             .setTitle("Confirm Action")
             .setMessage("You will lose any changes you've made. Continue?")
             .setIcon(android.R.drawable.stat_sys_warning)

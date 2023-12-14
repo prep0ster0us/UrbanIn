@@ -14,7 +14,6 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 class ChatListAdapter(
     private val options: FirestoreRecyclerOptions<ChatMessageModel>,
     private val context: Context?
-//) : RecyclerView.Adapter<ChatListAdapter.ChatMessageViewHolder>() {
 ) : FirestoreRecyclerAdapter<ChatMessageModel, ChatListAdapter.ChatMessageViewHolder>(options) {
 
     private lateinit var contextViewGroup: ViewGroup

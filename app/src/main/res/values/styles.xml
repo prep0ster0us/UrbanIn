@@ -19,9 +19,28 @@
         <item name="colorControlActivated">@color/primary_background</item>
     </style>
     <!--  For Material Alert Dialog -->
-    <style name="AlertDialogPalette" parent="Theme.MaterialComponents.Light.Dialog.Alert">
-        <item name="colorAccent">@color/primary_background</item> <!-- Change to your desired button color -->
-        <item name="colorPrimary">@color/primary_background</item> <!-- Change to your desired button color -->
+<!--    <style name="AlertDialogPalette" parent="Theme.MaterialComponents.Light.Dialog.Alert">-->
+<!--        <item name="colorAccent">@color/primary_background</item> &lt;!&ndash; Change to your desired button color &ndash;&gt;-->
+<!--        <item name="colorPrimary">@color/primary_background</item> &lt;!&ndash; Change to your desired button color &ndash;&gt;-->
+<!--    </style>-->
+
+    <style name="AlertDialogPalette">
+        <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Alert.Button.Neutral</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Alert.Button.Negative</item>
+    </style>
+
+    <style name="Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/default_text</item>
+        <item name="rippleColor">@color/soft_bg</item>
+    </style>
+    <style name="Alert.Button.Neutral" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/default_text</item>
+        <item name="rippleColor">@color/soft_bg</item>
+    </style>
+    <style name="Alert.Button.Negative" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/default_text</item>
+        <item name="rippleColor">@color/soft_bg</item>
     </style>
     <!--  For Bottom Navigation Views-->
     <style name="BottomNavigation">
@@ -29,5 +48,18 @@
         <item name="itemBackground">@color/soft_bg</item>
         <item name="itemIconTint">@color/primary_background</item>
         <item name="labelVisibilityMode">labeled</item>
+    </style>
+<!--    For checkboxes-->
+    <style name="CheckBoxPalette" parent="">
+        <item name="buttonTint">@color/primary_background</item>
+    </style>
+    For RangeSlider
+    <style name="RangeSliderPalette" parent="Widget.MaterialComponents.Slider">
+        <item name="tickColor">@color/primary_background</item>
+        <item name="tickColorActive">@color/soft_bg</item>
+        <item name="tickColorInactive">@color/primary_background</item>
+        <item name="thumbColor">@color/primary_background</item>
+        <item name="trackColorActive">@color/primary_background</item>
+        <item name="trackColorInactive">@color/soft_bg</item>
     </style>
 </resources>

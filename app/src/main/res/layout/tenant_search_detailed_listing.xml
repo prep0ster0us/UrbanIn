@@ -326,7 +326,7 @@
             android:fontFamily="@font/gotham_regular"
             android:paddingHorizontal="48dp"
             android:text="Message"
-            android:textColor="@color/default_text"
+            android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/detailedListingRent"
             app:layout_constraintEnd_toEndOf="parent"

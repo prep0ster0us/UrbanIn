@@ -28,6 +28,7 @@ import com.example.urbanin.R
 import com.example.urbanin.data.RoommateListingData
 import com.example.urbanin.databinding.FragmentAccountProfileBinding
 import com.example.urbanin.databinding.RoommateAccountProfileBinding
+import com.example.urbanin.landlord.search.EditListing.LandlordEditListingFragmentDirections
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -53,7 +54,7 @@ class AccountProfile : Fragment() {
 
     private var profileListing = RoommateListingData()
     private var listingId: String = ""
-    private var profileLocation: LatLng = LatLng(0.0, 0.0)
+    private lateinit var profileLocation: LatLng
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +71,7 @@ class AccountProfile : Fragment() {
 
         with(binding) {
             btnBackToAccount.setOnClickListener {
-               findNavController().popBackStack()
+                showConfirmExitDialog()
             }
             moveInDisplayText.setOnClickListener {
                 showDatePickerDialog()
@@ -118,6 +119,11 @@ class AccountProfile : Fragment() {
 
                         fillGenderGroup(doc.data!!["gender"].toString())
                         fillRoomSizeGroup(doc.data!!["roomSize"].toString())
+                        // save coordinates
+                        profileLocation = LatLng(
+                            doc.data!!["latitude"].toString().toDouble(),
+                            doc.data!!["longitude"].toString().toDouble()
+                        )
                     }
                 }
             }
@@ -163,7 +169,7 @@ class AccountProfile : Fragment() {
                         profileLocation.latitude.toString(),
                         profileLocation.longitude.toString(),
                         addressInput.text.toString(),
-                        auth.currentUser!!.photoUrl.toString(),
+                        getProfilephoto(),
                         LocalDate.now().toString(),
                         moveInDisplayText.text.toString(),
                         hobbieInput.text.toString().split(",") as ArrayList<String>
@@ -192,6 +198,14 @@ class AccountProfile : Fragment() {
             }
         }
         return binding.root
+    }
+
+    private fun getProfilephoto(): String {
+        return if(auth.currentUser!!.photoUrl != null) {
+            auth.currentUser!!.photoUrl.toString()
+        } else {
+            ""
+        }
     }
 
     private fun allDetailsFilledIn(): Boolean {
@@ -334,5 +348,22 @@ class AccountProfile : Fragment() {
             calendar.get(Calendar.DAY_OF_MONTH)
         )
         datePickerDialog.show()
+    }
+    private fun showConfirmExitDialog() {
+        MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogPalette)
+            .setTitle("Confirm Action")
+            .setMessage("Any changes made will not be saved. Continue?")
+            .setIcon(android.R.drawable.stat_sys_warning)
+            .setPositiveButton(
+                "Confirm"
+            ) { _, _ ->
+                findNavController().popBackStack()
+            }
+            .setNegativeButton(
+                "Cancel"
+            ) { _, _ ->
+
+            }
+            .show()
     }
 }

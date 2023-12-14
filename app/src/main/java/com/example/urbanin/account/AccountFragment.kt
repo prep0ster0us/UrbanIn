@@ -26,6 +26,7 @@ import com.example.urbanin.ActivitySelection
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
 import com.example.urbanin.data.LoginPreferenceManager
+import com.example.urbanin.data.savedCollection
 import com.example.urbanin.data.userListingCollection
 import com.example.urbanin.databinding.FragmentAccountBinding
 import com.google.android.material.snackbar.Snackbar
@@ -83,7 +84,6 @@ class AccountFragment : Fragment() {
                         pickResourceTypeDialog()
                     }
                 }
-                btnLogout.text = "LOGOUT"
                 btnLogout.setOnClickListener {
                     if (prefManager.isLoggedIn()) {
                         // save logged out state in SharedPreferences
@@ -94,8 +94,11 @@ class AccountFragment : Fragment() {
                             "Logged out successfully!",
                             Snackbar.LENGTH_SHORT
                         ).show()
+                        // clear listings
+                        userListingCollection = arrayListOf()
+                        savedCollection = arrayListOf()
                     }
-                    findNavController().navigate(AccountFragmentDirections.navigateAccountToLogin())
+                    navigateToLogin()
                 }
             }
         } else {
@@ -103,7 +106,6 @@ class AccountFragment : Fragment() {
                 toggleViewVisibility(false)
                 profileUserName.text = "Guest User"
                 with(btnLogout) {
-                    text = "SIGN IN"
                     setOnClickListener {
                         navigateToLogin()
                     }
@@ -112,18 +114,6 @@ class AccountFragment : Fragment() {
 
 
         }
-        binding.btnLogout.setOnClickListener {
-            if (prefManager.isLoggedIn()) {
-                auth.signOut()
-                // save logged out state in SharedPreferences
-                prefManager.setLoggedIn(false)
-                Snackbar.make(binding.root, "Logged out successfully!", Snackbar.LENGTH_SHORT)
-                    .show()
-                // clear landlord listings
-                userListingCollection = arrayListOf()
-            }
-            navigateToLogin()
-        }
 
         with(binding) {
             switchMode.setOnClickListener {
@@ -131,6 +121,10 @@ class AccountFragment : Fragment() {
                 // clear backstack
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
+                requireActivity().overridePendingTransition(
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_left
+                )
             }
             Settings.setOnClickListener {
                 val action = AccountFragmentDirections.navigateAccountToSettings()

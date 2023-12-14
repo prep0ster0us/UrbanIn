@@ -39,48 +39,52 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/changePwdHeader"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/changePwdHeader">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/newPwdLayout"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="48dp"
-            app:endIconMode="password_toggle">
+            app:endIconMode="password_toggle"
+            app:endIconTint="@color/default_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/newPwdInput"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Enter new password"
                 android:fontFamily="@font/gotham_book"
-                android:textSize="16sp"
-                android:inputType="textPassword" />
+                android:hint="Enter new password"
+                android:inputType="textPassword"
+                android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/confirmNewPwdLayout"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/newPwdLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="48dp"
+            app:endIconMode="password_toggle"
+            app:endIconTint="@color/default_icon"
             app:errorEnabled="true"
-            app:endIconMode="password_toggle">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/newPwdLayout">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/confirmNewPwdInput"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Confirm new password"
                 android:fontFamily="@font/gotham_book"
-                android:textSize="16sp"
-                android:inputType="textPassword" />
+                android:hint="Confirm new password"
+                android:inputType="textPassword"
+                android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -94,39 +98,38 @@
             android:text="Update Password"
             android:textColor="@color/white"
             android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@id/confirmNewPwdLayout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/confirmNewPwdLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+    <!--    <com.google.android.material.switchmaterial.SwitchMaterial-->
+    <!--        android:id="@+id/setting1"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="12dp"-->
+    <!--        android:fontFamily="@font/gotham_book"-->
+    <!--        android:padding="18dp"-->
+    <!--        android:text="Enable biometric login"-->
+    <!--        android:textColor="@color/default_text"-->
+    <!--        android:textSize="16sp"-->
+    <!--        android:theme="@style/switchButton"-->
+    <!--        app:layout_constraintStart_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/confirmPwdLayout" />-->
 
-<!--    <com.google.android.material.switchmaterial.SwitchMaterial-->
-<!--        android:id="@+id/setting1"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="12dp"-->
-<!--        android:fontFamily="@font/gotham_book"-->
-<!--        android:padding="18dp"-->
-<!--        android:text="Enable biometric login"-->
-<!--        android:textColor="@color/default_text"-->
-<!--        android:textSize="16sp"-->
-<!--        android:theme="@style/switchButton"-->
-<!--        app:layout_constraintStart_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/confirmPwdLayout" />-->
-
-<!--    <com.google.android.material.switchmaterial.SwitchMaterial-->
-<!--        android:id="@+id/setting2"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fontFamily="@font/gotham_book"-->
-<!--        android:padding="18dp"-->
-<!--        android:text="Use Dark Theme"-->
-<!--        android:textColor="@color/default_text"-->
-<!--        android:textSize="16sp"-->
-<!--        android:theme="@style/switchButton"-->
-<!--        app:layout_constraintStart_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/setting1" />-->
+    <!--    <com.google.android.material.switchmaterial.SwitchMaterial-->
+    <!--        android:id="@+id/setting2"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:fontFamily="@font/gotham_book"-->
+    <!--        android:padding="18dp"-->
+    <!--        android:text="Use Dark Theme"-->
+    <!--        android:textColor="@color/default_text"-->
+    <!--        android:textSize="16sp"-->
+    <!--        android:theme="@style/switchButton"-->
+    <!--        app:layout_constraintStart_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/setting1" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

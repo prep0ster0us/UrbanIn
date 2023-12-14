@@ -1,6 +1,7 @@
 package com.example.urbanin.auth
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -11,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -82,12 +84,9 @@ class SignUpFragment : Fragment() {
             }
         }
 
-        binding.signUpViewGoogle.setOnClickListener {
-            googleSignIn()
-        }
-
         binding.backToLoginButton.setOnClickListener {
-            findNavController().navigate(SignUpFragmentDirections.navigateSignUpToLogin())
+//            findNavController().navigate(SignUpFragmentDirections.navigateSignUpToLogin())
+            findNavController().popBackStack()
         }
         return binding.root
     }
@@ -133,6 +132,7 @@ class SignUpFragment : Fragment() {
             fieldMap["pwd"]!!.second.text.toString()
         ).addOnCompleteListener { task ->
             if (task.isSuccessful) {
+                binding.progressLayout.visibility = View.VISIBLE
                 handleSuccessfulSignUp(fieldMap)
             } else {
                 if (task.exception is FirebaseAuthUserCollisionException) {
@@ -170,8 +170,10 @@ class SignUpFragment : Fragment() {
             .document(user!!.uid)
             .set(userDetails)
             .addOnSuccessListener {
+                hideKeyboard()
                 showSuccessDialog()
                 clearInputFields(fieldMap)
+                binding.progressLayout.visibility = View.GONE
             }
             .addOnFailureListener { e ->
                 showSignUpError(e.message)
@@ -184,7 +186,7 @@ class SignUpFragment : Fragment() {
         val dialogIcon = view.findViewById<ImageView>(R.id.successIcon)
         Glide.with(requireContext()).load(R.drawable.success_dialog_icon).into(dialogIcon)
         val dialogMsg = view.findViewById<TextView>(R.id.successMessage)
-        dialogMsg.text = "Password updated"
+        dialogMsg.text = "Registered successfully!"
         builder.setView(view)
         builder.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
         builder.show()
@@ -193,7 +195,8 @@ class SignUpFragment : Fragment() {
             override fun onTick(millisSeconds: Long) {}
             override fun onFinish() {
                 builder.dismiss()
-                findNavController().navigate(SignUpFragmentDirections.navigateSignUpToLogin())
+//                findNavController().navigate(SignUpFragmentDirections.navigateSignUpToLogin())
+                findNavController().popBackStack()
 
             }
         }
@@ -206,7 +209,7 @@ class SignUpFragment : Fragment() {
     }
 
     private fun showUserCollisionDialog() {
-        MaterialAlertDialogBuilder(requireContext()).apply {
+        MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogPalette).apply {
             setTitle("Sign In Failed")
             setMessage("User already exists")
             setPositiveButton("OK", null)
@@ -217,7 +220,7 @@ class SignUpFragment : Fragment() {
     }
 
     private fun showSignUpError(errorMessage: String?) {
-        MaterialAlertDialogBuilder(requireContext()).apply {
+        MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogPalette).apply {
             setTitle("Sign Up Error")
             setMessage(errorMessage ?: "An unknown error occurred")
             setPositiveButton("OK", null)
@@ -262,6 +265,10 @@ class SignUpFragment : Fragment() {
             Log.w(TAG, "signInResult:failed code=" + e.statusCode)
             // Handle sign-in failure
         }
+    }
+    private fun hideKeyboard() {
+        val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     companion object {

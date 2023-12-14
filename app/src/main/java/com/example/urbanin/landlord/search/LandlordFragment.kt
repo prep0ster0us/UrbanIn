@@ -9,12 +9,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.urbanin.MainActivity.Companion.TAG
 import com.example.urbanin.R
-import com.example.urbanin.data.LoginPreferenceManager
 import com.example.urbanin.data.FilterListingUtil
 import com.example.urbanin.data.ListingAdapter
 import com.example.urbanin.data.ListingData
+import com.example.urbanin.data.LoginPreferenceManager
 import com.example.urbanin.data.SortParameters
 import com.example.urbanin.data.filterCount
 import com.example.urbanin.data.filterParameters
@@ -28,6 +29,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+
 
 class LandlordFragment : Fragment(), ListingAdapter.Callbacks {
 
@@ -57,14 +59,13 @@ class LandlordFragment : Fragment(), ListingAdapter.Callbacks {
         prefManager = LoginPreferenceManager(requireContext())
 
         // if first login, show dialog to ask user to opt in for biometric login
-        Log.d(TAG, prefManager.isFirstLogin().toString())
         if (prefManager.isFirstLogin()) {
             prefManager.setFirstLogin()
             showOptForBiometricDialog()
         }
 
         // set filter count
-        if(filterCount == 0) {
+        if (filterCount == 0) {
             binding.landlordSearchFilterCount.isVisible = false
         } else {
             binding.landlordSearchFilterCount.isVisible = true
@@ -75,13 +76,15 @@ class LandlordFragment : Fragment(), ListingAdapter.Callbacks {
             val action = LandlordFragmentDirections.navigateToLandlordAddListing()
             findNavController().navigate(action)
         }
+        userListingCollection = arrayListOf()
 
     }
 
     private fun showOptForBiometricDialog() {
-        MaterialAlertDialogBuilder(requireContext())
+        MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogPalette)
             .setTitle("Enable biometric login")
-            .setMessage("Would you like to enable biometric login for easier access?\n You can also enable it from the settings later on.")
+            .setIcon(R.drawable.baseline_fingerprint_24)
+            .setMessage("Would you like to enable biometric login for easier access?\nYou can also enable it from the settings later on.")
             .setPositiveButton(
                 "I'M IN!"
             ) { _, _ ->
@@ -112,7 +115,7 @@ class LandlordFragment : Fragment(), ListingAdapter.Callbacks {
 
         binding.landlordSearchSort.setOnClickListener {
             // sort listings
-            MaterialAlertDialogBuilder(requireContext())
+            MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogPalette)
                 .setTitle("Sort By")
                 .setSingleChoiceItems(
                     sortOptions,
@@ -125,7 +128,7 @@ class LandlordFragment : Fragment(), ListingAdapter.Callbacks {
                     sortListings()
                     setupRecyclerView()
                 }
-                .setNeutralButton("Cancel"){ _, _ ->
+                .setNeutralButton("Cancel") { _, _ ->
                     sortParams.selectedOption = sortOptions.indexOf(sortParams.sortBy)
                 }
                 .show()
@@ -135,7 +138,6 @@ class LandlordFragment : Fragment(), ListingAdapter.Callbacks {
 
         binding.landlordSearchFilter.setOnClickListener {
             // temporarily hide bottom nav bar, when inflating filter fragment (to show full screen)
-            setNavBarVisibility(false)
             findNavController().navigate(LandlordFragmentDirections.navigateToLandlordFilterFragment())
         }
 
@@ -151,7 +153,7 @@ class LandlordFragment : Fragment(), ListingAdapter.Callbacks {
     private fun setupRecyclerView() {
         binding.landlordListingRecyclerView.setHasFixedSize(true)
         binding.landlordListingRecyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = ListingAdapter(userListingCollection, context,"landlord", this)
+        adapter = ListingAdapter(userListingCollection, context, "landlord", this)
         binding.landlordListingRecyclerView.adapter = adapter
     }
 
@@ -161,8 +163,14 @@ class LandlordFragment : Fragment(), ListingAdapter.Callbacks {
 
         val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
-       when(sortParams.sortBy) {
-            "Latest" -> userListingCollection.sortBy { LocalDate.parse(it.datePosted, dateTimeFormatter) }
+        when (sortParams.sortBy) {
+            "Latest" -> userListingCollection.sortBy {
+                LocalDate.parse(
+                    it.datePosted,
+                    dateTimeFormatter
+                )
+            }
+
             "Rent: Low to High" -> userListingCollection.sortBy { it.price.toLong() }
             "Rent: High to Low" -> userListingCollection.sortByDescending { it.price.toLong() }
             "Number of Rooms" -> userListingCollection.sortBy { roomComparator.indexOf(it.numRooms) }
@@ -184,6 +192,14 @@ class LandlordFragment : Fragment(), ListingAdapter.Callbacks {
                 Log.d(TAG, "data fetched for user: ${auth.currentUser!!.uid}__")
 
                 userListings = document.data!!["Listings"] as ArrayList<String>
+                if(userListings.size < 1) {
+                    binding.emptyLayout.visibility = View.VISIBLE
+                    binding.landlordListingRecyclerView.visibility = View.INVISIBLE
+                    Glide.with(requireActivity()).load(R.drawable.empty_search).into(binding.emptyImg)
+                } else {
+                    binding.emptyLayout.visibility = View.GONE
+                    binding.landlordListingRecyclerView.visibility = View.VISIBLE
+                }
                 for (listingId in userListings) {
                     // check if listing already in the recycler view collection
                     var checkExisting = false
@@ -258,13 +274,15 @@ class LandlordFragment : Fragment(), ListingAdapter.Callbacks {
     }
 
     override fun handleListingData(data: ListingData, flag: String) {
-        when(flag) {
+        when (flag) {
             "landlord" -> {
-                val action = LandlordFragmentDirections.navigateToLandlordDetailedListingFragment(data)
+                val action =
+                    LandlordFragmentDirections.navigateToLandlordDetailedListingFragment(data)
                 findNavController().navigate(action)
             }
+
             "delete" -> {
-                MaterialAlertDialogBuilder(requireContext())
+                MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogPalette)
                     .setTitle("Confirm")
                     .setIcon(android.R.drawable.stat_sys_warning)
                     .setMessage("Do you wish to remove this listing?\nNOTE: This action is irreversible!")

@@ -98,7 +98,7 @@ class AccountChangePwdFragment : Fragment() {
             override fun onTick(millisSeconds: Long) {}
             override fun onFinish() {
                 builder.dismiss()
-                findNavController().navigate(AccountProfileFragmentDirections.navigateProfileBackToAccount())
+                findNavController().navigate(AccountChangePwdFragmentDirections.navigateChangePwdBackToAccount())
             }
         }
         timer.start()

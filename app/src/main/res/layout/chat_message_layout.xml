@@ -39,7 +39,8 @@
             android:fontFamily="@font/gotham_thin"
             android:hint="12:00"
             android:textColor="@color/default_text"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
@@ -77,7 +78,8 @@
             android:fontFamily="@font/gotham_thin"
             android:hint="12:00"
             android:textColor="@color/default_text"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
