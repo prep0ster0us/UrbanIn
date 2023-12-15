@@ -30,8 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
 
-    // google map object (for callback)
-//    private lateinit var googleMap: GoogleMap
+    // TODO: <known flaw> not utilizing the Google Places API search to filter listing results
     companion object {
         var isMapInit: Boolean = false
     }

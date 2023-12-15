@@ -20,6 +20,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
 class ForgotPwdFragment : Fragment() {
+    // TODO: <NOTE TO REVIEWER> never worked on this, so didn't get around to fix
+
     private lateinit var binding: FragmentForgotPasswordBinding
     private lateinit var mAuth: FirebaseAuth
 

@@ -32,6 +32,7 @@ import java.time.format.DateTimeFormatter
 
 
 class LandlordFragment : Fragment(), ListingAdapter.Callbacks {
+    // TODO: <known flaw> first app login into this view still requests for biometric enable (dialog); had this in last sprint; haven't removed
 
     //    private var _binding: FragmentLandlordBinding? = null
 //    private val binding get() = _binding!!

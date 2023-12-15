@@ -34,6 +34,8 @@ import java.util.Locale
 class SearchFilterFragment : Fragment() {
 //    private var _binding: FragmentSearchFilterBinding? = null
 //    private val binding get() = _binding!!
+    // TODO: <NOTE TO REVIEWER> navigating back from filter (back or show results) always goes to map view, no matter the trigger view
+    //  this has to do with nested fragment container view, within a fragment; the context is always taken from onCreate
 
     private lateinit var binding: FragmentSearchFilterBinding
 

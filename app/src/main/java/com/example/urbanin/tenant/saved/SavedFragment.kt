@@ -20,6 +20,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class SavedFragment : Fragment(), ListingAdapter.Callbacks {
 
+    // TODO: <known flaw> saved listings are not stored in tandom with the user logged in, added from listings page locally
+
     private lateinit var binding: FragmentSavedBinding
 
     private lateinit var listingRecyclerView: RecyclerView

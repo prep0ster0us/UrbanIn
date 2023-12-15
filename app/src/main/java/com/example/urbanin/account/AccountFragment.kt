@@ -44,6 +44,9 @@ import java.util.Locale
 
 
 class AccountFragment : Fragment() {
+
+    // TODO: <known flaw> if within one of the nested views in account (settings, profile) and navigate away to other main pages ( saved, message)
+    //  the bottom navigation view ripple highlight doesn't show up on account page, unless navigated out of nested page
     private lateinit var binding: FragmentAccountBinding
 
     private lateinit var db: FirebaseFirestore

@@ -24,6 +24,8 @@ import com.google.firebase.firestore.Query
 
 
 class RoommateSearchFragment : Fragment(), RoommateListAdapter.Callbacks {
+
+    // TODO: <known flaw> roommate user mode always assumes user is logged in, will throw error if not (since doesn't pass through login page)
     private lateinit var binding: FragmentRoommateSearchBinding
 
     private lateinit var db: FirebaseFirestore

@@ -29,6 +29,10 @@ import com.google.firebase.firestore.Query
 import com.squareup.picasso.Picasso
 
 class ChatFragment : Fragment() {
+
+    // TODO: <NOTE TO REVIEWER> if messages appear out of order in chat window in emulator, it might have to do with the time settings in the emulator device
+    //  (given we use ServerTimerStamp and utilize FirebaseTimestamp objects)
+
     private lateinit var binding: FragmentChatBinding
 
     // receive userId

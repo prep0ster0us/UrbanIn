@@ -39,6 +39,8 @@ import java.util.concurrent.Executor
 
 
 class LoginFragment : Fragment() {
+    // TODO: <known flaw> the Google sign in doesn't work, we need to initialize with O2Auth API key to get response, but didn't work on this personally
+    //  so gotten around to fix it
 
     private lateinit var binding: FragmentLoginBinding
     private lateinit var auth: FirebaseAuth
